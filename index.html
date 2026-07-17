@@ -235,7 +235,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   font-size:12.5px;line-height:1.5;color:var(--muted)}
 .o-req li svg{flex:none;width:12px;height:12px;margin-top:3px;color:var(--em)}
 .o-req .note{padding:8px 2px 0;font-size:11px;line-height:1.5;color:var(--faint)}
-.o-act{margin-top:15px;display:flex;align-items:center;gap:14px}
+.o-act{margin-top:15px;display:flex;align-items:center;flex-wrap:wrap;gap:12px 14px}
 .o-btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:11px 22px;
   font:650 13.5px/1 var(--font);letter-spacing:-.01em;cursor:pointer;text-decoration:none;
   transition:transform .16s var(--spring),background .25s,color .25s,border-color .25s}
@@ -247,6 +247,56 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .offer:not(.best) .o-btn{background:rgba(15,18,21,.5);color:var(--txt);border:1px solid var(--line-2)}
 .offer:not(.best) .o-btn:hover{border-color:var(--muted)}
 .o-terms{font:500 9px/1 var(--mono);letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+
+/* ── PAY-PER-OFFER pill (matches uploaded button) ── */
+.ppo{display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line-2);border-radius:999px;
+  background:rgba(15,18,21,.5);box-shadow:0 1px 0 rgba(255,255,255,.05) inset;
+  padding:11px 20px;font:600 11px/1 var(--mono);letter-spacing:.16em;
+  color:var(--muted);text-transform:uppercase;white-space:nowrap;
+  text-decoration:none;cursor:pointer;
+  transition:border-color .25s,color .25s,transform .16s var(--spring)}
+.ppo:hover{border-color:var(--muted);color:var(--txt)}
+.ppo:active{transform:scale(.96)}
+/* paper-surface variant for the white receipt */
+.ppo.on-paper{background:transparent;border-color:rgba(21,24,27,.26);
+  color:var(--paper-ink);box-shadow:none}
+.ppo.on-paper:hover{border-color:var(--paper-ink);color:var(--paper-ink)}
+.rcpt-ppo-wrap{display:flex;justify-content:center;margin:2px 0 10px}
+
+/* ── Pay-Per-Offer explainer popup ── */
+.ppo-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  padding:22px;padding-bottom:max(22px,env(safe-area-inset-bottom))}
+.ppo-modal.open{display:flex}
+.ppo-scrim{position:absolute;inset:0;background:rgba(4,6,8,.68);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transition:opacity .3s var(--glide)}
+.ppo-modal.in .ppo-scrim{opacity:1}
+.ppo-card{position:relative;width:100%;max-width:362px;
+  background:linear-gradient(180deg,#12161A,#0D1013);
+  border:1px solid var(--line-2);border-radius:22px;padding:26px 22px 22px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04) inset;
+  opacity:0;transform:translateY(16px) scale(.96);
+  transition:opacity .35s var(--glide),transform .5s var(--spring)}
+.ppo-modal.in .ppo-card{opacity:1;transform:none}
+.ppo-x{position:absolute;top:13px;right:13px;width:32px;height:32px;display:grid;place-items:center;
+  background:none;border:0;cursor:pointer;color:var(--faint);border-radius:50%;
+  transition:color .2s,background .2s}
+.ppo-x:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+.ppo-x svg{width:14px;height:14px}
+.ppo-eyebrow{font:700 10px/1 var(--mono);letter-spacing:.22em;color:var(--em);text-transform:uppercase}
+.ppo-title{margin-top:9px;font:800 24px/1.1 var(--font);letter-spacing:-.02em;color:var(--txt)}
+.ppo-list{list-style:none;margin-top:14px}
+.ppo-list li{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);
+  font-size:13.5px;line-height:1.5;color:var(--muted)}
+.ppo-list li:first-child{border-top:0}
+.ppo-list li svg{flex:none;width:14px;height:14px;margin-top:2px;color:var(--em)}
+.ppo-list b{color:var(--txt);font-weight:650}
+.ppo-got{margin-top:18px;width:100%;background:var(--em);color:#04231A;border:0;border-radius:999px;
+  padding:14px;font:700 14px/1 var(--font);letter-spacing:-.01em;cursor:pointer;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 8px 24px rgba(47,191,143,.24);
+  transition:transform .16s var(--spring)}
+.ppo-got:active{transform:scale(.98)}
 
 .faq{margin-top:36px;border-top:1px solid var(--line)}
 .qa{border-bottom:1px solid var(--line)}
@@ -362,12 +412,13 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
     transition:opacity .4s var(--glide),transform .5s var(--spring)}
   .js .rcpt.printed .pb{opacity:1;transform:none}
   .js .rcpt.printed .pb:nth-child(1){transition-delay:.1s}
-  .js .rcpt.printed .pb:nth-child(2){transition-delay:.28s}
-  .js .rcpt.printed .pb:nth-child(3){transition-delay:.46s}
-  .js .rcpt.printed .pb:nth-child(4){transition-delay:.62s}
-  .js .rcpt.printed .pb:nth-child(5){transition-delay:.76s}
-  .js .rcpt.printed .pb:nth-child(6){transition-delay:.9s}
-  .js .rcpt.printed .pb:nth-child(7){transition-delay:1.04s}
+  .js .rcpt.printed .pb:nth-child(2){transition-delay:.26s}
+  .js .rcpt.printed .pb:nth-child(3){transition-delay:.42s}
+  .js .rcpt.printed .pb:nth-child(4){transition-delay:.56s}
+  .js .rcpt.printed .pb:nth-child(5){transition-delay:.68s}
+  .js .rcpt.printed .pb:nth-child(6){transition-delay:.8s}
+  .js .rcpt.printed .pb:nth-child(7){transition-delay:.92s}
+  .js .rcpt.printed .pb:nth-child(8){transition-delay:1.04s}
 }
 .rcpt .tearx{display:block;width:100%;height:7px}
 .rcpt .tearx.flip{transform:scaleY(-1)}
@@ -649,6 +700,7 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
                       <span class="rrow"><span class="k">Potential reward</span><span class="lead"></span><b id="rcptVal">Up to $750</b></span>
                       <span class="rrow"><span class="k">Cost to start</span><span class="lead"></span><b class="zero">$0.00</b></span>
                     </div>
+                    <div class="rcpt-ppo-wrap pb"><a class="ppo on-paper" id="rcptPpo" href="#" rel="sponsored noopener noreferrer">Pay-Per-Offer</a></div>
                     <a class="rcpt-cta pb" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">Tap To Start!
                       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
                     </a>
@@ -705,6 +757,26 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
 
   </main>
 </div>
+
+<!-- ═══════ PAY-PER-OFFER explainer popup ═══════ -->
+<div class="ppo-modal" id="ppoModal" aria-hidden="true">
+  <div class="ppo-scrim" id="ppoScrim"></div>
+  <div class="ppo-card" role="dialog" aria-modal="true" aria-labelledby="ppoTitle">
+    <button class="ppo-x" id="ppoClose" aria-label="Close">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5 L15 15 M15 5 L5 15"/></svg>
+    </button>
+    <span class="ppo-eyebrow">How it works</span>
+    <h3 class="ppo-title" id="ppoTitle">Pay-Per-Offer</h3>
+    <ul class="ppo-list">
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Each offer you complete unlocks better deals.</b> The more you finish, the more opens up.</span></li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>The first ones are easy.</b> A handful of quick completions can add up to a good amount of stuff fast.</span></li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>The higher amounts get trickier.</b> Bigger rewards take more completed offers to reach.</span></li>
+      <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Completion is what counts.</b> Each offer must be fully completed and follow the partner&rsquo;s program guidelines. Partners set the terms.</span></li>
+    </ul>
+    <button class="ppo-got" id="ppoGot">Got it</button>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -1187,6 +1259,7 @@ function buildResults(skipped){
       '<div class="o-act">'+
         '<a class="o-btn" data-offer="'+esc(o.id)+'" data-url="'+esc(o.url)+'" href="#" rel="sponsored noopener noreferrer">View offer '+
         '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg></a>'+
+        '<a class="ppo" data-offer="'+esc(o.id)+'" data-url="'+esc(o.url)+'" href="#" rel="sponsored noopener noreferrer">Pay-Per-Offer</a>'+
         '<span class="o-terms">Availability varies \u00b7 Terms apply</span>'+
       '</div></article>';
   }
@@ -1311,11 +1384,32 @@ function runIntro(){
 /* ════════ wiring ════════ */
 $('#startBtn').addEventListener('click', function(){ renderQuestion('q1'); transition('q1'); });
 $('#allm').addEventListener('click', function(e){
-  var btn = e.target.closest('.o-btn');
+  var btn = e.target.closest('[data-url]');
   if(!btn) return;
   e.preventDefault();
   openExternal(btn.getAttribute('data-url'));
 });
+/* ── Pay-Per-Offer explainer popup ── */
+(function ppoPopup(){
+  var modal = $('#ppoModal');
+  function open(){
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(function(){ modal.classList.add('in'); });
+  }
+  function close(){
+    modal.classList.remove('in');
+    modal.setAttribute('aria-hidden','true');
+    setTimeout(function(){ modal.classList.remove('open'); }, 340);
+  }
+  $('#rcptPpo').addEventListener('click', function(e){ e.preventDefault(); open(); });
+  $('#ppoClose').addEventListener('click', close);
+  $('#ppoGot').addEventListener('click', close);
+  $('#ppoScrim').addEventListener('click', close);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+})();
 $('#restartBtn').addEventListener('click', function(){
   answers.q1 = answers.q2 = answers.q3 = null;
   ['q1','q2','q3'].forEach(clearChip);
