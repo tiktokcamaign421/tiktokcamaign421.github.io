@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0A0C0E">
 <title>PayoutAudit — Paying full price is a choice</title>
 <meta name="description" content="Three taps match you with cashback apps and discount programs that fit how you already shop. Requirements listed before you start.">
-<link rel="preload" as="image" href="assets/poster-store.jpg">
+<link rel="preload" as="image" href="assets/img-aisle.jpg">
 <script>
 if (!window.matchMedia || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   document.documentElement.classList.add("js");
@@ -204,27 +204,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .odo{font-variant-numeric:tabular-nums}
 .rhead h2{margin-top:10px}
 .rsub{margin-top:9px;font-size:13px;line-height:1.55;color:var(--muted);max-width:40ch}
-.receipt-wrap{margin:24px 4px 4px;transform:rotate(-1.1deg);
-  filter:drop-shadow(0 26px 46px rgba(0,0,0,.55))}
-.receipt{position:relative;background:var(--paper);color:var(--paper-ink);padding:17px 18px 13px;
-  background-image:repeating-linear-gradient(0deg,rgba(21,24,27,.02) 0 1px,transparent 1px 3px)}
-.tear{display:block;width:100%;height:8px}
-.tear.flip{transform:scaleY(-1)}
-.rc-title{display:flex;justify-content:space-between;align-items:baseline;
-  border-bottom:1.5px dashed rgba(21,24,27,.18);padding-bottom:9px;margin-bottom:8px}
-.rc-title span:first-child{font:800 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
-.rc-title span:last-child{font:600 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-mut)}
-.rl{display:flex;align-items:baseline;gap:8px;padding:4.5px 0;font:600 11.5px/1.3 var(--mono);color:var(--paper-ink);
-  opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s var(--spring)}
-.rl.show{opacity:1;transform:none}
-.rl .k{flex:none;text-transform:uppercase;font-size:9.5px;letter-spacing:.1em;color:var(--paper-mut)}
-.rl .lead{flex:1;border-bottom:1.5px dotted rgba(21,24,27,.22);transform:translateY(-3px)}
-.rl .v{flex:none;font-weight:700}
-.rl .v.retail{color:var(--retail,var(--em-deep))}
-.rl.total{border-top:1.5px dashed rgba(21,24,27,.18);margin-top:6px;padding-top:9px}
-.rl.total .k,.rl.total .v{font-size:11.5px;font-weight:800;color:var(--paper-ink)}
-.rc-bar{margin-top:11px;height:24px;opacity:.9;
-  background:repeating-linear-gradient(90deg,#15181B 0 2px,transparent 2px 4px,#15181B 4px 5px,transparent 5px 9px,#15181B 9px 12px,transparent 12px 14px)}
+/* (receipt styles removed in v9 — receipt retired from results) */
 
 .offers{margin-top:32px}
 .offers .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
@@ -294,182 +274,108 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RESULTS — device-hero, count-up, no dead space
-   Everything you need on the first fold: hero card, animated $750, CTA.
+   RESULTS v9 — one fold, one story
+   Blurred footage card runs a 3-scene mechanic demo. All text on ink.
    ═══════════════════════════════════════════════════════════════════ */
 .rscreen{padding-top:0}
-.trail{display:none !important}  /* hide answer chips on results — they clutter the hero */
+.trail{display:none !important}
 
-/* sticky nav */
-.results-nav{position:sticky;top:0;z-index:35;
-  display:flex;align-items:center;gap:12px;padding:14px 0 12px;margin-top:-4px;
-  background:linear-gradient(to bottom, rgba(10,12,14,.94) 70%, rgba(10,12,14,0));
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  opacity:0;transform:translateY(-8px);transition:opacity .5s var(--glide),transform .5s var(--spring)}
-.results-nav.in{opacity:1;transform:none}
-.rn-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
-.rn-store{font:600 10px/1 var(--mono);letter-spacing:.14em;color:var(--muted);margin-left:auto}
-
-/* ── HERO: everything on the first fold ── */
-.best{display:none;position:relative;padding:14px 0 22px;margin:0 -22px}
+/* ── hero ── */
+.best{display:none;padding:12px 0 4px}
 .best.in{display:block}
-.best-inner{padding:0 22px}
+.best-inner{max-width:396px;margin:0 auto}
 
-/* device card that plays the store video inside, sharp */
-.hero-card{position:relative;margin:0 auto;width:100%;max-width:340px;aspect-ratio:9/16;
-  border-radius:34px;overflow:hidden;
-  background:#111;
-  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,
-             0 0 0 1px rgba(255,255,255,.06),
-             0 20px 60px rgba(0,0,0,.55),
-             0 60px 140px rgba(47,191,143,.14);
-  opacity:0;transform:translateY(28px) scale(.94);filter:blur(10px);
-  transition:opacity .8s var(--glide),transform 1s var(--spring),filter .7s var(--glide)}
+.hero-card{position:relative;margin:0 auto;width:100%;max-width:352px;height:338px;
+  border-radius:30px;overflow:hidden;background:#0D1013;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 0 0 1px rgba(255,255,255,.07),
+             0 22px 60px rgba(0,0,0,.55),0 50px 120px rgba(47,191,143,.10);
+  opacity:0;transform:translateY(24px) scale(.95);filter:blur(9px);
+  transition:opacity .7s var(--glide),transform .9s var(--spring),filter .6s var(--glide)}
 .best.in .hero-card{opacity:1;transform:none;filter:blur(0)}
-.hero-card video,.hero-card img.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-card video,.hero-card img.poster{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;
+  filter:blur(9px) saturate(.8) brightness(.5)}
 .hero-card video{opacity:0;transition:opacity .8s var(--glide)}
 .hero-card.playing video{opacity:1}
-.hero-card::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,.72) 100%)}
-.hc-top{position:absolute;top:16px;left:16px;right:16px;z-index:3;display:flex;align-items:center;gap:8px}
-.hc-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);
-  font:700 9px/1 var(--mono);letter-spacing:.14em;color:#fff;text-transform:uppercase;
-  opacity:0;transform:translateY(-6px);transition:opacity .5s var(--glide) .3s,transform .5s var(--spring) .3s}
+.hero-card::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 0%, rgba(0,0,0,.10), rgba(0,0,0,.5) 90%)}
+
+.hc-badge{position:absolute;top:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:6px;
+  padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font:700 9px/1 var(--mono);letter-spacing:.16em;color:#fff;text-transform:uppercase;
+  opacity:0;transform:translateY(-6px);transition:opacity .5s var(--glide) .35s,transform .5s var(--spring) .35s}
 .best.in .hc-badge{opacity:1;transform:none}
 .hc-badge svg{width:11px;height:11px;color:var(--em)}
-.hc-dot{margin-left:auto;font:600 9px/1 var(--mono);letter-spacing:.14em;color:rgba(255,255,255,.55);text-transform:uppercase;
-  opacity:0;transition:opacity .6s var(--glide) .4s}
-.best.in .hc-dot{opacity:1}
+.hc-note{position:absolute;bottom:34px;left:0;right:0;z-index:3;text-align:center;
+  font:600 8px/1 var(--mono);letter-spacing:.18em;color:rgba(255,255,255,.42);text-transform:uppercase}
 
-/* the money moment, INSIDE the card */
-.hc-body{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:22px 22px 24px;text-align:center;
-  color:#fff}
-.hc-sup{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.22em;color:rgba(255,255,255,.68);text-transform:uppercase;
-  opacity:0;transform:translateY(8px);transition:opacity .6s var(--glide) .55s,transform .6s var(--spring) .55s}
-.best.in .hc-sup{opacity:1;transform:none}
+/* ── the 3-scene demo ── */
+.demo{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding:0 26px 20px}
+.scene{grid-area:1/1;display:grid;justify-items:center;gap:11px;text-align:center;pointer-events:none;
+  opacity:0;transform:translateY(16px) scale(.95);filter:blur(6px);
+  transition:opacity .5s var(--glide),transform .6s var(--spring),filter .5s var(--glide)}
+.scene.on{opacity:1;transform:none;filter:blur(0)}
+.scene .art{position:relative;width:118px;height:104px;display:grid;place-items:center}
+.scene .art svg{width:100%;height:100%}
+.scene .cap{font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
+.scene .sub{font:500 12.5px/1.5 var(--font);color:rgba(255,255,255,.78);max-width:25ch;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+/* stroke draws reset when scene is off, replay when on */
+.scene .draw{stroke-dasharray:120;stroke-dashoffset:120}
+.scene.on .draw{transition:stroke-dashoffset .7s var(--glide) .28s;stroke-dashoffset:0}
+.scene .tagp{transform:scale(.55) rotate(-22deg);transform-origin:center}
+.scene.on .tagp{transition:transform .65s var(--spring) .18s;transform:scale(1) rotate(-8deg)}
+.scene .pop{position:absolute;top:44%;left:56%;width:6px;height:6px;border-radius:50%;
+  background:var(--em);box-shadow:0 0 10px rgba(47,191,143,.9);opacity:0}
+.scene.on .pop{animation:popFly .8s var(--spring) forwards}
+.scene.on .p1{--dx:44px;--dy:-38px;animation-delay:.55s}
+.scene.on .p2{--dx:-40px;--dy:-26px;animation-delay:.62s}
+.scene.on .p3{--dx:30px;--dy:34px;animation-delay:.7s}
+@keyframes popFly{0%{opacity:1;transform:translate(0,0) scale(.4)}70%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}}
+.demo-dots{position:absolute;bottom:14px;left:0;right:0;z-index:3;display:flex;justify-content:center;gap:7px}
+.ddot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);
+  transition:background .3s,transform .35s var(--spring),box-shadow .3s}
+.ddot.on{background:var(--em);transform:scale(1.3);box-shadow:0 0 10px rgba(47,191,143,.6)}
 
-.hc-brand{margin-top:8px;font:700 clamp(26px,7vw,32px)/1.05 var(--font);letter-spacing:-.024em;
-  opacity:0;transform:translateY(10px);transition:opacity .7s var(--glide) .7s,transform .7s var(--spring) .7s;
-  text-shadow:0 3px 22px rgba(0,0,0,.5)}
-.best.in .hc-brand{opacity:1;transform:none}
-
-/* Big count-up with a ring behind it */
-.hc-money{position:relative;margin-top:10px;height:130px;display:flex;align-items:center;justify-content:center}
-.hc-ring{position:absolute;inset:8px 20px;pointer-events:none}
-.hc-ring circle{fill:none;stroke-width:2.5}
-.hc-ring .track{stroke:rgba(255,255,255,.10)}
-.hc-ring .fill{stroke:var(--em);stroke-linecap:round;
-  stroke-dasharray:var(--c);stroke-dashoffset:var(--c);
-  transform:rotate(-90deg);transform-origin:center;
-  filter:drop-shadow(0 0 12px rgba(47,191,143,.55))}
-.hc-money .odo{position:relative;z-index:2;font:800 clamp(64px,17vw,86px)/1 var(--font);letter-spacing:-.055em;
-  color:#fff;font-variant-numeric:tabular-nums;
-  background:linear-gradient(180deg,#B8FFDA 0%,var(--em) 55%,#0F8B65 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:0 4px 30px rgba(47,191,143,.6);
-  opacity:0;transform:scale(.72);transition:opacity .3s var(--glide) .9s,transform .55s var(--spring) .9s}
-.best.in .hc-money .odo{opacity:1;transform:scale(1)}
-.hc-money .odo.pulse{animation:moneyPulse .9s var(--spring)}
-@keyframes moneyPulse{0%{transform:scale(1)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
-
-.hc-line{margin-top:6px;font:500 12px/1.5 var(--font);color:rgba(255,255,255,.7);letter-spacing:-.005em;
-  opacity:0;transform:translateY(6px);transition:opacity .6s var(--glide) 1.6s,transform .6s var(--spring) 1.6s}
-.best.in .hc-line{opacity:1;transform:none}
-
-/* Confetti sparks over the money */
-.spark{position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:var(--em);
-  box-shadow:0 0 12px rgba(47,191,143,.9);pointer-events:none;opacity:0;transform:translate(-50%,-50%)}
-.spark.go{animation:sparkFly .9s var(--spring) forwards}
-@keyframes sparkFly{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}
-                     70%{opacity:1}
-                     100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.2)}}
-
-/* PRIMARY CTA — sits right under the card, on the first fold */
-.hero-cta-wrap{margin-top:22px;text-align:center}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;
-  padding:16px 30px;border-radius:999px;text-decoration:none;
+/* ── text on solid ink, under the card ── */
+.best-meta{margin-top:18px;text-align:center}
+.best-meta .eyebrow{letter-spacing:.22em;color:var(--em)}
+.best-brand{margin-top:10px;font:800 clamp(31px,8.4vw,40px)/1.04 var(--font);letter-spacing:-.03em;color:var(--txt)}
+.best-line{margin:11px auto 0;max-width:36ch;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.hero-cta-wrap{margin-top:18px;text-align:center}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;text-decoration:none;
   background:var(--em);color:#04231A;font:750 15.5px/1 var(--font);letter-spacing:-.01em;
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,
-             0 14px 34px rgba(47,191,143,.34),
-             0 0 0 0 rgba(47,191,143,.35);
-  opacity:0;transform:translateY(14px) scale(.95);
-  transition:opacity .6s var(--glide) 1.8s,transform .6s var(--spring) 1.8s,box-shadow .3s}
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34);
+  opacity:0;transform:translateY(12px) scale(.96);
+  transition:opacity .55s var(--glide) .5s,transform .55s var(--spring) .5s}
 .best.in .hero-cta{opacity:1;transform:none}
 .hero-cta svg{width:15px;height:15px;transition:transform .25s var(--spring)}
 .hero-cta:hover svg{transform:translateX(4px)}
 .hero-cta:active{transform:scale(.97)}
 .best.in .hero-cta.ring{animation:ctaRing 2.6s ease-out infinite}
 @keyframes ctaRing{
-  0%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,.55)}
-  70%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 14px rgba(47,191,143,0)}
+  0%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,.5)}
+  70%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 13px rgba(47,191,143,0)}
   100%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,0)}
 }
-.hero-fine{margin-top:10px;font:500 9.5px/1.5 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
-  opacity:0;transition:opacity .5s var(--glide) 2s}
+.hero-fine{margin-top:10px;font:500 9px/1.6 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
+  opacity:0;transition:opacity .5s var(--glide) .8s}
 .best.in .hero-fine{opacity:1}
 
-/* ── Ticker rail of what unlocks the money (visual explanation, not text) ── */
-.tiers{margin:28px -22px 0;padding:22px 22px 26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:rgba(15,18,21,.35);opacity:0;transform:translateY(14px);
-  transition:opacity .7s var(--glide),transform .7s var(--spring)}
-.tiers.in{opacity:1;transform:none}
-.tiers-cap{display:flex;justify-content:space-between;align-items:baseline;
-  font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
-.tiers-cap b{color:var(--em);letter-spacing:.22em;font-weight:700}
-.tiers-row{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tier{position:relative;padding:14px 8px 12px;border-radius:14px;
-  background:rgba(15,18,21,.6);border:1px solid var(--line);text-align:center;
-  opacity:0;transform:translateY(10px) scale(.92);
-  transition:opacity .5s var(--glide),transform .55s var(--spring),border-color .3s,background .3s}
-.tier.in{opacity:1;transform:none}
-.tier .ic{width:26px;height:26px;margin:0 auto 8px;color:var(--em)}
-.tier .lb{font:700 10px/1.2 var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
-.tier .vl{margin-top:4px;font:700 15px/1 var(--font);letter-spacing:-.02em;color:var(--txt);font-variant-numeric:tabular-nums}
-.tier.hot{border-color:rgba(47,191,143,.45);background:rgba(20,35,28,.65);
-  box-shadow:0 0 0 3px rgba(47,191,143,.14),0 12px 24px rgba(47,191,143,.18)}
-.tier.hot .vl{color:var(--em)}
-.tiers-fine{margin-top:12px;font-size:11px;line-height:1.5;color:var(--faint);text-align:center;max-width:38ch;margin-left:auto;margin-right:auto}
-
-/* ── chapters (kept, restyled) ── */
-.chapter{padding:44px 0 34px}
-.chapter-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--em);text-transform:uppercase}
-.chapter h3{margin-top:14px;font-size:clamp(24px,6.4vw,30px);font-weight:700;line-height:1.13;letter-spacing:-.028em;max-width:18ch;text-wrap:balance}
-.chapter .lede{margin-top:12px;font-size:14px;line-height:1.6;color:var(--muted);max-width:40ch}
-
-/* — numbered steps with an icon column — */
-.steps{margin-top:22px;display:flex;flex-direction:column;gap:0}
-.step{position:relative;display:grid;grid-template-columns:40px 1fr;gap:14px;padding:20px 0;border-top:1px solid var(--line);
-  opacity:0;transform:translateY(20px);filter:blur(6px);
-  transition:opacity .7s var(--glide),transform .7s var(--spring),filter .7s var(--glide)}
-.step.in{opacity:1;transform:none;filter:blur(0)}
-.step:last-child{border-bottom:1px solid var(--line)}
-.step .sic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
-  background:rgba(47,191,143,.10);border:1px solid rgba(47,191,143,.22);color:var(--em)}
-.step .sic svg{width:18px;height:18px}
-.step h4{font-size:16px;font-weight:650;letter-spacing:-.018em;line-height:1.25}
-.step h4 .num{font:700 10px/1 var(--mono);letter-spacing:.16em;color:var(--faint);margin-right:8px;text-transform:uppercase;vertical-align:middle}
-.step p{margin-top:5px;font-size:13px;line-height:1.55;color:var(--muted);max-width:42ch}
-
-/* receipt + offers stay */
-.receipt-block{padding:38px 0 12px}
-.receipt-block .chapter-eyebrow{color:var(--faint)}
-.receipt-block h3{color:var(--muted);font-size:20px;max-width:26ch}
-.offers{margin-top:32px;padding-bottom:8px}
-.offers .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:6px}
+/* ── all matches (slim ledger) ── */
+.allm{margin-top:40px}
+.allm .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:4px}
 .o-badge{display:inline-block;margin-left:8px;padding:3px 8px;border:1px solid var(--line-2);border-radius:999px;
   font:600 8.5px/1.4 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;vertical-align:middle}
 .offer.best .o-badge{border-color:rgba(47,191,143,.4);color:var(--em)}
-.faq{margin-top:44px}
+.faq{margin-top:40px}
 
-/* short-viewport safety — keep hero + CTA visible on 700px height */
 @media (max-height:720px){
-  .hero-card{max-width:290px}
-  .hc-money{height:112px}
-  .hc-money .odo{font-size:clamp(56px,15vw,74px)}
-  .hero-cta-wrap{margin-top:16px}
-  .best{padding:8px 0 18px}
+  .hero-card{height:298px;max-width:320px}
+  .best-brand{font-size:clamp(28px,7.6vw,34px)}
+  .best-meta{margin-top:14px}
 }
+
 
 
 </style>
@@ -477,7 +383,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 <body>
 
 <div class="bg" aria-hidden="true">
-  <img id="bgStill" src="assets/poster-store.jpg" alt="">
+  <img id="bgStill" src="assets/img-aisle.jpg" alt="">
   <video id="bgA" class="live" muted playsinline loop preload="none"></video>
   <video id="bgB" class="live" muted playsinline loop preload="none"></video>
 </div>
@@ -545,118 +451,94 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
         <p class="calc-ln" data-step="2">SIGNALS MATCHED &middot; <span class="odo" id="sigOdo">0</span></p>
       </div>
 
-      <nav class="results-nav" id="rnav" aria-hidden="true">
-        <span class="rn-eyebrow">Audit complete</span>
-        <span class="rn-store" id="rnStore"></span>
-      </nav>
-
-      <!-- HERO: device card + count-up + CTA, first-fold -->
+      <!-- ═══ HERO: blurred footage card + 3-scene mechanic demo ═══ -->
       <div class="best" id="bestHero">
         <div class="best-inner">
 
-          <div class="hero-card" id="heroCard">
-            <img class="poster" id="heroPoster" src="assets/poster-trader.jpg" alt="">
+          <figure class="hero-card" id="heroCard">
+            <img class="poster" id="heroPoster" src="assets/img-tjsign.jpg" alt="">
             <video id="heroVid" muted playsinline loop preload="auto"></video>
-            <div class="hc-top">
-              <span class="hc-badge">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
-                Best match
-              </span>
-              <span class="hc-dot" id="hcDot">SIGNALS <span id="hcSignals">0</span>/9</span>
-            </div>
-            <div class="hc-body">
-              <span class="hc-sup">You can claim up to</span>
-              <span class="hc-brand" id="bestBrand"></span>
-              <div class="hc-money" id="hcMoney">
-                <svg class="hc-ring" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" style="--c:283">
-                  <circle class="track" cx="50" cy="50" r="45"/>
-                  <circle class="fill"  cx="50" cy="50" r="45" id="hcRingFill"/>
-                </svg>
-                <span class="odo" id="capOdo">$0</span>
+            <span class="hc-badge">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
+              Best match
+            </span>
+
+            <div class="demo" id="demo">
+              <div class="scene on" data-s="0">
+                <span class="art">
+                  <svg viewBox="0 0 118 104" fill="none">
+                    <circle cx="59" cy="52" r="36" stroke="rgba(255,255,255,.30)" stroke-width="3.5"/>
+                    <path class="draw" d="M42 53 L54 65 L77 39" stroke="#2FBF8F" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="cap">Step 01 &middot; Complete a deal</span>
+                <span class="sub">A trial, a signup, or a small purchase &mdash; each lists its own steps.</span>
               </div>
-              <span class="hc-line" id="bestLine">Complete deals to climb the tiers — <b style="color:#fff">most people stop at tier&nbsp;1 or 2</b>.</span>
+
+              <div class="scene" data-s="1">
+                <span class="art">
+                  <svg viewBox="0 0 118 104" fill="none">
+                    <g class="tagp">
+                      <path d="M26 50 L54 22 H86 a9 9 0 0 1 9 9 V63 L67 91 a9 9 0 0 1-12.7 0 L26 62.7 a9 9 0 0 1 0-12.7 Z" stroke="#2FBF8F" stroke-width="3.6" fill="rgba(47,191,143,.12)"/>
+                      <circle cx="76" cy="38" r="5" fill="#2FBF8F"/>
+                      <text x="46" y="70" fill="#FFFFFF" font-size="30" font-weight="800" font-family="-apple-system,Segoe UI,Roboto,sans-serif">%</text>
+                    </g>
+                  </svg>
+                </span>
+                <span class="cap">Step 02 &middot; Discount unlocks</span>
+                <span class="sub">Every completed deal unlocks partner discounts and credits.</span>
+              </div>
+
+              <div class="scene" data-s="2">
+                <span class="art">
+                  <svg viewBox="0 0 118 104" fill="none">
+                    <rect x="13" y="16" width="92" height="56" rx="6" stroke="rgba(255,255,255,.8)" stroke-width="3.6"/>
+                    <path d="M44 86 h30" stroke="rgba(255,255,255,.8)" stroke-width="3.6" stroke-linecap="round"/>
+                    <path d="M59 72 v14" stroke="rgba(255,255,255,.8)" stroke-width="3.6"/>
+                    <path class="draw" d="M22 72 L98 20" stroke="#2FBF8F" stroke-width="5.5" stroke-linecap="round"/>
+                  </svg>
+                  <i class="pop p1"></i><i class="pop p2"></i><i class="pop p3"></i>
+                </span>
+                <span class="cap">Step 03 &middot; Sometimes it&rsquo;s huge</span>
+                <span class="sub">Stack enough deals and big-ticket items get seriously cheaper.</span>
+              </div>
+
+              <div class="demo-dots" aria-hidden="true">
+                <span class="ddot on"></span><span class="ddot"></span><span class="ddot"></span>
+              </div>
+              <span class="hc-note">Illustration &middot; values vary by deal</span>
+            </div>
+          </figure>
+
+          <div class="best-meta">
+            <p class="eyebrow">Matched from your answers</p>
+            <h2 class="best-brand" id="bestBrand"></h2>
+            <p class="best-line" id="bestLine"></p>
+            <div class="hero-cta-wrap">
+              <a class="hero-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
+                Continue to <span id="bestCtaBrand"></span>
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+              </a>
+              <p class="hero-fine">Sponsored &middot; Availability &amp; terms vary &middot; No purchase required by us</p>
             </div>
           </div>
 
-          <div class="hero-cta-wrap">
-            <a class="hero-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
-              Continue to <span id="bestCtaBrand"></span>
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
-            </a>
-            <p class="hero-fine">Sponsored &middot; Availability &amp; terms vary &middot; No purchase required by us</p>
-          </div>
-
-          <!-- Visual explanation: tier ladder (icons, not text) -->
-          <div class="tiers" id="tiers">
-            <div class="tiers-cap"><span>The ladder</span><b id="tierBrand"></b></div>
-            <div class="tiers-row">
-              <div class="tier" data-tier="1">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
-                <div class="lb">Tier 1</div><div class="vl">$50</div>
-              </div>
-              <div class="tier" data-tier="2">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 6V4h8v2"/></svg>
-                <div class="lb">Tier 2</div><div class="vl">$150</div>
-              </div>
-              <div class="tier" data-tier="3">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.4L12 15.6l-4.9 2.5.9-5.4L4 8.8 9.5 8z"/></svg>
-                <div class="lb">Tier 3</div><div class="vl">$400</div>
-              </div>
-              <div class="tier hot" data-tier="4">
-                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 5h5l-4 3.5 1.5 5.5L12 13l-4.5 3 1.5-5.5L5 7h5z"/><path d="M4 21h16"/></svg>
-                <div class="lb">Top tier</div><div class="vl">$750</div>
-              </div>
-            </div>
-            <p class="tiers-fine">Each tier is a set of partner deals (a trial, signup, or small purchase). Complete more, unlock a higher tier. Not everyone finishes every tier.</p>
-          </div>
         </div>
       </div>
 
-      <!-- Chapter 1: How this works -->
-      <section class="chapter" id="chapHow">
-        <p class="chapter-eyebrow">How it works</p>
-        <h3 id="chapHowTitle">A ladder of partner deals — you climb as far as you want.</h3>
-        <p class="lede" id="chapHowLede"></p>
-        <ol class="steps" id="stepsList"></ol>
-      </section>
-
-
-      <!-- Chapter 2: The audit receipt (why matched) -->
-      <section class="chapter receipt-block" id="chapReceipt">
-        <p class="chapter-eyebrow">The audit</p>
-        <h3>Your three answers, sorted into signals.</h3>
-      </section>
-      <div class="receipt-wrap">
-        <svg class="tear flip" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
-        <div class="receipt" id="receipt">
-          <div class="rc-title"><span>PayoutAudit</span><span>Shopper audit</span></div>
-          <div class="rc-bar" aria-hidden="true"></div>
-        </div>
-        <svg class="tear" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
+      <!-- ═══ All matches, slim ═══ -->
+      <div class="allm" id="allm">
+        <p class="cap">All matches &middot; ranked to fit</p>
+        <div id="offerList"></div>
       </div>
-
-      <!-- Chapter 3: All matches -->
-      <section class="chapter" id="chapOffers">
-        <p class="chapter-eyebrow">All matches</p>
-        <h3>Every offer we surfaced, ranked to fit.</h3>
-        <div class="offers"><div id="offerList"></div></div>
-      </section>
 
       <div class="faq">
-        <details class="qa"><summary>How offers work<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
-          <ol>
-            <li>Your three answers rank the offers — they stay on this page and aren't collected or stored.</li>
-            <li>Each program pays in tiers: complete the number of partner deals listed for a tier, unlock that tier's reward. "Up to $750" is the top tier in the partner's published terms, not a typical result.</li>
-            <li>Many deals involve purchases, trials, or deposits — read each one before starting. Skipped steps are the top reason people don't qualify.</li>
-            <li>Rewards are verified and issued by the partner under its terms, which is why we never promise a specific outcome.</li>
-          </ol>
-        </details>
         <details class="qa"><summary>Is PayoutAudit free?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
-          <p>Yes. Partners may pay us when you complete their offers — that's the entire business model, and it's why we disclose it on every screen instead of hiding it.</p></details>
-        <details class="qa"><summary>Affiliated with Amazon, Target, Costco, or Trader Joe’s?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+          <p>Yes. Partners may pay us when you complete their offers &mdash; that's the entire business model, and it's why we disclose it on every screen instead of hiding it.</p></details>
+        <details class="qa"><summary>Affiliated with Amazon, Target, Costco, or Trader Joe&rsquo;s?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
           <p>No. Retailer names describe where you shop and where rewards can be spent, nothing more. All trademarks belong to their owners, and nothing here implies sponsorship or endorsement.</p></details>
         <details class="qa"><summary>Will I definitely get a reward?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
-          <p>No — and be wary of any site that says yes. Each partner sets its own eligibility rules, values, and timing. Read the requirements before you start.</p></details>
+          <p>No &mdash; and be wary of any site that says yes. Each partner sets its own eligibility rules, values, and timing. Read the steps on each offer before you start.</p></details>
       </div>
 
       <button class="retake" id="restartBtn">Retake the 3 questions</button>
@@ -808,7 +690,8 @@ function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
 })();
 
 /* ════════ video background: the footage IS the page ════════ */
-var V = { box:'assets/box.mp4', target:'assets/target.mp4', store:'assets/store.mp4', trader:'assets/trader.mp4', store2:'assets/store2.mp4' };
+var V = { box:'assets/vid-box.mp4', target:'assets/vid-target.mp4', store:'assets/vid-aisle.mp4', trader:'assets/vid-tjsign.mp4', store2:'assets/vid-aisle2.mp4' };
+var POSTER = { box:'assets/img-box.jpg', target:'assets/img-target.jpg', store:'assets/img-aisle.jpg', trader:'assets/img-tjsign.jpg', store2:'assets/img-aisle2.jpg' };
 var bgEls = [ $('#bgA'), $('#bgB') ], bgIdx = 0, bgKey = '';
 var videoOK = null;
 
@@ -985,7 +868,7 @@ function pick(qid, cfg, i, btn, wrap){
   }, JSON_ON ? 330 : 60);
 }
 
-/* ════════ results: device-hero choreography ════════ */
+/* ════════ results v9: mechanic demo + one-fold reveal ════════ */
 function odometer(el, target, dur, prefix, done){
   prefix = prefix || '';
   if(!JSON_ON){ el.textContent = prefix + target; if(done) done(); return; }
@@ -993,37 +876,12 @@ function odometer(el, target, dur, prefix, done){
   function frame(t){
     if(!t0) t0 = t;
     var p = Math.min((t - t0) / dur, 1);
-    var e = 1 - Math.pow(1 - p, 4); /* easeOutQuart — punchy near end */
+    var e = 1 - Math.pow(1 - p, 4);
     el.textContent = prefix + Math.round(target * e);
     if(p < 1) requestAnimationFrame(frame);
     else if(done) done();
   }
   requestAnimationFrame(frame);
-}
-
-function ringFill(el, dur){
-  if(!JSON_ON) { el.style.strokeDashoffset = 0; return; }
-  el.style.strokeDashoffset = 283;
-  el.animate([{strokeDashoffset:283},{strokeDashoffset:0}],
-    {duration:dur, easing:'cubic-bezier(.22,1,.36,1)', fill:'both'});
-  setTimeout(function(){ el.style.strokeDashoffset = 0; }, dur);
-}
-
-function sparkles(container){
-  if(!JSON_ON) return;
-  var N = 14;
-  for(var i=0;i<N;i++){
-    var s = document.createElement('span');
-    s.className = 'spark';
-    var ang = (Math.PI * 2 * i / N) + Math.random()*0.4;
-    var d = 80 + Math.random()*70;
-    s.style.setProperty('--dx', (Math.cos(ang)*d).toFixed(0)+'px');
-    s.style.setProperty('--dy', (Math.sin(ang)*d).toFixed(0)+'px');
-    s.style.animationDelay = (Math.random()*80)+'ms';
-    container.appendChild(s);
-    requestAnimationFrame(function(el){ return function(){ el.classList.add('go'); }; }(s));
-    setTimeout(function(el){ return function(){ el.remove(); }; }(s), 1100);
-  }
 }
 
 var revealObserver = null;
@@ -1032,12 +890,42 @@ function armReveals(){
   if(revealObserver) revealObserver.disconnect();
   revealObserver = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); }
+      if(e.isIntersecting || e.boundingClientRect.top < 0){
+        e.target.classList.add('in','show'); revealObserver.unobserve(e.target);
+      }
     });
-  }, { rootMargin:'0px 0px -8% 0px', threshold:0.14 });
-  document.querySelectorAll('.rscreen .step, .rscreen .offer, .rscreen .chapter h3, .rscreen .chapter .lede, .rscreen .receipt-wrap, .rscreen .faq').forEach(function(el){
-    revealObserver.observe(el);
-  });
+  }, { rootMargin:'0px 0px -8% 0px', threshold:0.12 });
+  var els = document.querySelectorAll('.rscreen .offer, .rscreen .faq');
+  els.forEach(function(el){ revealObserver.observe(el); });
+  /* fallback for instant jumps that skip IO crossings */
+  var revealOnScroll = function(){
+    els.forEach(function(el){
+      if(!el.classList.contains('show') && el.getBoundingClientRect().top < innerHeight * 0.96){
+        el.classList.add('in','show');
+      }
+    });
+  };
+  addEventListener('scroll', revealOnScroll, {passive:true});
+}
+
+/* — 3-scene loop — */
+var demoTimer = null;
+function startDemo(){
+  var scenes = document.querySelectorAll('#demo .scene');
+  var dots   = document.querySelectorAll('#demo .ddot');
+  var i = 0;
+  function show(n){
+    scenes.forEach(function(s,k){ s.classList.toggle('on', k===n); });
+    dots.forEach(function(d,k){ d.classList.toggle('on', k===n); });
+  }
+  show(0);
+  if(!JSON_ON) return;
+  clearInterval(demoTimer);
+  demoTimer = setInterval(function(){
+    if(document.hidden) return;
+    i = (i + 1) % scenes.length;
+    show(i);
+  }, 2700);
 }
 
 function playHeroVideo(vidKey){
@@ -1049,6 +937,7 @@ function playHeroVideo(vidKey){
 }
 
 function buildResults(skipped){
+  clearInterval(demoTimer);
   var q1 = answers.q1, q2 = answers.q2, q3 = answers.q3;
   var retail = !skipped && q1 && RETAIL[q1.id];
   if(retail) document.documentElement.style.setProperty('--retail', retail);
@@ -1061,63 +950,18 @@ function buildResults(skipped){
   var totalSignals = scored.reduce(function(a,s){return a+s.score;}, 0);
   resultVid = hasBest ? top.o.vid : 'store';
 
-  /* nav + hero copy */
-  document.querySelector('#rnav .rn-store').textContent = hasBest ? top.o.brand : '';
+  var hero = $('#bestHero');
+  hero.classList.remove('in');
   if(hasBest){
     $('#bestBrand').textContent = top.o.brand;
     $('#bestCtaBrand').textContent = top.o.brand;
     $('#bestCta').href = top.o.url;
     $('#bestCta').setAttribute('data-offer', top.o.id);
-    $('#tierBrand').textContent = top.o.brand.toUpperCase();
-    /* poster + hero video source per winner */
-    $('#heroPoster').src = 'assets/poster-' + top.o.vid + '.jpg';
+    $('#bestLine').textContent = 'Complete ' + top.o.brand + '-linked partner deals to unlock reward tiers \u2014 every step is listed on the offer below.';
+    $('#heroPoster').src = POSTER[top.o.vid] || POSTER.trader;
   }
 
-  /* how-it-works chapter */
-  var chapHow = $('#chapHow'), stepsList = $('#stepsList');
-  stepsList.innerHTML = '';
-  if(hasBest){
-    $('#chapHowTitle').textContent = 'The ' + top.o.brand + ' ladder, in four steps.';
-    $('#chapHowLede').textContent = 'A ladder of partner deals. Every deal you complete moves you up. The top rung tops out at $' + top.o.cap + ' toward ' + top.o.brand + '.';
-    var STEP_ICONS = [
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2M7 12h4M14 12h3M7 16h6"/></svg>',
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg>',
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
-    ];
-    top.o.how.forEach(function(s, i){
-      var li = document.createElement('li');
-      li.className = 'step';
-      li.innerHTML = '<span class="sic">'+STEP_ICONS[i]+'</span>'+
-        '<div><h4><span class="num">STEP&nbsp;0'+(i+1)+'</span>'+esc(s.t)+'</h4><p>'+esc(s.d)+'</p></div>';
-      stepsList.appendChild(li);
-    });
-    chapHow.style.display = '';
-  } else {
-    chapHow.style.display = 'none';
-  }
-
-  /* receipt */
-  var date = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  var lines = [
-    { k:'Date', v:date },
-    { k:'Q.01 \u00b7 '+QUIZ.q1.rkey,                   v: skipped ? 'Skipped' : q1.label, retail: !!retail },
-    { k:'Q.02 \u00b7 '+(skipped ? 'Detail' : q2.rkey),  v: skipped ? 'Skipped' : q2.label },
-    { k:'Q.03 \u00b7 '+QUIZ.q3.rkey,                   v: skipped ? 'Skipped' : q3.label },
-    { k:'Signals matched', v: skipped ? '\u2014' : String(totalSignals), total:true },
-    { k:'Guarantees',      v:'0' }
-  ];
-  var rc = $('#receipt'), bar = rc.querySelector('.rc-bar');
-  rc.querySelectorAll('.rl').forEach(function(n){ n.remove(); });
-  lines.forEach(function(L){
-    var div = document.createElement('div');
-    div.className = 'rl' + (L.total ? ' total' : '');
-    div.innerHTML = '<span class="k">'+esc(L.k)+'</span><span class="lead"></span>'+
-      '<span class="v'+(L.retail ? ' retail' : '')+'">'+esc(L.v)+'</span>';
-    rc.insertBefore(div, bar);
-  });
-
-  /* offer ledger */
+  /* offer ledger — full how-it-works steps live here, per offer */
   var list = $('#offerList');
   list.innerHTML = scored.map(function(s, rank){
     var o = s.o, best = hasBest && rank === 0;
@@ -1151,25 +995,18 @@ function buildResults(skipped){
   });
 
   /* ── choreography ── */
-  var calc = $('#calc'), rnav = $('#rnav'), hero = $('#bestHero'), tiers = $('#tiers');
-  var rls = rc.querySelectorAll('.rl'), offers = list.querySelectorAll('.offer');
-
-  function paintAll(){
-    hero.classList.add('in');
-    rnav.classList.add('in');
-    armReveals();
-  }
+  var calc = $('#calc');
+  var offers = list.querySelectorAll('.offer');
 
   if(!JSON_ON || skipped){
     calc.classList.remove('run');
-    paintAll();
-    if(hasBest){ $('#capOdo').textContent = '$' + top.o.cap; ringFill($('#hcRingFill'), 10); $('#hcSignals').textContent = totalSignals; tiers.classList.add('in'); tiers.querySelectorAll('.tier').forEach(function(t){t.classList.add('in')}); playHeroVideo(top.o.vid); }
-    rls.forEach(function(n){ n.classList.add('show'); });
-    offers.forEach(function(n){ n.classList.add('show'); });
+    if(hasBest){ hero.classList.add('in'); playHeroVideo(top.o.vid); startDemo(); $('#bestCta').classList.add('ring'); }
+    else hero.classList.remove('in');
+    offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, JSON_ON ? 250 + i*140 : 0); });
+    armReveals();
     return;
   }
 
-  /* Full run: calc → hero → count-up → CTA → tiers → scroll observers pick up chapters */
   calc.classList.remove('out'); calc.classList.add('run');
   var lns = calc.querySelectorAll('.calc-ln');
   lns.forEach(function(l){ l.classList.remove('in','done'); });
@@ -1182,46 +1019,12 @@ function buildResults(skipped){
   setTimeout(function(){ calc.classList.add('out'); }, 2800);
   setTimeout(function(){
     calc.classList.remove('run','out');
-    paintAll();
-    if(hasBest){
-      playHeroVideo(top.o.vid);
-      /* count-up + ring fill start after brand line has settled */
-      setTimeout(function(){
-        odometer($('#hcSignals'), totalSignals, 900);
-        ringFill($('#hcRingFill'), 2400);
-        odometer($('#capOdo'), top.o.cap, 2500, '$', function(){
-          $('#capOdo').classList.add('pulse');
-          sparkles($('#hcMoney'));
-          buzz();
-          setTimeout(function(){ $('#capOdo').classList.remove('pulse'); }, 900);
-          $('#bestCta').classList.add('ring');
-        });
-      }, 1000);
-      /* tier rail eases in after the money lands */
-      setTimeout(function(){ tiers.classList.add('in'); }, 2400);
-      tiers.querySelectorAll('.tier').forEach(function(t, i){
-        setTimeout(function(){ t.classList.add('in'); }, 2600 + i*140);
-      });
-    }
-    /* receipt lines print as user scrolls into it */
-    var rio = new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.isIntersecting){
-          rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*90); });
-          rio.disconnect();
-        }
-      });
-    }, {threshold:0.12});
-    rio.observe(rc);
-    var oio = new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.isIntersecting){
-          offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*140); });
-          oio.disconnect();
-        }
-      });
-    }, {threshold:0.05});
-    oio.observe(list);
+    hero.classList.add('in');
+    playHeroVideo(top.o.vid);
+    startDemo();
+    buzz();
+    setTimeout(function(){ $('#bestCta').classList.add('ring'); }, 1400);
+    armReveals();
   }, 3200);
 }
 

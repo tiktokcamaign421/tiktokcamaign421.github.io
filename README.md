@@ -1,43 +1,33 @@
-# PayoutAudit — 3-tap funnel (v8)
+# PayoutAudit — 3-tap funnel (v9)
 
-Results section rebuilt from scratch: everything a user needs on the
-first fold, then chapters that animate in as you scroll.
+Results rebuilt from zero. One fold, one story:
 
-## First fold (no scroll needed)
-- **Device-frame hero card** playing the winning brand's video sharp inside
-  a phone-shaped frame, scrim'd at the bottom for legibility.
-- **"You can claim up to · Trader Joe's / Target / Amazon / Costco"** — big
-  brand name, per the winning offer.
-- **Count-up from $0 → $750** on a two-color emerald gradient with a
-  progress ring around it filling as the number climbs. Sparks fire at
-  the end; the CTA immediately picks up a pulsing halo.
-- **"Continue to <brand>"** — the primary CTA sits directly under the card,
-  above the fold. Sponsored + T&C fine print stays quiet under it.
+- **Hero card**: the winning brand's footage, blurred, runs behind a looping
+  3-scene mechanic demo — "Complete a deal" (check draws itself) →
+  "Discount unlocks" (price tag springs in) → "Sometimes it's huge"
+  (big-ticket item + slash + sparks). Scene dots cycle every 2.7s.
+  A tiny "Illustration · values vary by deal" note keeps it honest.
+- **All text sits on solid ink below the card** — brand name, one line,
+  and the CTA ("Continue to <brand>") with a pulsing halo. CTA verified
+  above the fold at 844px and 740px viewports.
+- Removed entirely: the AUDIT COMPLETE bar, the receipt, the tier tiles,
+  the how-it-works chapter, all $-figure hero numbers. Page length cut
+  roughly in half. Per-offer "How it works — steps" remains on each offer.
 
-## Just below the fold
-- **The ladder** — four visual tiles ($50 → $150 → $400 → $750) with icons
-  and the top tier highlighted emerald. Replaces the wall of text.
+## Cache fix
+All assets renamed (vid-*.mp4 / img-*.jpg). The old deploy's cached
+trader.mp4 can no longer shadow the Trader Joe's sign video. After
+pushing, one hard-refresh may be needed on devices that cached the page.
 
-## Below that (scroll-triggered)
-- **How it works** — same 4 steps, now with per-step icons instead of prose.
-- **The audit** receipt prints line by line when you reach it.
-- **All matches** — full offer ledger, best offer's requirements auto-open.
-- FAQ, footer.
-
-## Offers wired in (verified)
-- Amazon Product Reviewer — https://trksy.org/aff_c?offer_id=789&aff_id=157168
-- Amazon Rewards Ladder — https://linkthem.net/aff_c?offer_id=144&aff_id=157168
-- Target Reward Program — https://linkthem.net/aff_c?offer_id=317&aff_id=157168
-- Costco Deal Rewards — https://giftclick.org/aff_c?offer_id=941&aff_id=157168
-- Trader Joe's Deal Rewards — https://giftclick.org/aff_c?offer_id=854&aff_id=157168
+## Offers wired (verified routing)
+- Amazon Product Reviewer — trksy.org/aff_c?offer_id=789&aff_id=157168
+- Amazon Rewards Ladder — linkthem.net/aff_c?offer_id=144&aff_id=157168
+- Target Reward Program — linkthem.net/aff_c?offer_id=317&aff_id=157168
+- Costco Deal Rewards — giftclick.org/aff_c?offer_id=941&aff_id=157168
+- Trader Joe's Deal Rewards — giftclick.org/aff_c?offer_id=854&aff_id=157168
 
 ## Deploy
+Replace repo contents with this folder:
 ```
-git add . && git commit -m "v8" && git push
+git add . && git commit -m "v9" && git push
 ```
-
-## Notes
-- Reveal-hero visuals: the "storefront sign" video is now Trader Joe's;
-  the "aisle" video is the fallback for the "everywhere" answer.
-- If a partner changes its top reward tier, update the `cap` field on that
-  offer so the odometer stays accurate.
