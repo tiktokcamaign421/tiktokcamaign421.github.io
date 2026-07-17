@@ -285,7 +285,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .best.in{display:block}
 .best-inner{max-width:396px;margin:0 auto}
 
-.hero-card{position:relative;margin:0 auto;width:100%;max-width:352px;height:338px;
+.hero-card{position:relative;margin:0 auto;width:100%;max-width:340px;height:296px;
   border-radius:30px;overflow:hidden;background:#0D1013;
   box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 0 0 1px rgba(255,255,255,.07),
              0 22px 60px rgba(0,0,0,.55),0 50px 120px rgba(47,191,143,.10);
@@ -311,6 +311,10 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
 /* ── the 3-scene demo ── */
 .demo{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding:0 26px 20px}
+.demo::before{content:'';position:absolute;left:8%;right:8%;top:16%;bottom:10%;
+  background:radial-gradient(60% 62% at 50% 52%, rgba(4,6,8,.62), rgba(4,6,8,.28) 60%, transparent 78%);
+  pointer-events:none}
+.scene{position:relative}
 .scene{grid-area:1/1;display:grid;justify-items:center;gap:11px;text-align:center;pointer-events:none;
   opacity:0;transform:translateY(14px) scale(.96);
   transition:opacity .45s var(--glide),transform .6s var(--spring)}
@@ -318,7 +322,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .scene .art{position:relative;width:118px;height:104px;display:grid;place-items:center}
 .scene .art svg{width:100%;height:100%}
 .scene .cap{font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
-.scene .sub{font:500 12.5px/1.5 var(--font);color:rgba(255,255,255,.78);max-width:25ch;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.scene .sub{font:500 12.5px/1.5 var(--font);color:rgba(255,255,255,.92);max-width:25ch}
 /* stroke draws reset when scene is off, replay when on */
 .scene .draw{stroke-dasharray:120;stroke-dashoffset:120}
 .scene.on .draw{transition:stroke-dashoffset .7s var(--glide) .28s;stroke-dashoffset:0}
@@ -338,32 +342,99 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .ddot.on{background:var(--em);transform:scale(1.3);box-shadow:0 0 10px rgba(47,191,143,.6)}
 
 /* ── text on solid ink, under the card ── */
-.best-meta{margin-top:18px;text-align:center}
+.best-meta{margin-top:14px;text-align:center}
 .best-meta .eyebrow{letter-spacing:.22em;color:var(--em)}
-.best-brand{margin-top:10px;font:800 clamp(31px,8.4vw,40px)/1.04 var(--font);letter-spacing:-.03em;color:var(--txt)}
-.best-line{margin:11px auto 0;max-width:36ch;font-size:13.5px;line-height:1.6;color:var(--muted)}
-.hero-cta-wrap{margin-top:18px;text-align:center}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;text-decoration:none;
-  background:var(--em);color:#04231A;font:750 15.5px/1 var(--font);letter-spacing:-.01em;
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34);
-  opacity:0;transform:translateY(12px) scale(.96);
-  transition:opacity .55s var(--glide) .5s,transform .55s var(--spring) .5s}
-.best.in .hero-cta{opacity:1;transform:none}
-.hero-cta svg{width:15px;height:15px;transition:transform .25s var(--spring)}
-.hero-cta:hover svg{transform:translateX(4px)}
-.hero-cta:active{transform:scale(.97)}
-.best.in .hero-cta.ring{animation:ctaRing 2.6s ease-out infinite}
-@keyframes ctaRing{
-  0%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,.5)}
-  70%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 13px rgba(47,191,143,0)}
-  100%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,0)}
+.best-brand{margin-top:8px;font:800 clamp(27px,7.4vw,34px)/1.04 var(--font);letter-spacing:-.028em;color:var(--txt)}
+.best-line{margin:10px auto 0;max-width:36ch;font-size:13.5px;line-height:1.55;color:#C6CCD1}
+.hero-cta-wrap{margin-top:14px}
+
+/* ── the conversion receipt (paper contains CTA + fine print + trust) ── */
+.rcpt-wrap{position:relative;max-width:336px;margin:0 auto;
+  filter:drop-shadow(0 18px 34px rgba(0,0,0,.55));
+  opacity:0;transform:translateY(14px) scale(.97);
+  transition:opacity .55s var(--glide) .45s,transform .6s var(--spring) .45s}
+.best.in .rcpt-wrap{opacity:1;transform:none}
+.rcpt{display:block;transform:rotate(-.6deg)}
+@media (prefers-reduced-motion:no-preference){
+  .js .rcpt{clip-path:inset(0 0 101% 0)}
+  .js .rcpt.printing{transition:clip-path 1.25s cubic-bezier(.3,.7,.3,1);clip-path:inset(0 0 -2% 0)}
+  .js .rcpt .pb{opacity:0;transform:translateY(-7px);
+    transition:opacity .4s var(--glide),transform .5s var(--spring)}
+  .js .rcpt.printed .pb{opacity:1;transform:none}
+  .js .rcpt.printed .pb:nth-child(1){transition-delay:.1s}
+  .js .rcpt.printed .pb:nth-child(2){transition-delay:.28s}
+  .js .rcpt.printed .pb:nth-child(3){transition-delay:.46s}
+  .js .rcpt.printed .pb:nth-child(4){transition-delay:.62s}
+  .js .rcpt.printed .pb:nth-child(5){transition-delay:.76s}
+  .js .rcpt.printed .pb:nth-child(6){transition-delay:.9s}
+  .js .rcpt.printed .pb:nth-child(7){transition-delay:1.04s}
 }
-.hero-fine{margin-top:10px;font:500 9px/1.6 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
+.rcpt .tearx{display:block;width:100%;height:7px}
+.rcpt .tearx.flip{transform:scaleY(-1)}
+.rcpt-body{display:block;background:var(--paper);color:var(--paper-ink);padding:12px 14px 10px;
+  background-image:repeating-linear-gradient(0deg,rgba(21,24,27,.025) 0 1px,transparent 1px 3px)}
+.rcpt-body *{text-shadow:none}
+.rcpt-head{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1.5px dashed rgba(21,24,27,.2);padding-bottom:7px}
+.rcpt-head b{font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.rcpt-head span{font:600 8.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-mut)}
+.rcpt-item{display:flex;align-items:center;gap:11px;padding:10px 0 9px}
+.rcpt-item img{flex:none;width:46px;height:46px;border-radius:9px;object-fit:cover;
+  background:#E9ECEE;border:1px solid rgba(21,24,27,.12)}
+.rcpt-item .ri{display:block}
+.rcpt-item .ri-name{display:block;font:700 13.5px/1.25 var(--font);letter-spacing:-.015em;color:var(--paper-ink)}
+.rcpt-item .ri-sub{display:block;margin-top:3px;font:600 9px/1.4 var(--mono);letter-spacing:.1em;color:var(--paper-mut);text-transform:uppercase}
+.rcpt-cta{display:flex;align-items:center;justify-content:center;gap:9px;
+  background:var(--em);color:#04231A;border-radius:11px;padding:14px 12px;
+  font:800 14px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;text-decoration:none;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 14px rgba(24,154,111,.35);
+  transition:transform .18s var(--spring)}
+.rcpt-cta:active{transform:scale(.965)}
+.rcpt-cta svg{width:15px;height:15px;transition:transform .22s var(--spring)}
+.rcpt-cta:hover svg{transform:translateX(3px)}
+.best.in .rcpt-wrap.ring .rcpt-cta{animation:rcptRing 2.4s ease-out infinite}
+@keyframes rcptRing{
+  0%{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 14px rgba(24,154,111,.35),0 0 0 0 rgba(47,191,143,.55)}
+  70%{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 14px rgba(24,154,111,.35),0 0 0 11px rgba(47,191,143,0)}
+  100%{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 14px rgba(24,154,111,.35),0 0 0 0 rgba(47,191,143,0)}
+}
+.rcpt-rows{display:block;border-top:1.5px dashed rgba(21,24,27,.2);margin-top:2px;padding:8px 0 9px}
+.rrow{display:flex;align-items:baseline;gap:8px;padding:2.5px 0;font:700 10.5px/1.4 var(--mono)}
+.rrow .k{flex:none;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-mut);font-weight:600}
+.rrow .lead{flex:1;border-bottom:1.5px dotted rgba(21,24,27,.3);transform:translateY(-3px)}
+.rrow b{flex:none;color:var(--paper-ink)}
+.rrow b.zero{color:var(--em-deep)}
+.rcpt-fine{display:block;margin-top:8px;text-align:center;
+  font:600 7.5px/1.6 var(--mono);letter-spacing:.12em;color:var(--paper-mut);text-transform:uppercase}
+.rc-trust{display:block;border-top:1.5px dashed rgba(21,24,27,.2);margin-top:9px;padding-top:9px}
+.rc-trust .tcap{display:block;text-align:center;
+  font:800 9px/1 var(--mono);letter-spacing:.2em;color:var(--paper-ink);text-transform:uppercase}
+.rc-trust ul{list-style:none;margin-top:7px}
+.rc-trust li{display:flex;gap:9px;align-items:flex-start;padding:6px 0;
+  font:500 11.5px/1.5 var(--font);color:#3B434A;letter-spacing:-.005em}
+.rc-trust li + li{border-top:1px dotted rgba(21,24,27,.16)}
+.rc-trust li svg{flex:none;width:12px;height:12px;margin-top:2.5px;color:var(--em-deep)}
+.rc-trust li b{color:var(--paper-ink);font-weight:700}
+.rc-trust li a{color:var(--paper-ink);border-bottom:1px solid rgba(21,24,27,.3);text-decoration:none}
+.rcpt-bar{display:block;margin-top:9px;height:17px;opacity:.85;
+  background:repeating-linear-gradient(90deg,#15181B 0 2px,transparent 2px 4px,#15181B 4px 5px,transparent 5px 9px,#15181B 9px 12px,transparent 12px 14px)}
+.hero-fine{margin-top:9px;text-align:center;font:500 9px/1.6 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
   opacity:0;transition:opacity .5s var(--glide) .8s}
 .best.in .hero-fine{opacity:1}
 
 /* ── all matches (slim ledger) ── */
-.allm{margin-top:40px}
+.allm{margin-top:36px}
+.allm .sug-cap{display:block;text-align:center;font:600 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:2px}
+.allm-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:18px;
+  background:rgba(15,18,21,.5);border:1px solid var(--line-2);border-radius:999px;
+  padding:14px;cursor:pointer;color:var(--txt);font:650 13.5px/1 var(--font);letter-spacing:-.01em;
+  transition:border-color .25s,transform .16s var(--spring)}
+.allm-btn:hover{border-color:var(--muted)}
+.allm-btn:active{transform:scale(.98)}
+.allm-btn svg{width:13px;height:13px;transition:transform .3s var(--spring)}
+.allm-btn.open svg{transform:rotate(180deg)}
+.allm-rest{display:none}
+.allm-rest.open{display:block}
 .allm .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:4px}
 .o-badge{display:inline-block;margin-left:8px;padding:3px 8px;border:1px solid var(--line-2);border-radius:999px;
   font:600 8.5px/1.4 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;vertical-align:middle}
@@ -371,7 +442,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .faq{margin-top:40px}
 
 @media (max-height:720px){
-  .hero-card{height:298px;max-width:320px}
+  .hero-card{height:262px;max-width:308px}
   .best-brand{font-size:clamp(28px,7.6vw,34px)}
   .best-meta{margin-top:14px}
 }
@@ -407,12 +478,12 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
 .hc-body, .hc-brand, .hc-sup, .hc-line, .cap, .scene .cap, .scene .sub,
 .chapter-eyebrow, .chapter h3, .chapter .lede,
 .o-name, .o-desc, .o-reward, .best-cap, .best-eyebrow, .best-meta .eyebrow,
-.hero-fine, .qa summary, .qa p, .qa ol{
-  text-shadow:0 1px 2px rgba(0,0,0,.55), 0 0 8px rgba(0,0,0,.3);
+.qa summary, .qa p, .qa ol{
+  text-shadow:0 1px 2px rgba(0,0,0,.9), 0 2px 10px rgba(0,0,0,.65), 0 0 22px rgba(0,0,0,.45);
 }
 /* eyebrows and mono/label text: tighter, subtler halo */
 .eyebrow, .rn-eyebrow, .hc-badge, .hc-note, .o-spon, .o-terms, .o-badge, .micro{
-  text-shadow:0 1px 2px rgba(0,0,0,.5);
+  text-shadow:0 1px 2px rgba(0,0,0,.85), 0 1px 8px rgba(0,0,0,.5);
 }
 /* CTA text: dark on emerald; use light halo for the arrow area */
 .hero-cta, .cta{text-shadow:none}
@@ -465,7 +536,6 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
           </button>
           <p class="micro r" id="hMicro">FREE &middot; ~30&nbsp;SEC &middot; NO&nbsp;SIGN-UP&nbsp;HERE &middot; U.S.&nbsp;21+</p>
-          <button class="skip r" id="skipBtn">Skip to today's offers</button>
         </div>
       </div>
     </section>
@@ -566,11 +636,37 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
             <h2 class="best-brand" id="bestBrand"></h2>
             <p class="best-line" id="bestLine"></p>
             <div class="hero-cta-wrap">
-              <a class="hero-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
-                Continue to <span id="bestCtaBrand"></span>
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
-              </a>
-              <p class="hero-fine">Sponsored &middot; Availability &amp; terms vary &middot; No purchase required by us</p>
+              <div class="rcpt-wrap" id="rcptWrap">
+                <div class="rcpt">
+                  <svg class="tearx flip" viewBox="0 0 120 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 8 L10 0 L15 8 L20 0 L25 8 L30 0 L35 8 L40 0 L45 8 L50 0 L55 8 L60 0 L65 8 L70 0 L75 8 L80 0 L85 8 L90 0 L95 8 L100 0 L105 8 L110 0 L115 8 L120 0 Z" fill="#FFFFFF"/></svg>
+                  <div class="rcpt-body">
+                    <div class="rcpt-head pb"><b>PayoutAudit</b><span id="rcptNo">Your match &middot; 01</span></div>
+                    <div class="rcpt-item pb">
+                      <img id="rcptImg" src="assets/ph-offer.svg" alt="" width="46" height="46">
+                      <span class="ri"><span class="ri-name" id="rcptName"></span><span class="ri-sub" id="rcptSub">Sponsored partner offer</span></span>
+                    </div>
+                    <div class="rcpt-rows pb">
+                      <span class="rrow"><span class="k">Potential reward</span><span class="lead"></span><b id="rcptVal">Up to $750</b></span>
+                      <span class="rrow"><span class="k">Cost to start</span><span class="lead"></span><b class="zero">$0.00</b></span>
+                    </div>
+                    <a class="rcpt-cta pb" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">Tap To Start!
+                      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+                    </a>
+                    <span class="rcpt-fine pb">Sponsored &middot; Free to start &middot; Some partner deals require purchases</span>
+                    <div class="rc-trust pb">
+                      <span class="tcap">Why trust this page</span>
+                      <ul>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Requirements first.</b> Every step is listed on each offer before you start.</span></li>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Nothing collected here.</b> No sign-up on this page, only standard ad campaign data. See <a href="privacy.html">privacy</a>.</span></li>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Partners pay us, you never do.</b> Disclosed on every screen.</span></li>
+                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Rewards come from partners</b> under their published terms. No promised outcomes, here or anywhere.</span></li>
+                      </ul>
+                    </div>
+                    <span class="rcpt-bar pb" aria-hidden="true"></span>
+                  </div>
+                  <svg class="tearx" viewBox="0 0 120 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 8 L10 0 L15 8 L20 0 L25 8 L30 0 L35 8 L40 0 L45 8 L50 0 L55 8 L60 0 L65 8 L70 0 L75 8 L80 0 L85 8 L90 0 L95 8 L100 0 L105 8 L110 0 L115 8 L120 0 Z" fill="#FFFFFF"/></svg>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -579,8 +675,12 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
 
       <!-- ═══ All matches, slim ═══ -->
       <div class="allm" id="allm">
-        <p class="cap">All matches &middot; ranked to fit</p>
-        <div id="offerList"></div>
+        <span class="sug-cap">Another strong fit</span>
+        <div id="suggList"></div>
+        <button class="allm-btn" id="allBtn" aria-expanded="false">See all 5 offers
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg>
+        </button>
+        <div class="allm-rest" id="offerList"></div>
       </div>
 
       <div class="faq">
@@ -598,8 +698,7 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
         <p><strong style="color:var(--muted)">Advertiser disclosure.</strong> PayoutAudit is an independent, advertising-supported discovery service. We may receive compensation when you view or complete offers listed on this page, and that compensation can influence which offers appear and where they appear. We aim to describe every offer accurately and to list requirements before you begin.</p>
         <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Target, Costco, and Trader Joe’s are trademarks of their respective owners; references to them describe where people shop only and do not imply affiliation, sponsorship, or endorsement.</p>
         <p>For U.S. residents, 21 years of age or older.</p>
-        <!-- TODO before launch: point these at real pages. A live privacy policy is required by most ad platforms and CPA networks. -->
-        <div class="links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+        <div class="links"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></div>
         <p class="cr">&copy; 2026 PAYOUTAUDIT &middot; ALL AUDITS, NO PROMISES</p>
       </footer>
     </section>
@@ -609,12 +708,57 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
 <script>
 (function(){
 "use strict";
+
+const IS_ANDROID = /Android/i.test(navigator.userAgent);
+const IS_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+function buildDestUrl(url) {
+    const dest = new URL(url);
+
+    const incoming = new URLSearchParams(window.location.search);
+
+    incoming.forEach((value, key) => {
+        if (key === "mc_tid" || key === "mc_cmp") return;
+
+        if (!dest.searchParams.has(key)) {
+            dest.searchParams.append(key, value);
+        }
+    });
+
+    return dest.toString();
+}
+
+function toExternalUrl(url) {
+    if (IS_ANDROID) {
+        const u = new URL(url);
+
+        return (
+            "intent://" +
+            u.host +
+            u.pathname +
+            u.search +
+            u.hash +
+            "#Intent;scheme=https;end;"
+        );
+    }
+
+    if (IS_IOS) {
+        return url.replace(/^https:\/\//i, "x-safari-https://");
+    }
+
+    return url;
+}
+
+function openExternal(url) {
+    window.location.href = toExternalUrl(buildDestUrl(url));
+}
+
 /* ▼ PASTE YOUR 3 TRACKING LINKS (url fields). Copy stays honest:
      no guaranteed amounts, no fake urgency. ▼ */
 var PREVIEW = false;
 
 var OFFERS = [
-  { id:'amazon-reviewer', vid:'box', name:'Amazon Product Reviewer', brand:'Amazon', badge:'Bonus program',
+  { id:'amazon-reviewer', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Product Tester Program', brand:'Amazon', badge:'Tester program', hook:'Test products. Unlock up to $750 in Amazon credit.',
     desc:'Unlock Amazon reward tiers by reviewing partner products, with up to $750 toward Amazon shopping when you finish the top tier.',
     reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Actual value depends on the tier you complete.',
     cap:750,
@@ -626,7 +770,7 @@ var OFFERS = [
     ],
     tags:['amazon','tech','essentials','loyalty','home','beauty'],
     url:'https://trksy.org/aff_c?offer_id=789&aff_id=157168' },
-  { id:'amazon-ladder', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer',
+  { id:'amazon-ladder', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer', hook:'Up to $750 in Amazon credit, one deal at a time.',
     desc:'A ladder-style program where each partner deal you complete moves you up toward the next Amazon reward tier, up to $750.',
     reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Each completed deal moves you up the ladder.',
     cap:750,
@@ -638,7 +782,7 @@ var OFFERS = [
     ],
     tags:['amazon','tech','essentials','loyalty','home','saving'],
     url:'https://linkthem.net/aff_c?offer_id=144&aff_id=157168' },
-  { id:'target', vid:'target', name:'Target Reward Program', brand:'Target', badge:'Pay-per-offer',
+  { id:'target', img:'assets/ph-offer.svg', vid:'target', name:'Target Shopper Payout Program', brand:'Target', badge:'Pay-per-offer', hook:'Up to $750 toward your Target runs.',
     desc:'Complete partner deals to unlock Target reward tiers, up to $750 you can put toward Target runs.',
     reward:'Up to $750 in Target shopping value, per the partner\u2019s reward tiers.',
     cap:750,
@@ -650,7 +794,7 @@ var OFFERS = [
     ],
     tags:['target','household','beauty','seasonal','home','decor'],
     url:'https://linkthem.net/aff_c?offer_id=317&aff_id=157168' },
-  { id:'costco', vid:'store', name:'Costco Deal Rewards', brand:'Costco', badge:'Reward tiers',
+  { id:'costco', img:'assets/ph-offer.svg', vid:'store', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $750 toward your next bulk haul.',
     desc:'Complete partner deals to unlock Costco reward tiers, up to $750 toward bulk runs.',
     reward:'Up to $750 in Costco shopping value, per the partner\u2019s reward tiers.',
     cap:750,
@@ -662,7 +806,7 @@ var OFFERS = [
     ],
     tags:['costco','bulk','loyalty'],
     url:'https://giftclick.org/aff_c?offer_id=941&aff_id=157168' },
-  { id:'trader', vid:'trader', name:'Trader Joe\u2019s Deal Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers',
+  { id:'trader', img:'assets/ph-offer.svg', vid:'trader', name:'Trader Joe\u2019s Grocery Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers', hook:'Up to $750 toward your grocery runs.',
     desc:'Complete partner deals to unlock Trader Joe\u2019s reward tiers, up to $750 toward grocery runs.',
     reward:'Up to $750 in Trader Joe\u2019s shopping value, per the partner\u2019s reward tiers.',
     cap:750,
@@ -1009,55 +1153,84 @@ function buildResults(skipped){
   hero.classList.remove('in');
   if(hasBest){
     $('#bestBrand').textContent = top.o.brand;
-    $('#bestCtaBrand').textContent = top.o.brand;
-    $('#bestCta').href = top.o.url;
+    $('#bestCta').href = "#";
+    $('#bestCta').onclick = function(e){
+        e.preventDefault();
+        openExternal(top.o.url);
+    };
+    $('#rcptName').textContent = top.o.name;
+    $('#rcptSub').textContent = top.o.hook || (top.o.badge + ' \u00b7 Sponsored');
+    $('#rcptNo').textContent = 'Your match \u00b7 01';
+    $('#rcptVal').textContent = 'Up to $' + top.o.cap;
+    $('#rcptImg').src = top.o.img || 'assets/ph-offer.svg';
     $('#bestCta').setAttribute('data-offer', top.o.id);
-    $('#bestLine').textContent = 'Complete ' + top.o.brand + '-linked partner deals to unlock reward tiers. Every step is listed on the offer below.';
+    $('#bestLine').textContent = 'Complete ' + top.o.brand + '-linked partner deals to unlock reward tiers. Steps listed below.';
     $('#heroPoster').src = POSTER[top.o.vid] || POSTER.trader;
   }
 
-  /* offer ledger: full how-it-works steps live here, per offer */
-  var list = $('#offerList');
-  list.innerHTML = scored.map(function(s, rank){
-    var o = s.o, best = hasBest && rank === 0;
-    return '<article class="offer'+(best ? ' best' : '')+'">'+
-      (best ? '<span class="o-best-tag">Closest match</span>' : '')+
-      '<div class="o-top"><span class="o-rank">0'+(rank+1)+'</span>'+
+  /* offer ledger: winner lives on the receipt; one suggested card; rest behind the toggle */
+  function offerCard(s, rank, tagLabel){
+    var o = s.o;
+    return '<article class="offer">'+
+      (tagLabel ? '<span class="o-best-tag">'+tagLabel+'</span>' : '')+
+      '<div class="o-top"><span class="o-rank">0'+rank+'</span>'+
         '<span class="o-name">'+esc(o.name)+' <span class="o-badge">'+esc(o.badge)+'</span></span>'+
         '<span class="o-spon">Sponsored</span></div>'+
-      '<p class="o-desc">'+esc(o.desc)+'</p>'+
+      '<p class="o-desc">'+esc(o.hook || o.desc)+'</p>'+
       '<p class="o-reward"><b>Reward</b><span>'+esc(o.reward)+'</span></p>'+
-      '<details class="o-req"'+(best ? ' open' : '')+'><summary>How it works &middot; steps <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg></summary>'+
+      '<details class="o-req"><summary>How it works &middot; steps <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg></summary>'+
         '<ul>' + o.how.map(function(step,i){
           return '<li>'+CHECK+'<span><b style="color:var(--txt)">Step '+(i+1)+' \u00b7 '+esc(step.t)+'.</b> '+esc(step.d)+'</span></li>';
         }).join('') + '</ul>'+
         '<p class="note">Full terms are on the partner\u2019s page. Read them before you start.</p>'+
       '</details>'+
       '<div class="o-act">'+
-        '<a class="o-btn" data-offer="'+esc(o.id)+'" href="'+esc(o.url)+'" target="_blank" rel="sponsored noopener noreferrer">View offer '+
+        '<a class="o-btn" data-offer="'+esc(o.id)+'" data-url="'+esc(o.url)+'" href="#" rel="sponsored noopener noreferrer">View offer '+
         '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg></a>'+
         '<span class="o-terms">Availability varies \u00b7 Terms apply</span>'+
       '</div></article>';
-  }).join('');
+  }
 
-  list.querySelectorAll('a.o-btn').forEach(function(a){
-    if(a.getAttribute('href').indexOf('PASTE') > -1){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        alert('This button isn\u2019t wired yet.\n\nPaste your tracking link into the OFFERS config at the top of the script in index.html.');
+  var sugg = null;
+  if(hasBest){
+    sugg = scored.find(function(s){ return s.o.id === 'amazon-ladder' && s !== top; }) || scored[1];
+  }
+  var suggList = $('#suggList');
+  suggList.innerHTML = sugg ? offerCard(sugg, scored.indexOf(sugg)+1, 'Suggested') : '';
+  document.querySelector('.allm .sug-cap').style.display = sugg ? '' : 'none';
+
+  var list = $('#offerList');
+  list.innerHTML = scored.map(function(s, rank){ return offerCard(s, rank+1, (hasBest && rank===0) ? 'Closest match' : null); }).join('');
+
+  var allBtn = $('#allBtn');
+  allBtn.classList.remove('open');
+  allBtn.setAttribute('aria-expanded','false');
+  list.classList.remove('open');
+  allBtn.onclick = function(){
+    var open = list.classList.toggle('open');
+    allBtn.classList.toggle('open', open);
+    allBtn.setAttribute('aria-expanded', open);
+    allBtn.firstChild.textContent = open ? 'Hide the full list ' : 'See all 5 offers ';
+    if(open){
+      list.querySelectorAll('.offer').forEach(function(n,i){
+        n.classList.remove('show');
+        setTimeout(function(){ n.classList.add('show'); }, 60 + i*110);
       });
     }
-  });
+  };
 
   /* ── choreography ── */
   var calc = $('#calc');
-  var offers = list.querySelectorAll('.offer');
+  var rcptEl = document.querySelector('.rcpt');
+  rcptEl.classList.remove('printing','printed');
 
   if(!JSON_ON || skipped){
     calc.classList.remove('run');
-    if(hasBest){ hero.classList.add('in'); playHeroVideo(top.o.vid); startDemo(); $('#bestCta').classList.add('ring'); }
+    if(hasBest){ hero.classList.add('in'); playHeroVideo(top.o.vid); startDemo();
+      rcptEl.classList.add('printing','printed'); $('#rcptWrap').classList.add('ring'); }
     else hero.classList.remove('in');
-    offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, JSON_ON ? 250 + i*140 : 0); });
+    if(suggList.firstChild) suggList.querySelector('.offer').classList.add('show');
+    if(!hasBest) list.querySelectorAll('.offer').forEach(function(n,i){ list.classList.add('open'); setTimeout(function(){ n.classList.add('show'); }, JSON_ON ? 250 + i*140 : 0); });
     armReveals();
     return;
   }
@@ -1078,7 +1251,10 @@ function buildResults(skipped){
     playHeroVideo(top.o.vid);
     startDemo();
     buzz();
-    setTimeout(function(){ $('#bestCta').classList.add('ring'); }, 1400);
+    setTimeout(function(){ rcptEl.classList.add('printing'); }, 700);
+    setTimeout(function(){ rcptEl.classList.add('printed'); }, 1150);
+    setTimeout(function(){ $('#rcptWrap').classList.add('ring'); buzz(); }, 2500);
+    setTimeout(function(){ if(suggList.firstChild) suggList.querySelector('.offer').classList.add('show'); }, 2800);
     armReveals();
   }, 3200);
 }
@@ -1110,7 +1286,7 @@ function buildResults(skipped){
 
 /* ════════ landing intro ════════ */
 function runIntro(){
-  [[0,'#topBar'],[240,'#hEyebrow'],[1450,'#hLede'],[2050,'#startBtn'],[2250,'#hMicro'],[2450,'#skipBtn']]
+  [[0,'#topBar'],[240,'#hEyebrow'],[1450,'#hLede'],[2050,'#startBtn'],[2250,'#hMicro']]
   .forEach(function(cue){
     setTimeout(function(){
       var el = $(cue[1]); if(!el) return;
@@ -1134,7 +1310,12 @@ function runIntro(){
 
 /* ════════ wiring ════════ */
 $('#startBtn').addEventListener('click', function(){ renderQuestion('q1'); transition('q1'); });
-$('#skipBtn').addEventListener('click', function(){ buildResults(true); transition('results'); });
+$('#allm').addEventListener('click', function(e){
+  var btn = e.target.closest('.o-btn');
+  if(!btn) return;
+  e.preventDefault();
+  openExternal(btn.getAttribute('data-url'));
+});
 $('#restartBtn').addEventListener('click', function(){
   answers.q1 = answers.q2 = answers.q3 = null;
   ['q1','q2','q3'].forEach(clearChip);
