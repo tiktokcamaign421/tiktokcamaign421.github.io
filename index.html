@@ -378,6 +378,12 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
 
 
+
+/* mobile: footage stays legible, not smeared */
+@media (max-width:520px){
+  .bg video,.bg img{filter:blur(3px) saturate(.98) brightness(.78) contrast(1.02)}
+  .hero-card video,.hero-card img.poster{filter:blur(3px) saturate(.96) brightness(.72)}
+}
 </style>
 </head>
 <body>
