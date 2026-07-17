@@ -1,34 +1,43 @@
-# PayoutAudit — 3-tap funnel (v7)
+# PayoutAudit — 3-tap funnel (v8)
 
-Full-bleed store footage runs the background; the results section is a
-scroll-driven Apple-style product page: hero brand reveal, CTA strip, a
-"How it works" chapter with per-step animation, the audit receipt, and
-the full ranked offer ledger — every block animates as you reach it.
+Results section rebuilt from scratch: everything a user needs on the
+first fold, then chapters that animate in as you scroll.
 
-## Offers wired in
-- **Amazon Product Reviewer** — https://trksy.org/aff_c?offer_id=789&aff_id=157168
-- **Amazon Rewards Ladder** — https://linkthem.net/aff_c?offer_id=144&aff_id=157168
-- **Costco Deal Rewards** — https://giftclick.org/aff_c?offer_id=941&aff_id=157168
-- **Trader Joe's Deal Rewards** — https://giftclick.org/aff_c?offer_id=854&aff_id=157168
-- **Target Reward Program** — https://linkthem.net/aff_c?offer_id=317&aff_id=157168
-  drop it into the OFFERS config in index.html)
+## First fold (no scroll needed)
+- **Device-frame hero card** playing the winning brand's video sharp inside
+  a phone-shaped frame, scrim'd at the bottom for legibility.
+- **"You can claim up to · Trader Joe's / Target / Amazon / Costco"** — big
+  brand name, per the winning offer.
+- **Count-up from $0 → $750** on a two-color emerald gradient with a
+  progress ring around it filling as the number climbs. Sparks fire at
+  the end; the CTA immediately picks up a pulsing halo.
+- **"Continue to <brand>"** — the primary CTA sits directly under the card,
+  above the fold. Sponsored + T&C fine print stays quiet under it.
 
-## Routing (verified)
-- Amazon-tech / Amazon-home → Amazon (Reviewer or Ladder based on tag overlap)
-- Target → Target
-- Trader Joe's / "Mostly grocery stores" → Trader Joe's
-- Costco → Costco
-- "A bit of everywhere" → Amazon (marketplace default)
+## Just below the fold
+- **The ladder** — four visual tiles ($50 → $150 → $400 → $750) with icons
+  and the top tier highlighted emerald. Replaces the wall of text.
 
-## Deploy / update
-Replace the repo contents with this folder:
+## Below that (scroll-triggered)
+- **How it works** — same 4 steps, now with per-step icons instead of prose.
+- **The audit** receipt prints line by line when you reach it.
+- **All matches** — full offer ledger, best offer's requirements auto-open.
+- FAQ, footer.
+
+## Offers wired in (verified)
+- Amazon Product Reviewer — https://trksy.org/aff_c?offer_id=789&aff_id=157168
+- Amazon Rewards Ladder — https://linkthem.net/aff_c?offer_id=144&aff_id=157168
+- Target Reward Program — https://linkthem.net/aff_c?offer_id=317&aff_id=157168
+- Costco Deal Rewards — https://giftclick.org/aff_c?offer_id=941&aff_id=157168
+- Trader Joe's Deal Rewards — https://giftclick.org/aff_c?offer_id=854&aff_id=157168
+
+## Deploy
 ```
-git add . && git commit -m "v7" && git push
+git add . && git commit -m "v8" && git push
 ```
 
-## Before sending traffic
-1. (All five offers are wired.)
-2. Terms / Privacy / Contact are placeholders; a live privacy policy is
-   required by most ad platforms and CPA networks.
-3. If a partner changes its top reward tier, update the `cap` on that
-   offer so the odometer stays accurate.
+## Notes
+- Reveal-hero visuals: the "storefront sign" video is now Trader Joe's;
+  the "aisle" video is the fallback for the "everywhere" answer.
+- If a partner changes its top reward tier, update the `cap` field on that
+  offer so the odometer stays accurate.

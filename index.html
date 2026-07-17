@@ -294,108 +294,183 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RESULTS SECTION — Apple product-page choreography
-   Each block earns its own frame. Everything animates as you scroll.
+   RESULTS — device-hero, count-up, no dead space
+   Everything you need on the first fold: hero card, animated $750, CTA.
    ═══════════════════════════════════════════════════════════════════ */
 .rscreen{padding-top:0}
+.trail{display:none !important}  /* hide answer chips on results — they clutter the hero */
+
+/* sticky nav */
 .results-nav{position:sticky;top:0;z-index:35;
-  display:flex;align-items:center;gap:14px;padding:14px 0 12px;
-  background:linear-gradient(to bottom, rgba(10,12,14,.94) 68%, rgba(10,12,14,0));
+  display:flex;align-items:center;gap:12px;padding:14px 0 12px;margin-top:-4px;
+  background:linear-gradient(to bottom, rgba(10,12,14,.94) 70%, rgba(10,12,14,0));
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   opacity:0;transform:translateY(-8px);transition:opacity .5s var(--glide),transform .5s var(--spring)}
 .results-nav.in{opacity:1;transform:none}
 .rn-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
 .rn-store{font:600 10px/1 var(--mono);letter-spacing:.14em;color:var(--muted);margin-left:auto}
 
-/* — hero (the reveal) — */
-.best{position:relative;margin-top:6px;padding:8vh 0 9vh;text-align:center;min-height:calc(100svh - 90px);
-  display:none;flex-direction:column;justify-content:center}
-.best.in{display:flex}
-.best::after{content:'';position:absolute;inset:-40px -40px;pointer-events:none;
-  background:radial-gradient(65% 55% at 50% 46%, rgba(47,191,143,.18), transparent 68%);
-  opacity:0;transition:opacity 1.4s var(--glide)}
-.best.lit::after{opacity:1}
-.best-cap{display:inline-flex;align-self:center;align-items:center;gap:9px;
-  padding:9px 15px;border:1px solid rgba(47,191,143,.35);border-radius:999px;
-  background:rgba(15,25,20,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
-.bh-check{width:14px;height:14px}
-.bh-path{stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .7s var(--glide) .3s}
-.best.lit .bh-path{stroke-dashoffset:0}
-.best-brand{margin-top:22px;font:700 clamp(30px,8vw,42px)/1.05 var(--font);letter-spacing:-.028em;color:var(--txt);
-  text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.best-brand .brandline{display:inline-block;position:relative}
-.best-brand .brandline::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--em),transparent);
-  transform:scaleX(0);transform-origin:center;transition:transform .8s var(--glide) .4s}
-.best.lit .best-brand .brandline::after{transform:scaleX(1)}
-.best-sup{margin-top:14px;font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
-.best-amt{margin-top:14px;font:800 clamp(72px,22vw,110px)/.94 var(--font);letter-spacing:-.055em;
-  color:var(--txt);text-shadow:0 6px 60px rgba(47,191,143,.45)}
-.best-amt .odo{color:var(--em);background:linear-gradient(180deg,var(--em) 0%,#67D9AE 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.best-sub{margin:16px auto 0;max-width:34ch;font-size:13.5px;line-height:1.55;color:var(--muted)}
-.scroll-cue{margin-top:32px;display:inline-flex;flex-direction:column;align-items:center;gap:8px;
-  font:600 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
-.scroll-cue svg{width:14px;height:14px;animation:hop 1.6s var(--glide) infinite}
-@keyframes hop{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+/* ── HERO: everything on the first fold ── */
+.best{display:none;position:relative;padding:14px 0 22px;margin:0 -22px}
+.best.in{display:block}
+.best-inner{padding:0 22px}
 
-/* — cta ribbon (sticky-ish, single primary action) — */
-.cta-strip{margin:0 -22px;padding:28px 22px 24px;
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(180deg, rgba(15,18,21,.55), rgba(10,12,14,.4));
-  display:none;text-align:center}
-.cta-strip.in{display:block}
-.cta-strip .rn-eyebrow{display:block;margin-bottom:10px}
-.cta-strip .price-cta{display:inline-flex;align-items:center;gap:9px;
-  background:var(--em);color:#04231A;border-radius:999px;padding:16px 26px;
-  font:700 15.5px/1 var(--font);letter-spacing:-.01em;text-decoration:none;
-  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 34px rgba(47,191,143,.32);
-  transition:transform .16s var(--spring)}
-.cta-strip .price-cta svg{width:14px;height:14px;transition:transform .22s var(--spring)}
-.cta-strip .price-cta:hover svg{transform:translateX(3px)}
-.cta-strip .price-cta:active{transform:scale(.97)}
-.cta-strip .fine{margin-top:10px;font:500 9.5px/1.5 var(--mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+/* device card that plays the store video inside, sharp */
+.hero-card{position:relative;margin:0 auto;width:100%;max-width:340px;aspect-ratio:9/16;
+  border-radius:34px;overflow:hidden;
+  background:#111;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,
+             0 0 0 1px rgba(255,255,255,.06),
+             0 20px 60px rgba(0,0,0,.55),
+             0 60px 140px rgba(47,191,143,.14);
+  opacity:0;transform:translateY(28px) scale(.94);filter:blur(10px);
+  transition:opacity .8s var(--glide),transform 1s var(--spring),filter .7s var(--glide)}
+.best.in .hero-card{opacity:1;transform:none;filter:blur(0)}
+.hero-card video,.hero-card img.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-card video{opacity:0;transition:opacity .8s var(--glide)}
+.hero-card.playing video{opacity:1}
+.hero-card::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,.72) 100%)}
+.hc-top{position:absolute;top:16px;left:16px;right:16px;z-index:3;display:flex;align-items:center;gap:8px}
+.hc-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);
+  font:700 9px/1 var(--mono);letter-spacing:.14em;color:#fff;text-transform:uppercase;
+  opacity:0;transform:translateY(-6px);transition:opacity .5s var(--glide) .3s,transform .5s var(--spring) .3s}
+.best.in .hc-badge{opacity:1;transform:none}
+.hc-badge svg{width:11px;height:11px;color:var(--em)}
+.hc-dot{margin-left:auto;font:600 9px/1 var(--mono);letter-spacing:.14em;color:rgba(255,255,255,.55);text-transform:uppercase;
+  opacity:0;transition:opacity .6s var(--glide) .4s}
+.best.in .hc-dot{opacity:1}
 
-/* — chapters — */
-.chapter{padding:52px 0 40px}
+/* the money moment, INSIDE the card */
+.hc-body{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:22px 22px 24px;text-align:center;
+  color:#fff}
+.hc-sup{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.22em;color:rgba(255,255,255,.68);text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:opacity .6s var(--glide) .55s,transform .6s var(--spring) .55s}
+.best.in .hc-sup{opacity:1;transform:none}
+
+.hc-brand{margin-top:8px;font:700 clamp(26px,7vw,32px)/1.05 var(--font);letter-spacing:-.024em;
+  opacity:0;transform:translateY(10px);transition:opacity .7s var(--glide) .7s,transform .7s var(--spring) .7s;
+  text-shadow:0 3px 22px rgba(0,0,0,.5)}
+.best.in .hc-brand{opacity:1;transform:none}
+
+/* Big count-up with a ring behind it */
+.hc-money{position:relative;margin-top:10px;height:130px;display:flex;align-items:center;justify-content:center}
+.hc-ring{position:absolute;inset:8px 20px;pointer-events:none}
+.hc-ring circle{fill:none;stroke-width:2.5}
+.hc-ring .track{stroke:rgba(255,255,255,.10)}
+.hc-ring .fill{stroke:var(--em);stroke-linecap:round;
+  stroke-dasharray:var(--c);stroke-dashoffset:var(--c);
+  transform:rotate(-90deg);transform-origin:center;
+  filter:drop-shadow(0 0 12px rgba(47,191,143,.55))}
+.hc-money .odo{position:relative;z-index:2;font:800 clamp(64px,17vw,86px)/1 var(--font);letter-spacing:-.055em;
+  color:#fff;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#B8FFDA 0%,var(--em) 55%,#0F8B65 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 4px 30px rgba(47,191,143,.6);
+  opacity:0;transform:scale(.72);transition:opacity .3s var(--glide) .9s,transform .55s var(--spring) .9s}
+.best.in .hc-money .odo{opacity:1;transform:scale(1)}
+.hc-money .odo.pulse{animation:moneyPulse .9s var(--spring)}
+@keyframes moneyPulse{0%{transform:scale(1)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+.hc-line{margin-top:6px;font:500 12px/1.5 var(--font);color:rgba(255,255,255,.7);letter-spacing:-.005em;
+  opacity:0;transform:translateY(6px);transition:opacity .6s var(--glide) 1.6s,transform .6s var(--spring) 1.6s}
+.best.in .hc-line{opacity:1;transform:none}
+
+/* Confetti sparks over the money */
+.spark{position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:var(--em);
+  box-shadow:0 0 12px rgba(47,191,143,.9);pointer-events:none;opacity:0;transform:translate(-50%,-50%)}
+.spark.go{animation:sparkFly .9s var(--spring) forwards}
+@keyframes sparkFly{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}
+                     70%{opacity:1}
+                     100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.2)}}
+
+/* PRIMARY CTA — sits right under the card, on the first fold */
+.hero-cta-wrap{margin-top:22px;text-align:center}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;
+  padding:16px 30px;border-radius:999px;text-decoration:none;
+  background:var(--em);color:#04231A;font:750 15.5px/1 var(--font);letter-spacing:-.01em;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,
+             0 14px 34px rgba(47,191,143,.34),
+             0 0 0 0 rgba(47,191,143,.35);
+  opacity:0;transform:translateY(14px) scale(.95);
+  transition:opacity .6s var(--glide) 1.8s,transform .6s var(--spring) 1.8s,box-shadow .3s}
+.best.in .hero-cta{opacity:1;transform:none}
+.hero-cta svg{width:15px;height:15px;transition:transform .25s var(--spring)}
+.hero-cta:hover svg{transform:translateX(4px)}
+.hero-cta:active{transform:scale(.97)}
+.best.in .hero-cta.ring{animation:ctaRing 2.6s ease-out infinite}
+@keyframes ctaRing{
+  0%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,.55)}
+  70%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 14px rgba(47,191,143,0)}
+  100%{box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 14px 34px rgba(47,191,143,.34),0 0 0 0 rgba(47,191,143,0)}
+}
+.hero-fine{margin-top:10px;font:500 9.5px/1.5 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
+  opacity:0;transition:opacity .5s var(--glide) 2s}
+.best.in .hero-fine{opacity:1}
+
+/* ── Ticker rail of what unlocks the money (visual explanation, not text) ── */
+.tiers{margin:28px -22px 0;padding:22px 22px 26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:rgba(15,18,21,.35);opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--glide),transform .7s var(--spring)}
+.tiers.in{opacity:1;transform:none}
+.tiers-cap{display:flex;justify-content:space-between;align-items:baseline;
+  font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+.tiers-cap b{color:var(--em);letter-spacing:.22em;font-weight:700}
+.tiers-row{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tier{position:relative;padding:14px 8px 12px;border-radius:14px;
+  background:rgba(15,18,21,.6);border:1px solid var(--line);text-align:center;
+  opacity:0;transform:translateY(10px) scale(.92);
+  transition:opacity .5s var(--glide),transform .55s var(--spring),border-color .3s,background .3s}
+.tier.in{opacity:1;transform:none}
+.tier .ic{width:26px;height:26px;margin:0 auto 8px;color:var(--em)}
+.tier .lb{font:700 10px/1.2 var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.tier .vl{margin-top:4px;font:700 15px/1 var(--font);letter-spacing:-.02em;color:var(--txt);font-variant-numeric:tabular-nums}
+.tier.hot{border-color:rgba(47,191,143,.45);background:rgba(20,35,28,.65);
+  box-shadow:0 0 0 3px rgba(47,191,143,.14),0 12px 24px rgba(47,191,143,.18)}
+.tier.hot .vl{color:var(--em)}
+.tiers-fine{margin-top:12px;font-size:11px;line-height:1.5;color:var(--faint);text-align:center;max-width:38ch;margin-left:auto;margin-right:auto}
+
+/* ── chapters (kept, restyled) ── */
+.chapter{padding:44px 0 34px}
 .chapter-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--em);text-transform:uppercase}
 .chapter h3{margin-top:14px;font-size:clamp(24px,6.4vw,30px);font-weight:700;line-height:1.13;letter-spacing:-.028em;max-width:18ch;text-wrap:balance}
 .chapter .lede{margin-top:12px;font-size:14px;line-height:1.6;color:var(--muted);max-width:40ch}
 
-/* — steps: numbered, each animates on scroll — */
-.steps{margin-top:26px;display:flex;flex-direction:column;gap:0}
-.step{position:relative;padding:22px 0 22px 42px;border-top:1px solid var(--line);
+/* — numbered steps with an icon column — */
+.steps{margin-top:22px;display:flex;flex-direction:column;gap:0}
+.step{position:relative;display:grid;grid-template-columns:40px 1fr;gap:14px;padding:20px 0;border-top:1px solid var(--line);
   opacity:0;transform:translateY(20px);filter:blur(6px);
   transition:opacity .7s var(--glide),transform .7s var(--spring),filter .7s var(--glide)}
 .step.in{opacity:1;transform:none;filter:blur(0)}
 .step:last-child{border-bottom:1px solid var(--line)}
-.step .num{position:absolute;left:0;top:24px;
-  font:700 10.5px/1 var(--mono);letter-spacing:.14em;color:var(--em)}
-.step h4{font-size:16.5px;font-weight:650;letter-spacing:-.02em;line-height:1.25}
-.step p{margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted);max-width:42ch}
+.step .sic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(47,191,143,.10);border:1px solid rgba(47,191,143,.22);color:var(--em)}
+.step .sic svg{width:18px;height:18px}
+.step h4{font-size:16px;font-weight:650;letter-spacing:-.018em;line-height:1.25}
+.step h4 .num{font:700 10px/1 var(--mono);letter-spacing:.16em;color:var(--faint);margin-right:8px;text-transform:uppercase;vertical-align:middle}
+.step p{margin-top:5px;font-size:13px;line-height:1.55;color:var(--muted);max-width:42ch}
 
-/* — receipt block: quieter frame — */
-.receipt-block{padding:44px 0 20px}
+/* receipt + offers stay */
+.receipt-block{padding:38px 0 12px}
 .receipt-block .chapter-eyebrow{color:var(--faint)}
 .receipt-block h3{color:var(--muted);font-size:20px;max-width:26ch}
-
-/* — offer ledger stays; tighten spacing — */
 .offers{margin-top:32px;padding-bottom:8px}
 .offers .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:6px}
-
-/* legibility bump on the very small badge */
 .o-badge{display:inline-block;margin-left:8px;padding:3px 8px;border:1px solid var(--line-2);border-radius:999px;
   font:600 8.5px/1.4 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;vertical-align:middle}
 .offer.best .o-badge{border-color:rgba(47,191,143,.4);color:var(--em)}
-
-/* faq push-down */
 .faq{margin-top:44px}
 
-/* magnetic tilt on best-hero when hero is on-screen (subtle 3D) */
-@media (hover:hover){
-  .best-brand,.best-amt{transition:transform .5s var(--glide)}
+/* short-viewport safety — keep hero + CTA visible on 700px height */
+@media (max-height:720px){
+  .hero-card{max-width:290px}
+  .hc-money{height:112px}
+  .hc-money .odo{font-size:clamp(56px,15vw,74px)}
+  .hero-cta-wrap{margin-top:16px}
+  .best{padding:8px 0 18px}
 }
+
 
 </style>
 </head>
@@ -475,29 +550,66 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
         <span class="rn-store" id="rnStore"></span>
       </nav>
 
-      <!-- HERO: brand + $750 reveal, above the fold, one focal point -->
+      <!-- HERO: device card + count-up + CTA, first-fold -->
       <div class="best" id="bestHero">
-        <p class="best-cap">
-          <svg class="bh-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="bh-path" d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
-          Best match found
-        </p>
-        <p class="best-brand"><span class="brandline" id="bestBrand"></span></p>
-        <p class="best-sup">You can claim up to</p>
-        <p class="best-amt"><span class="odo" id="capOdo">$0</span></p>
-        <p class="best-sub" id="bestSub"></p>
-        <p class="scroll-cue" id="scrollCue">See how it works
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8 L10 13 L15 8"/></svg>
-        </p>
-      </div>
+        <div class="best-inner">
 
-      <!-- Primary CTA strip -->
-      <div class="cta-strip" id="ctaStrip">
-        <span class="rn-eyebrow">Sponsored &middot; requirements below</span>
-        <a class="price-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
-          Continue to <span id="bestCtaBrand"></span>
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
-        </a>
-        <p class="fine">Availability varies &middot; Terms apply &middot; No purchase required by us</p>
+          <div class="hero-card" id="heroCard">
+            <img class="poster" id="heroPoster" src="assets/poster-trader.jpg" alt="">
+            <video id="heroVid" muted playsinline loop preload="auto"></video>
+            <div class="hc-top">
+              <span class="hc-badge">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
+                Best match
+              </span>
+              <span class="hc-dot" id="hcDot">SIGNALS <span id="hcSignals">0</span>/9</span>
+            </div>
+            <div class="hc-body">
+              <span class="hc-sup">You can claim up to</span>
+              <span class="hc-brand" id="bestBrand"></span>
+              <div class="hc-money" id="hcMoney">
+                <svg class="hc-ring" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" style="--c:283">
+                  <circle class="track" cx="50" cy="50" r="45"/>
+                  <circle class="fill"  cx="50" cy="50" r="45" id="hcRingFill"/>
+                </svg>
+                <span class="odo" id="capOdo">$0</span>
+              </div>
+              <span class="hc-line" id="bestLine">Complete deals to climb the tiers — <b style="color:#fff">most people stop at tier&nbsp;1 or 2</b>.</span>
+            </div>
+          </div>
+
+          <div class="hero-cta-wrap">
+            <a class="hero-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
+              Continue to <span id="bestCtaBrand"></span>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+            </a>
+            <p class="hero-fine">Sponsored &middot; Availability &amp; terms vary &middot; No purchase required by us</p>
+          </div>
+
+          <!-- Visual explanation: tier ladder (icons, not text) -->
+          <div class="tiers" id="tiers">
+            <div class="tiers-cap"><span>The ladder</span><b id="tierBrand"></b></div>
+            <div class="tiers-row">
+              <div class="tier" data-tier="1">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                <div class="lb">Tier 1</div><div class="vl">$50</div>
+              </div>
+              <div class="tier" data-tier="2">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 6V4h8v2"/></svg>
+                <div class="lb">Tier 2</div><div class="vl">$150</div>
+              </div>
+              <div class="tier" data-tier="3">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.4L12 15.6l-4.9 2.5.9-5.4L4 8.8 9.5 8z"/></svg>
+                <div class="lb">Tier 3</div><div class="vl">$400</div>
+              </div>
+              <div class="tier hot" data-tier="4">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 5h5l-4 3.5 1.5 5.5L12 13l-4.5 3 1.5-5.5L5 7h5z"/><path d="M4 21h16"/></svg>
+                <div class="lb">Top tier</div><div class="vl">$750</div>
+              </div>
+            </div>
+            <p class="tiers-fine">Each tier is a set of partner deals (a trial, signup, or small purchase). Complete more, unlock a higher tier. Not everyone finishes every tier.</p>
+          </div>
+        </div>
       </div>
 
       <!-- Chapter 1: How this works -->
@@ -873,19 +985,45 @@ function pick(qid, cfg, i, btn, wrap){
   }, JSON_ON ? 330 : 60);
 }
 
-/* ════════ results: full Apple-style choreography ════════ */
-function odometer(el, target, dur, prefix){
+/* ════════ results: device-hero choreography ════════ */
+function odometer(el, target, dur, prefix, done){
   prefix = prefix || '';
-  if(!JSON_ON){ el.textContent = prefix + target; return; }
+  if(!JSON_ON){ el.textContent = prefix + target; if(done) done(); return; }
   var t0 = null;
   function frame(t){
     if(!t0) t0 = t;
     var p = Math.min((t - t0) / dur, 1);
-    var e = 1 - Math.pow(1 - p, 3);
+    var e = 1 - Math.pow(1 - p, 4); /* easeOutQuart — punchy near end */
     el.textContent = prefix + Math.round(target * e);
     if(p < 1) requestAnimationFrame(frame);
+    else if(done) done();
   }
   requestAnimationFrame(frame);
+}
+
+function ringFill(el, dur){
+  if(!JSON_ON) { el.style.strokeDashoffset = 0; return; }
+  el.style.strokeDashoffset = 283;
+  el.animate([{strokeDashoffset:283},{strokeDashoffset:0}],
+    {duration:dur, easing:'cubic-bezier(.22,1,.36,1)', fill:'both'});
+  setTimeout(function(){ el.style.strokeDashoffset = 0; }, dur);
+}
+
+function sparkles(container){
+  if(!JSON_ON) return;
+  var N = 14;
+  for(var i=0;i<N;i++){
+    var s = document.createElement('span');
+    s.className = 'spark';
+    var ang = (Math.PI * 2 * i / N) + Math.random()*0.4;
+    var d = 80 + Math.random()*70;
+    s.style.setProperty('--dx', (Math.cos(ang)*d).toFixed(0)+'px');
+    s.style.setProperty('--dy', (Math.sin(ang)*d).toFixed(0)+'px');
+    s.style.animationDelay = (Math.random()*80)+'ms';
+    container.appendChild(s);
+    requestAnimationFrame(function(el){ return function(){ el.classList.add('go'); }; }(s));
+    setTimeout(function(el){ return function(){ el.remove(); }; }(s), 1100);
+  }
 }
 
 var revealObserver = null;
@@ -897,9 +1035,17 @@ function armReveals(){
       if(e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); }
     });
   }, { rootMargin:'0px 0px -8% 0px', threshold:0.14 });
-  document.querySelectorAll('.rscreen .step, .rscreen .offer, .rscreen .chapter h3, .rscreen .chapter .lede, .rscreen .cta-strip, .rscreen .receipt-wrap, .rscreen .faq').forEach(function(el){
+  document.querySelectorAll('.rscreen .step, .rscreen .offer, .rscreen .chapter h3, .rscreen .chapter .lede, .rscreen .receipt-wrap, .rscreen .faq').forEach(function(el){
     revealObserver.observe(el);
   });
+}
+
+function playHeroVideo(vidKey){
+  var v = $('#heroVid');
+  var url = V[vidKey] || V.trader;
+  if(!url) return;
+  v.src = url;
+  v.play().then(function(){ $('#heroCard').classList.add('playing'); }).catch(function(){});
 }
 
 function buildResults(skipped){
@@ -912,38 +1058,38 @@ function buildResults(skipped){
     return { o:o, idx:idx, score:o.tags.filter(function(t){ return picked.indexOf(t) > -1; }).length };
   }).sort(function(a,b){ return b.score - a.score || a.idx - b.idx; });
   var top = scored[0], hasBest = !skipped && top.score > 0;
+  var totalSignals = scored.reduce(function(a,s){return a+s.score;}, 0);
   resultVid = hasBest ? top.o.vid : 'store';
 
-  /* nav */
+  /* nav + hero copy */
   document.querySelector('#rnav .rn-store').textContent = hasBest ? top.o.brand : '';
-
-  /* hero */
-  var hero = $('#bestHero');
-  hero.classList.remove('in','lit');
   if(hasBest){
     $('#bestBrand').textContent = top.o.brand;
-    $('#bestSub').textContent = 'Complete partner deals to unlock reward tiers \u2014 the top tier tops out at $' + top.o.cap + ' toward ' + top.o.brand + '. Requirements are listed below; nothing is guaranteed.';
-  }
-
-  /* cta strip */
-  var strip = $('#ctaStrip');
-  strip.classList.remove('in');
-  if(hasBest){
-    $('#bestCta').href = top.o.url;
     $('#bestCtaBrand').textContent = top.o.brand;
+    $('#bestCta').href = top.o.url;
     $('#bestCta').setAttribute('data-offer', top.o.id);
+    $('#tierBrand').textContent = top.o.brand.toUpperCase();
+    /* poster + hero video source per winner */
+    $('#heroPoster').src = 'assets/poster-' + top.o.vid + '.jpg';
   }
 
-  /* how it works — from the top match */
+  /* how-it-works chapter */
   var chapHow = $('#chapHow'), stepsList = $('#stepsList');
   stepsList.innerHTML = '';
   if(hasBest){
-    $('#chapHowLede').textContent = 'The '+top.o.brand+' program pays in reward tiers. Every deal you complete moves you up. Here\u2019s the exact flow, in order.';
+    $('#chapHowTitle').textContent = 'The ' + top.o.brand + ' ladder, in four steps.';
+    $('#chapHowLede').textContent = 'A ladder of partner deals. Every deal you complete moves you up. The top rung tops out at $' + top.o.cap + ' toward ' + top.o.brand + '.';
+    var STEP_ICONS = [
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2M7 12h4M14 12h3M7 16h6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
+    ];
     top.o.how.forEach(function(s, i){
       var li = document.createElement('li');
       li.className = 'step';
-      li.innerHTML = '<span class="num">STEP&nbsp;0'+(i+1)+'</span>'+
-        '<h4>'+esc(s.t)+'</h4><p>'+esc(s.d)+'</p>';
+      li.innerHTML = '<span class="sic">'+STEP_ICONS[i]+'</span>'+
+        '<div><h4><span class="num">STEP&nbsp;0'+(i+1)+'</span>'+esc(s.t)+'</h4><p>'+esc(s.d)+'</p></div>';
       stepsList.appendChild(li);
     });
     chapHow.style.display = '';
@@ -958,7 +1104,7 @@ function buildResults(skipped){
     { k:'Q.01 \u00b7 '+QUIZ.q1.rkey,                   v: skipped ? 'Skipped' : q1.label, retail: !!retail },
     { k:'Q.02 \u00b7 '+(skipped ? 'Detail' : q2.rkey),  v: skipped ? 'Skipped' : q2.label },
     { k:'Q.03 \u00b7 '+QUIZ.q3.rkey,                   v: skipped ? 'Skipped' : q3.label },
-    { k:'Signals matched', v: skipped ? '\u2014' : String(scored.reduce(function(a,s){return a+s.score;},0)), total:true },
+    { k:'Signals matched', v: skipped ? '\u2014' : String(totalSignals), total:true },
     { k:'Guarantees',      v:'0' }
   ];
   var rc = $('#receipt'), bar = rc.querySelector('.rc-bar');
@@ -995,62 +1141,78 @@ function buildResults(skipped){
       '</div></article>';
   }).join('');
 
+  list.querySelectorAll('a.o-btn').forEach(function(a){
+    if(a.getAttribute('href').indexOf('PASTE') > -1){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        alert('This button isn\u2019t wired yet.\n\nPaste your tracking link into the OFFERS config at the top of the script in index.html.');
+      });
+    }
+  });
+
   /* ── choreography ── */
-  var calc = $('#calc'), rnav = $('#rnav');
+  var calc = $('#calc'), rnav = $('#rnav'), hero = $('#bestHero'), tiers = $('#tiers');
   var rls = rc.querySelectorAll('.rl'), offers = list.querySelectorAll('.offer');
 
-  function armAll(){
+  function paintAll(){
     hero.classList.add('in');
-    strip.classList.add('in');
     rnav.classList.add('in');
     armReveals();
   }
 
   if(!JSON_ON || skipped){
     calc.classList.remove('run');
-    armAll();
-    if(!JSON_ON){
-      rls.forEach(function(n){ n.classList.add('show'); });
-      offers.forEach(function(n){ n.classList.add('show'); });
-      hero.classList.add('lit');
-      if(hasBest) $('#capOdo').textContent = '$' + top.o.cap;
-    } else if(skipped){
-      rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, 300 + i*100); });
-      var t0s = 300 + rls.length*100 + 150;
-      offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, t0s + i*160); });
-    }
+    paintAll();
+    if(hasBest){ $('#capOdo').textContent = '$' + top.o.cap; ringFill($('#hcRingFill'), 10); $('#hcSignals').textContent = totalSignals; tiers.classList.add('in'); tiers.querySelectorAll('.tier').forEach(function(t){t.classList.add('in')}); playHeroVideo(top.o.vid); }
+    rls.forEach(function(n){ n.classList.add('show'); });
+    offers.forEach(function(n){ n.classList.add('show'); });
     return;
   }
 
-  /* Full run: calc → hero reveal → CTA → progressive receipt+offers via scroll observer */
+  /* Full run: calc → hero → count-up → CTA → tiers → scroll observers pick up chapters */
   calc.classList.remove('out'); calc.classList.add('run');
   var lns = calc.querySelectorAll('.calc-ln');
   lns.forEach(function(l){ l.classList.remove('in','done'); });
-  var total = scored.reduce(function(a,s){return a+s.score;}, 0);
 
   setTimeout(function(){ lns[0].classList.add('in'); }, 220);
   setTimeout(function(){ lns[0].classList.add('done'); lns[1].classList.add('in'); }, 900);
   setTimeout(function(){ lns[1].classList.add('done'); lns[2].classList.add('in');
-    odometer($('#sigOdo'), total, 700); }, 1600);
+    odometer($('#sigOdo'), totalSignals, 700); }, 1600);
   setTimeout(function(){ lns[2].classList.add('done'); }, 2400);
   setTimeout(function(){ calc.classList.add('out'); }, 2800);
   setTimeout(function(){
     calc.classList.remove('run','out');
-    armAll();
+    paintAll();
     if(hasBest){
-      hero.animate([{opacity:0, transform:'translateY(22px) scale(.96)', filter:'blur(8px)'},
-                    {opacity:1, transform:'none', filter:'blur(0)'}],
-        {duration:720, easing:'cubic-bezier(.32,1.25,.32,1)'});
-      $('#bestBrand').animate([{opacity:0, transform:'translateY(16px)', filter:'blur(6px)'},
-                              {opacity:1, transform:'none', filter:'blur(0)'}],
-        {duration:800, delay:220, easing:'cubic-bezier(.32,1.25,.32,1)', fill:'backwards'});
-      setTimeout(function(){ hero.classList.add('lit');
-        odometer($('#capOdo'), top.o.cap, 1300, '$'); buzz(); }, 380);
+      playHeroVideo(top.o.vid);
+      /* count-up + ring fill start after brand line has settled */
+      setTimeout(function(){
+        odometer($('#hcSignals'), totalSignals, 900);
+        ringFill($('#hcRingFill'), 2400);
+        odometer($('#capOdo'), top.o.cap, 2500, '$', function(){
+          $('#capOdo').classList.add('pulse');
+          sparkles($('#hcMoney'));
+          buzz();
+          setTimeout(function(){ $('#capOdo').classList.remove('pulse'); }, 900);
+          $('#bestCta').classList.add('ring');
+        });
+      }, 1000);
+      /* tier rail eases in after the money lands */
+      setTimeout(function(){ tiers.classList.add('in'); }, 2400);
+      tiers.querySelectorAll('.tier').forEach(function(t, i){
+        setTimeout(function(){ t.classList.add('in'); }, 2600 + i*140);
+      });
     }
-    /* receipt lines print progressively once the receipt is in view (armReveals handles the block) */
-    rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, 1200 + i*105); });
-    /* offers cascade once the offers chapter is in view — controlled by observer above */
-    var offerStart = 0;
+    /* receipt lines print as user scrolls into it */
+    var rio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*90); });
+          rio.disconnect();
+        }
+      });
+    }, {threshold:0.12});
+    rio.observe(rc);
     var oio = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(e.isIntersecting){
