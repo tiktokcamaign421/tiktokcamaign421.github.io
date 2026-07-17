@@ -344,7 +344,12 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .ddot.on{background:var(--em);transform:scale(1.3);box-shadow:0 0 10px rgba(47,191,143,.6)}
 .best-meta{margin-top:14px;text-align:center}
 .best-meta .eyebrow{letter-spacing:.22em;color:var(--em)}
-.best-brand{margin-top:8px;font:800 clamp(27px,7.4vw,34px)/1.04 var(--font);letter-spacing:-.028em;color:var(--txt)}
+.best-brand{margin-top:10px;text-align:center;line-height:0}
+.brand-chip{display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:16px;padding:13px 24px;min-height:60px;max-width:86vw;
+  box-shadow:0 12px 30px rgba(0,0,0,.36),0 1px 0 rgba(255,255,255,.6) inset}
+.brand-chip img{display:block;height:30px;width:auto;max-width:min(58vw,210px);object-fit:contain}
+.brand-chip img.badge{height:48px}
 .best-line{margin:10px auto 0;max-width:36ch;font-size:13.5px;line-height:1.55;color:#C6CCD1}
 .hero-cta-wrap{margin-top:14px}
 .rcpt-wrap{position:relative;max-width:336px;margin:0 auto;
@@ -583,8 +588,8 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
             </div>
           </figure>
           <div class="best-meta">
-            <p class="eyebrow">Matched from your answers</p>
-            <h2 class="best-brand" id="bestBrand"></h2>
+            <p class="eyebrow">We found the best deals for you!</p>
+            <h2 class="best-brand" id="bestBrand"><span class="brand-chip" id="brandChip"><img id="bestLogo" alt=""></span></h2>
             <p class="best-line" id="bestLine"></p>
             <div class="hero-cta-wrap">
               <div class="rcpt-wrap" id="rcptWrap">
@@ -642,7 +647,7 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
       <button class="retake" id="restartBtn">Retake the 3 questions</button>
       <footer class="foot">
         <p><strong style="color:var(--muted)">Advertiser disclosure.</strong> PayoutAudit is an independent, advertising-supported discovery service. We may receive compensation when you view or complete offers listed on this page, and that compensation can influence which offers appear and where they appear. We aim to describe every offer accurately and to list requirements before you begin.</p>
-        <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Target, Costco, and Trader Joe’s are trademarks of their respective owners; references to them describe where people shop only and do not imply affiliation, sponsorship, or endorsement.</p>
+        <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Target, Costco, Trader Joe&rsquo;s, and their respective names and logos are trademarks of their respective owners. All trademarks, logos, and brand names are the property of their respective owners and are used here for identification and descriptive purposes only, to indicate where people shop. Their use does not imply any affiliation with, sponsorship by, or endorsement by these companies. PayoutAudit is an independent service and is not affiliated with any retailer named.</p>
         <p>For U.S. residents, 21 years of age or older.</p>
         <div class="links"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></div>
         <p class="cr">&copy; 2026 PAYOUTAUDIT &middot; ALL AUDITS, NO PROMISES</p>
@@ -839,6 +844,12 @@ function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
 })();
 var V = { box:'assets/vid-box.mp4', target:'assets/vid-target.mp4', store:'assets/vid-aisle.mp4', trader:'assets/vid-tjsign.mp4', store2:'assets/vid-aisle2.mp4', costco:'assets/vid-costco.mp4', checkout:'assets/vid-checkout.mp4' };
 var POSTER = { box:'assets/img-box.jpg', target:'assets/img-target.jpg', store:'assets/img-aisle.jpg', trader:'assets/img-tjsign.jpg', store2:'assets/img-aisle2.jpg', costco:'assets/img-costco.jpg', checkout:'assets/img-checkout.jpg' };
+var LOGO = {
+  'Amazon':          { src:'assets/logo-amazon.png', cls:'' },
+  'Target':          { src:'assets/logo-target.png', cls:'' },
+  'Costco':          { src:'assets/logo-costco.png', cls:'' },
+  'Trader Joe\u2019s': { src:'assets/logo-trader.png', cls:'badge' }
+};
 var bgEls = [ $('#bgA'), $('#bgB') ], bgIdx = 0, bgKey = '';
 var videoOK = null;
 function probeVideo(){
@@ -1111,7 +1122,17 @@ function buildResults(skipped){
   var hero = $('#bestHero');
   hero.classList.remove('in');
   if(hasBest){
-    $('#bestBrand').textContent = top.o.brand;
+    var lg = LOGO[top.o.brand], chip = $('#brandChip'), lgImg = $('#bestLogo');
+    if(lg){
+      lgImg.src = lg.src;
+      lgImg.alt = top.o.brand;
+      lgImg.className = lg.cls || '';
+      chip.style.display = '';
+    } else {
+      chip.style.display = 'none';
+      $('#bestBrand').setAttribute('data-brand', top.o.brand);
+      $('#bestBrand').appendChild(document.createTextNode(top.o.brand));
+    }
     $('#bestCta').href = "#";
     $('#bestCta').onclick = function(e){
         e.preventDefault();
