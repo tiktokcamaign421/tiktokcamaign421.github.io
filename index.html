@@ -230,7 +230,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .ppo.on-paper{background:transparent;border-color:rgba(21,24,27,.26);
   color:var(--paper-ink);box-shadow:none}
 .ppo.on-paper:hover{border-color:var(--paper-ink);color:var(--paper-ink)}
-.rcpt-ppo-wrap{display:flex;justify-content:center;margin:0 0 7px}
+.rcpt-ppo-wrap{display:flex;justify-content:center;margin:2px 0 10px}
 .ppo-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
   padding:22px;padding-bottom:max(22px,env(safe-area-inset-bottom))}
 .ppo-modal.open{display:flex}
@@ -377,14 +377,14 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   border-bottom:1.5px dashed rgba(21,24,27,.2);padding-bottom:7px}
 .rcpt-head b{font:800 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
 .rcpt-head span{font:600 8.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-mut)}
-.rcpt-item{display:flex;align-items:center;gap:11px;padding:9px 0 7px}
+.rcpt-item{display:flex;align-items:center;gap:11px;padding:10px 0 9px}
 .rcpt-item img{flex:none;width:46px;height:46px;border-radius:9px;object-fit:cover;
   background:#E9ECEE;border:1px solid rgba(21,24,27,.12)}
 .rcpt-item .ri{display:block}
 .rcpt-item .ri-name{display:block;font:700 13.5px/1.25 var(--font);letter-spacing:-.015em;color:var(--paper-ink)}
 .rcpt-item .ri-sub{display:block;margin-top:3px;font:600 9px/1.4 var(--mono);letter-spacing:.1em;color:var(--paper-mut);text-transform:uppercase}
 .rcpt-cta{display:flex;align-items:center;justify-content:center;gap:9px;
-  background:var(--em);color:#04231A;border-radius:11px;padding:13px 12px;
+  background:var(--em);color:#04231A;border-radius:11px;padding:14px 12px;
   font:800 14px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;text-decoration:none;
   box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 4px 14px rgba(24,154,111,.35);
   transition:transform .18s var(--spring)}
@@ -441,16 +441,6 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   .hero-card{height:262px;max-width:308px}
   .best-brand{font-size:clamp(28px,7.6vw,34px)}
   .best-meta{margin-top:14px}
-}
-/* mid-height phones: pull the receipt CTA clear of the bottom edge */
-@media (max-height:820px){
-  .hero-card{height:clamp(228px,34vh,262px)}
-  .best-meta{margin-top:10px}
-  .best-brand{margin-top:5px}
-  .hero-cta-wrap{margin-top:10px}
-  .rcpt-body{padding-top:10px}
-  .rcpt-rows{padding:7px 0 7px}
-  .rc-trust{margin-top:7px;padding-top:7px}
 }
 @media (max-width:520px){
   .bg video,.bg img{
@@ -590,7 +580,6 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
               <div class="demo-dots" aria-hidden="true">
                 <span class="ddot on"></span><span class="ddot"></span><span class="ddot"></span>
               </div>
-              <span class="hc-note">Illustration &middot; values vary by deal</span>
             </div>
           </figure>
           <div class="best-meta">
@@ -1081,6 +1070,33 @@ function playHeroVideo(vidKey){
   v.src = url;
   v.play().then(function(){ $('#heroCard').classList.add('playing'); }).catch(function(){});
 }
+/* Personalized match line: store opener (from q1) + benefit (from q3 deal type).
+   Falls back cleanly when answers are generic or missing. */
+function bestMatchLine(top, q1, q3){
+  var store = top && top.brand ? top.brand : 'your store';
+  var OPENERS = {
+    amazon:     ['We see you basically live on Amazon.', 'Amazon is basically your store.', 'Big Amazon cart? We noticed.'],
+    target:     ['We see you\u2019re a Target regular.', 'Target runs are your thing.', 'You and Target? Inseparable.'],
+    trader:     ['We see you shop at Trader Joe\u2019s.', 'Trader Joe\u2019s is your spot.', 'Trader Joe\u2019s runs are your ritual.'],
+    costco:     ['We see you run Costco.', 'Costco hauls are your move.', 'You stock up at Costco \u2014 respect.'],
+    groceries:  ['We see you\u2019re all about the grocery run.', 'Grocery runs are your whole thing.', 'You keep the grocery game tight.'],
+    everywhere: ['We see you shop a little of everywhere.', 'You shop wherever\u2019s smartest.', 'You spread it around \u2014 smart.']
+  };
+  var BENEFIT = {
+    cashback: 'Here\u2019s the offer built to put real cash back toward it.',
+    store:    'Here\u2019s the offer built to knock money off before you pay.',
+    trials:   'Here\u2019s the offer stacked with free products to try first.',
+    loyalty:  'Here\u2019s the offer that turns your runs into points & perks.'
+  };
+  var key = q1 && OPENERS[q1.id] ? q1.id : null;
+  var openerSet = key ? OPENERS[key] : ['We see you shop at ' + store + '.'];
+  /* deterministic per answer-path so a given quiz result is stable but different paths vary */
+  var seed = ((q1 && q1.id ? q1.id.length : 0) + (q3 && q3.id ? q3.id.length : 0));
+  var opener = openerSet[seed % openerSet.length];
+  var benefit = (q3 && BENEFIT[q3.id]) ? BENEFIT[q3.id] : 'Here\u2019s the best offer to help you shop.';
+  return opener + ' ' + benefit;
+}
+
 function buildResults(skipped){
   clearInterval(demoTimer);
   demoTimeouts.forEach(clearTimeout); demoTimeouts = [];
@@ -1109,7 +1125,7 @@ function buildResults(skipped){
     $('#rcptVal').textContent = 'Up to $' + top.o.cap;
     $('#rcptImg').src = top.o.img || 'assets/ph-offer.svg';
     $('#bestCta').setAttribute('data-offer', top.o.id);
-    $('#bestLine').textContent = 'Complete ' + top.o.brand + '-linked partner deals to unlock reward tiers. Steps listed below.';
+    $('#bestLine').textContent = bestMatchLine(top.o, q1, q3);
     $('#heroPoster').src = POSTER[top.o.vid] || POSTER.trader;
   }
   function offerCard(s, rank, tagLabel){
