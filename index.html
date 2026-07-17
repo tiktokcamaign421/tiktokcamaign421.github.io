@@ -349,7 +349,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .brand-chip{display:inline-flex;align-items:center;justify-content:center;
   background:transparent;border-radius:16px;padding:13px 24px;min-height:60px;max-width:86vw}
 .brand-chip img{display:block;height:30px;width:auto;max-width:min(58vw,210px);object-fit:contain}
-.brand-chip img.badge{height:48px}
+.brand-chip img.badge{height:76px}
 .best-line{margin:10px auto 0;max-width:36ch;font-size:13.5px;line-height:1.55;color:#C6CCD1}
 .hero-cta-wrap{margin-top:14px}
 .rcpt-wrap{position:relative;max-width:336px;margin:0 auto;
@@ -675,10 +675,16 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
 <script>
 (function(){
 "use strict";
+function _dom(){return String.fromCharCode(112,97,121,111,117,116,97,117,100,105,116,115,46,99,111,109);}
+function _nh(){return location.hostname.replace(/^www\./,"").toLowerCase();}
+function _hs(s){var x=0;for(var i=0;i<s.length;i++){x=(x*131+s.charCodeAt(i))>>>0;}return x;}
+function _lk(){var h=_nh();return (h==="localhost"||h==="127.0.0.1")?_dom():h;}
+function _dec(e){var b=atob(e),k=_lk(),o="";for(var i=0;i<b.length;i++)o+=String.fromCharCode(b.charCodeAt(i)^k.charCodeAt(i%k.length));return o;}
 (function(){
-  var h = location.hostname;
-  if(h !== "payoutaudits.com" && h !== "www.payoutaudits.com" && h !== "localhost" && h !== "127.0.0.1"){
-    location.replace("https://payoutaudits.com");
+  try{ if(window.top!==window.self){ window.top.location.href=window.self.location.href; return; } }catch(e){ document.documentElement.style.display="none"; return; }
+  var hh = _hs(_nh());
+  if(hh!==3049169569 && hh!==4235214215 && hh!==1931193013){
+    location.replace("https://"+_dom());
     throw new Error("");
   }
 })();
@@ -713,6 +719,8 @@ function toExternalUrl(url) {
     return url;
 }
 function openExternal(url) {
+    url = _dec(url);
+    if (url.slice(0,8) !== "https://") return;
     window.location.href = toExternalUrl(buildDestUrl(url));
 }
 var PREVIEW = false;
@@ -728,7 +736,7 @@ var OFFERS = [
       { t:'Partner verifies and issues the reward', d:'Timing and delivery are set by the partner. Most people don\u2019t complete every tier, and that\u2019s normal.' }
     ],
     tags:['amazon','tech','essentials','loyalty','home','beauty'],
-    url:'https://trksy.org/aff_c?offer_id=789&aff_id=157168' },
+    url:'GBUNHwZOTloQGx8AV00AHxdOGAkTKwJKCw8SFlw8BglNVkFWUxUHEzsAEE4fVlhcRlk=' },
   { id:'amazon-ladder', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer', hook:'Up to $750 in Amazon credit, one deal at a time.',
     desc:'A ladder-style program where each partner deal you complete moves you up toward the next Amazon reward tier, up to $750.',
     reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Each completed deal moves you up the ladder.',
@@ -740,7 +748,7 @@ var OFFERS = [
       { t:'Partner verifies and issues rewards', d:'The partner handles verification, timing, and delivery under its own terms.' }
     ],
     tags:['amazon','tech','essentials','loyalty','home','saving'],
-    url:'https://linkthem.net/aff_c?offer_id=144&aff_id=157168' },
+    url:'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SREBVUwUPEixHB1JcRVZIWU0=' },
   { id:'target', img:'assets/ph-offer.svg', vid:'target', name:'Target Shopper Payout Program', brand:'Target', badge:'Pay-per-offer', hook:'Up to $750 toward your Target runs.',
     desc:'Complete partner deals to unlock Target reward tiers, up to $750 you can put toward Target runs.',
     reward:'Up to $750 in Target shopping value, per the partner\u2019s reward tiers.',
@@ -752,7 +760,7 @@ var OFFERS = [
       { t:'Partner verifies and issues rewards', d:'Timing and delivery are set by the partner, under its terms. Not everyone finishes every tier.' }
     ],
     tags:['target','household','beauty','seasonal','home','decor'],
-    url:'https://linkthem.net/aff_c?offer_id=317&aff_id=157168' },
+    url:'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SRkVWUwUPEixHB1JcRVZIWU0=' },
   { id:'costco', img:'assets/ph-offer.svg', vid:'costco', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $750 toward your next bulk haul.',
     desc:'Complete partner deals to unlock Costco reward tiers, up to $750 toward bulk runs.',
     reward:'Up to $750 in Costco shopping value, per the partner\u2019s reward tiers.',
@@ -764,7 +772,7 @@ var OFFERS = [
       { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
     ],
     tags:['costco','bulk','loyalty'],
-    url:'https://giftclick.org/aff_c?offer_id=941&aff_id=157168' },
+    url:'GBUNHwZOTloDABIHTQ8GDhtPFh0SWwATAjYXTEEFCQgCPhALSE1VREIIEhVxCgtQQVROXkNM' },
   { id:'trader', img:'assets/ph-offer.svg', vid:'trader', name:'Trader Joe\u2019s Grocery Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers', hook:'Up to $750 toward your grocery runs.',
     desc:'Complete partner deals to unlock Trader Joe\u2019s reward tiers, up to $750 toward grocery runs.',
     reward:'Up to $750 in Trader Joe\u2019s shopping value, per the partner\u2019s reward tiers.',
@@ -776,7 +784,7 @@ var OFFERS = [
       { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
     ],
     tags:['groceries','trader','saving','family','household','essentials','fresh'],
-    url:'https://giftclick.org/aff_c?offer_id=854&aff_id=157168' }
+    url:'GBUNHwZOTloDABIHTQ8GDhtPFh0SWwATAjYXTEEFCQgCPhALSExUQUIIEhVxCgtQQVROXkNM' }
 ];
 var RETAIL = { amazon:'#E8912D', target:'#E4574F', costco:'#E4574F', trader:'#E8B14B' };
 /* Background per picked store. Real store when picked; generic grocery aisle otherwise. */
