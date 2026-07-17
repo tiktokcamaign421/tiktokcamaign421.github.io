@@ -292,6 +292,111 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   .lede{margin-top:12px;font-size:14px}
   .cta-wrap{margin-top:20px;gap:10px}
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESULTS SECTION — Apple product-page choreography
+   Each block earns its own frame. Everything animates as you scroll.
+   ═══════════════════════════════════════════════════════════════════ */
+.rscreen{padding-top:0}
+.results-nav{position:sticky;top:0;z-index:35;
+  display:flex;align-items:center;gap:14px;padding:14px 0 12px;
+  background:linear-gradient(to bottom, rgba(10,12,14,.94) 68%, rgba(10,12,14,0));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;transform:translateY(-8px);transition:opacity .5s var(--glide),transform .5s var(--spring)}
+.results-nav.in{opacity:1;transform:none}
+.rn-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
+.rn-store{font:600 10px/1 var(--mono);letter-spacing:.14em;color:var(--muted);margin-left:auto}
+
+/* — hero (the reveal) — */
+.best{position:relative;margin-top:6px;padding:8vh 0 9vh;text-align:center;min-height:calc(100svh - 90px);
+  display:none;flex-direction:column;justify-content:center}
+.best.in{display:flex}
+.best::after{content:'';position:absolute;inset:-40px -40px;pointer-events:none;
+  background:radial-gradient(65% 55% at 50% 46%, rgba(47,191,143,.18), transparent 68%);
+  opacity:0;transition:opacity 1.4s var(--glide)}
+.best.lit::after{opacity:1}
+.best-cap{display:inline-flex;align-self:center;align-items:center;gap:9px;
+  padding:9px 15px;border:1px solid rgba(47,191,143,.35);border-radius:999px;
+  background:rgba(15,25,20,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
+.bh-check{width:14px;height:14px}
+.bh-path{stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .7s var(--glide) .3s}
+.best.lit .bh-path{stroke-dashoffset:0}
+.best-brand{margin-top:22px;font:700 clamp(30px,8vw,42px)/1.05 var(--font);letter-spacing:-.028em;color:var(--txt);
+  text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.best-brand .brandline{display:inline-block;position:relative}
+.best-brand .brandline::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--em),transparent);
+  transform:scaleX(0);transform-origin:center;transition:transform .8s var(--glide) .4s}
+.best.lit .best-brand .brandline::after{transform:scaleX(1)}
+.best-sup{margin-top:14px;font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.best-amt{margin-top:14px;font:800 clamp(72px,22vw,110px)/.94 var(--font);letter-spacing:-.055em;
+  color:var(--txt);text-shadow:0 6px 60px rgba(47,191,143,.45)}
+.best-amt .odo{color:var(--em);background:linear-gradient(180deg,var(--em) 0%,#67D9AE 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.best-sub{margin:16px auto 0;max-width:34ch;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.scroll-cue{margin-top:32px;display:inline-flex;flex-direction:column;align-items:center;gap:8px;
+  font:600 9.5px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+.scroll-cue svg{width:14px;height:14px;animation:hop 1.6s var(--glide) infinite}
+@keyframes hop{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+
+/* — cta ribbon (sticky-ish, single primary action) — */
+.cta-strip{margin:0 -22px;padding:28px 22px 24px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(15,18,21,.55), rgba(10,12,14,.4));
+  display:none;text-align:center}
+.cta-strip.in{display:block}
+.cta-strip .rn-eyebrow{display:block;margin-bottom:10px}
+.cta-strip .price-cta{display:inline-flex;align-items:center;gap:9px;
+  background:var(--em);color:#04231A;border-radius:999px;padding:16px 26px;
+  font:700 15.5px/1 var(--font);letter-spacing:-.01em;text-decoration:none;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 12px 34px rgba(47,191,143,.32);
+  transition:transform .16s var(--spring)}
+.cta-strip .price-cta svg{width:14px;height:14px;transition:transform .22s var(--spring)}
+.cta-strip .price-cta:hover svg{transform:translateX(3px)}
+.cta-strip .price-cta:active{transform:scale(.97)}
+.cta-strip .fine{margin-top:10px;font:500 9.5px/1.5 var(--mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+
+/* — chapters — */
+.chapter{padding:52px 0 40px}
+.chapter-eyebrow{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--em);text-transform:uppercase}
+.chapter h3{margin-top:14px;font-size:clamp(24px,6.4vw,30px);font-weight:700;line-height:1.13;letter-spacing:-.028em;max-width:18ch;text-wrap:balance}
+.chapter .lede{margin-top:12px;font-size:14px;line-height:1.6;color:var(--muted);max-width:40ch}
+
+/* — steps: numbered, each animates on scroll — */
+.steps{margin-top:26px;display:flex;flex-direction:column;gap:0}
+.step{position:relative;padding:22px 0 22px 42px;border-top:1px solid var(--line);
+  opacity:0;transform:translateY(20px);filter:blur(6px);
+  transition:opacity .7s var(--glide),transform .7s var(--spring),filter .7s var(--glide)}
+.step.in{opacity:1;transform:none;filter:blur(0)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .num{position:absolute;left:0;top:24px;
+  font:700 10.5px/1 var(--mono);letter-spacing:.14em;color:var(--em)}
+.step h4{font-size:16.5px;font-weight:650;letter-spacing:-.02em;line-height:1.25}
+.step p{margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted);max-width:42ch}
+
+/* — receipt block: quieter frame — */
+.receipt-block{padding:44px 0 20px}
+.receipt-block .chapter-eyebrow{color:var(--faint)}
+.receipt-block h3{color:var(--muted);font-size:20px;max-width:26ch}
+
+/* — offer ledger stays; tighten spacing — */
+.offers{margin-top:32px;padding-bottom:8px}
+.offers .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:6px}
+
+/* legibility bump on the very small badge */
+.o-badge{display:inline-block;margin-left:8px;padding:3px 8px;border:1px solid var(--line-2);border-radius:999px;
+  font:600 8.5px/1.4 var(--mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;vertical-align:middle}
+.offer.best .o-badge{border-color:rgba(47,191,143,.4);color:var(--em)}
+
+/* faq push-down */
+.faq{margin-top:44px}
+
+/* magnetic tilt on best-hero when hero is on-screen (subtle 3D) */
+@media (hover:hover){
+  .best-brand,.best-amt{transition:transform .5s var(--glide)}
+}
+
 </style>
 </head>
 <body>
@@ -365,18 +470,50 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
         <p class="calc-ln" data-step="2">SIGNALS MATCHED &middot; <span class="odo" id="sigOdo">0</span></p>
       </div>
 
-      <div class="rhead" id="rhead">
-        <p class="eyebrow" id="resEyebrow">Audit complete</p>
-        <h2 id="resTitle"></h2>
-        <p class="rsub" id="resSub"></p>
-      </div>
+      <nav class="results-nav" id="rnav" aria-hidden="true">
+        <span class="rn-eyebrow">Audit complete</span>
+        <span class="rn-store" id="rnStore"></span>
+      </nav>
 
+      <!-- HERO: brand + $750 reveal, above the fold, one focal point -->
       <div class="best" id="bestHero">
-        <p class="best-cap"><svg class="bh-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="bh-path" d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>Best match &middot; <span id="bestName"></span></p>
-        <p class="best-amt">UP&nbsp;TO&nbsp;<span class="odo" id="capOdo">$0</span></p>
+        <p class="best-cap">
+          <svg class="bh-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="bh-path" d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
+          Best match found
+        </p>
+        <p class="best-brand"><span class="brandline" id="bestBrand"></span></p>
+        <p class="best-sup">You can claim up to</p>
+        <p class="best-amt"><span class="odo" id="capOdo">$0</span></p>
         <p class="best-sub" id="bestSub"></p>
+        <p class="scroll-cue" id="scrollCue">See how it works
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8 L10 13 L15 8"/></svg>
+        </p>
       </div>
 
+      <!-- Primary CTA strip -->
+      <div class="cta-strip" id="ctaStrip">
+        <span class="rn-eyebrow">Sponsored &middot; requirements below</span>
+        <a class="price-cta" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">
+          Continue to <span id="bestCtaBrand"></span>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+        </a>
+        <p class="fine">Availability varies &middot; Terms apply &middot; No purchase required by us</p>
+      </div>
+
+      <!-- Chapter 1: How this works -->
+      <section class="chapter" id="chapHow">
+        <p class="chapter-eyebrow">How it works</p>
+        <h3 id="chapHowTitle">A ladder of partner deals — you climb as far as you want.</h3>
+        <p class="lede" id="chapHowLede"></p>
+        <ol class="steps" id="stepsList"></ol>
+      </section>
+
+
+      <!-- Chapter 2: The audit receipt (why matched) -->
+      <section class="chapter receipt-block" id="chapReceipt">
+        <p class="chapter-eyebrow">The audit</p>
+        <h3>Your three answers, sorted into signals.</h3>
+      </section>
       <div class="receipt-wrap">
         <svg class="tear flip" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
         <div class="receipt" id="receipt">
@@ -386,10 +523,12 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
         <svg class="tear" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
       </div>
 
-      <div class="offers">
-        <p class="cap">Today's partner offers</p>
-        <div id="offerList"></div>
-      </div>
+      <!-- Chapter 3: All matches -->
+      <section class="chapter" id="chapOffers">
+        <p class="chapter-eyebrow">All matches</p>
+        <h3>Every offer we surfaced, ranked to fit.</h3>
+        <div class="offers"><div id="offerList"></div></div>
+      </section>
 
       <div class="faq">
         <details class="qa"><summary>How offers work<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
@@ -402,7 +541,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
         </details>
         <details class="qa"><summary>Is PayoutAudit free?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
           <p>Yes. Partners may pay us when you complete their offers — that's the entire business model, and it's why we disclose it on every screen instead of hiding it.</p></details>
-        <details class="qa"><summary>Affiliated with Amazon, Walmart, Target, or Costco?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+        <details class="qa"><summary>Affiliated with Amazon, Target, Costco, or Trader Joe’s?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
           <p>No. Retailer names describe where you shop and where rewards can be spent, nothing more. All trademarks belong to their owners, and nothing here implies sponsorship or endorsement.</p></details>
         <details class="qa"><summary>Will I definitely get a reward?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
           <p>No — and be wary of any site that says yes. Each partner sets its own eligibility rules, values, and timing. Read the requirements before you start.</p></details>
@@ -412,7 +551,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
       <footer class="foot">
         <p><strong style="color:var(--muted)">Advertiser disclosure.</strong> PayoutAudit is an independent, advertising-supported discovery service. We may receive compensation when you view or complete offers listed on this page, and that compensation can influence which offers appear and where they appear. We aim to describe every offer accurately and to list requirements before you begin.</p>
-        <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Walmart, Target, and Costco are trademarks of their respective owners; references to them describe where people shop only and do not imply affiliation, sponsorship, or endorsement.</p>
+        <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Target, Costco, and Trader Joe’s are trademarks of their respective owners; references to them describe where people shop only and do not imply affiliation, sponsorship, or endorsement.</p>
         <p>For U.S. residents, 21 years of age or older.</p>
         <!-- TODO before launch: point these at real pages. A live privacy policy is required by most ad platforms and CPA networks. -->
         <div class="links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div>
@@ -430,37 +569,76 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 var PREVIEW = false;
 
 var OFFERS = [
-  { id:'target', vid:'target', name:'Target Deal Rewards',
-    desc:'Complete partner deals to unlock reward tiers you can put toward Target runs.',
-    reward:'Up to $750 per the partner\u2019s published reward tiers \u2014 unlocked by completing its listed deals. Values, timing, and eligibility are set by the partner.',
+  { id:'amazon-reviewer', vid:'box', name:'Amazon Product Reviewer', brand:'Amazon', badge:'Bonus program',
+    desc:'Unlock Amazon reward tiers by reviewing partner products \u2014 up to $750 toward Amazon shopping when you finish the top tier.',
+    reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Actual value depends on the tier you complete.',
     cap:750,
-    requirements:['Enter a valid email on the partner\u2019s page','Complete the number of listed deals for each reward tier \u2014 many involve purchases, trials, or deposits','Rewards are verified and issued by the partner under its own terms \u2014 most people don\u2019t finish every tier'],
+    how:[
+      { t:'Enter a valid email', d:'The partner\u2019s page collects your email so it can credit you when you complete a deal.' },
+      { t:'Pick partner deals from the reviewer list', d:'Each deal is a product to try, a signup to complete, or a short offer to finish \u2014 with its own steps and reward value shown up front.' },
+      { t:'Complete the deals for the tier you want', d:'Reward tiers stack: finish more deals, unlock a higher tier. The top tier tops out at $750 toward Amazon.' },
+      { t:'Partner verifies and issues the reward', d:'Timing and delivery are set by the partner. Most people don\u2019t complete every tier \u2014 that\u2019s normal.' }
+    ],
+    tags:['amazon','tech','essentials','loyalty','home','beauty'],
+    url:'https://trksy.org/aff_c?offer_id=789&aff_id=157168' },
+  { id:'amazon-ladder', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer',
+    desc:'A ladder-style program where each partner deal you complete moves you up toward the next Amazon reward tier \u2014 up to $750.',
+    reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Each completed deal moves you up the ladder.',
+    cap:750,
+    how:[
+      { t:'Enter a valid email', d:'The partner\u2019s page collects your email so it can credit each completed deal to your ladder.' },
+      { t:'Complete deals one at a time', d:'Each rung is a specific partner deal. Some are free trials or signups; some involve a small purchase or deposit.' },
+      { t:'Rewards stack as you climb', d:'The higher the rung, the bigger the Amazon shopping credit \u2014 up to $750 at the top rung.' },
+      { t:'Partner verifies and issues rewards', d:'The partner handles verification, timing, and delivery under its own terms.' }
+    ],
+    tags:['amazon','tech','essentials','loyalty','home','saving'],
+    url:'https://linkthem.net/aff_c?offer_id=144&aff_id=157168' },
+  { id:'target', vid:'target', name:'Target Reward Program', brand:'Target', badge:'Pay-per-offer',
+    desc:'Complete partner deals to unlock Target reward tiers \u2014 up to $750 you can put toward Target runs.',
+    reward:'Up to $750 in Target shopping value, per the partner\u2019s reward tiers.',
+    cap:750,
+    how:[
+      { t:'Enter a valid email', d:'The partner\u2019s page uses email to track which deals you\u2019ve completed.' },
+      { t:'Choose deals from the Target-linked list', d:'Each deal lists its own requirement \u2014 a trial, a signup, a small purchase \u2014 and the reward value it unlocks.' },
+      { t:'Complete enough deals to reach a reward tier', d:'Reward tiers stack; the top tier tops out at $750 toward Target.' },
+      { t:'Partner verifies and issues rewards', d:'Timing and delivery are set by the partner, under its terms. Not everyone finishes every tier.' }
+    ],
     tags:['target','household','beauty','seasonal','home','decor'],
-    url:'#PASTE_TRACKING_LINK_1' },
-  { id:'amazon', vid:'box', name:'Amazon Deal Rewards',
-    desc:'Complete partner deals to unlock reward tiers you can put toward Amazon orders.',
-    reward:'Up to $750 per the partner\u2019s published reward tiers \u2014 unlocked by completing its listed deals. Values, timing, and eligibility are set by the partner.',
+    url:'https://linkthem.net/aff_c?offer_id=317&aff_id=157168' },
+  { id:'costco', vid:'store', name:'Costco Deal Rewards', brand:'Costco', badge:'Reward tiers',
+    desc:'Complete partner deals to unlock Costco reward tiers \u2014 up to $750 toward bulk runs.',
+    reward:'Up to $750 in Costco shopping value, per the partner\u2019s reward tiers.',
     cap:750,
-    requirements:['Enter a valid email on the partner\u2019s page','Complete the number of listed deals for each reward tier \u2014 many involve purchases, trials, or deposits','Rewards are verified and issued by the partner under its own terms \u2014 most people don\u2019t finish every tier'],
-    tags:['amazon','tech','essentials','loyalty','home'],
-    url:'#PASTE_TRACKING_LINK_2' },
-  { id:'costco', vid:'store', name:'Costco Deal Rewards',
-    desc:'Complete partner deals to unlock reward tiers you can put toward bulk runs.',
-    reward:'Up to $750 per the partner\u2019s published reward tiers \u2014 unlocked by completing its listed deals. Values, timing, and eligibility are set by the partner.',
+    how:[
+      { t:'Enter a valid email', d:'Standard first step \u2014 the partner\u2019s page uses email to credit your completions.' },
+      { t:'Pick deals matched to bulk shoppers', d:'Trials, signups, and small purchases, each with its own steps and reward value listed.' },
+      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $750 toward Costco.' },
+      { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
+    ],
+    tags:['costco','bulk','loyalty'],
+    url:'https://giftclick.org/aff_c?offer_id=941&aff_id=157168' },
+  { id:'trader', vid:'trader', name:'Trader Joe\u2019s Deal Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers',
+    desc:'Complete partner deals to unlock Trader Joe\u2019s reward tiers \u2014 up to $750 toward grocery runs.',
+    reward:'Up to $750 in Trader Joe\u2019s shopping value, per the partner\u2019s reward tiers.',
     cap:750,
-    requirements:['Enter a valid email on the partner\u2019s page','Complete the number of listed deals for each reward tier \u2014 many involve purchases, trials, or deposits','Rewards are verified and issued by the partner under its own terms \u2014 most people don\u2019t finish every tier'],
-    tags:['costco','bulk','family','groceries','saving','cashback','walmart'],
-    url:'#PASTE_TRACKING_LINK_3' }
+    how:[
+      { t:'Enter a valid email', d:'The partner\u2019s page uses email to credit each completed deal.' },
+      { t:'Pick deals from the grocery-shopper list', d:'Trials, signups, and small purchases \u2014 each listing its own steps and reward value.' },
+      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $750 toward Trader Joe\u2019s.' },
+      { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
+    ],
+    tags:['groceries','trader','saving','family','household','essentials','fresh'],
+    url:'https://giftclick.org/aff_c?offer_id=854&aff_id=157168' }
 ];
 
-var RETAIL = { amazon:'#E8912D', target:'#E4574F', costco:'#E4574F', walmart:'#5B9BE6' };
-var Q2_VID = { amazon:'box', target:'target', walmart:'store', costco:'store', groceries:'store', everywhere:'box' };
+var RETAIL = { amazon:'#E8912D', target:'#E4574F', costco:'#E4574F', trader:'#E8B14B' };
+var Q2_VID = { amazon:'box', target:'target', trader:'trader', costco:'store', groceries:'store', everywhere:'store2' };
 
 var QUIZ = {
   q1:{ title:'Where do you shop the most?', rkey:'Shops at', options:[
     {id:'amazon',    label:'Amazon',               tags:['amazon','essentials','tech'],  noun:'Amazon'},
     {id:'target',    label:'Target',               tags:['target','household','beauty'], noun:'Target'},
-    {id:'walmart',   label:'Walmart',              tags:['walmart','saving','family'],   noun:'Walmart'},
+    {id:'trader',    label:'Trader Joe\u2019s',   tags:['trader','groceries','saving','family'], noun:'Trader Joe\u2019s'},
     {id:'costco',    label:'Costco',               tags:['costco','bulk','family'],      noun:'Costco'},
     {id:'groceries', label:'Mostly grocery stores',tags:['groceries','saving','family'], noun:'grocery'},
     {id:'everywhere',label:'A bit of everywhere',  tags:['household','saving','essentials'], noun:'everyday'} ]},
@@ -471,9 +649,9 @@ var QUIZ = {
     target:{ title:'What\u2019s a Target run usually for?', rkey:'Runs for', options:[
       {id:'house',label:'Household basics',tags:['household']},{id:'beauty',label:'Beauty & personal care',tags:['beauty','trials']},
       {id:'decor',label:'Home d\u00e9cor',tags:['home']},{id:'season',label:'Seasonal stuff',tags:['seasonal']} ]},
-    walmart:{ title:'What\u2019s a Walmart trip usually for?', rkey:'Trips for', options:[
-      {id:'groc',label:'Groceries',tags:['groceries','saving']},{id:'house',label:'Household restock',tags:['household']},
-      {id:'mix',label:'A bit of everything',tags:['saving','essentials']},{id:'pickup',label:'Pickup & delivery orders',tags:['essentials','loyalty']} ]},
+    trader:{ title:'What\u2019s a Trader Joe\u2019s run usually for?', rkey:'Runs for', options:[
+      {id:'week',label:'Weekly staples',tags:['groceries','saving']},{id:'snack',label:'Snacks & frozen',tags:['groceries','essentials']},
+      {id:'fresh',label:'Fresh produce',tags:['groceries','fresh']},{id:'family',label:'Family shopping',tags:['family','household']} ]},
     costco:{ title:'How often do you make a Costco run?', rkey:'Frequency', options:[
       {id:'wk',label:'Every week',tags:['bulk','cashback']},{id:'mo',label:'About monthly',tags:['bulk']},
       {id:'occ',label:'Now and then',tags:['saving']} ]},
@@ -518,7 +696,7 @@ function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
 })();
 
 /* ════════ video background: the footage IS the page ════════ */
-var V = { box:'assets/box.mp4', target:'assets/target.mp4', store:'assets/store.mp4' };
+var V = { box:'assets/box.mp4', target:'assets/target.mp4', store:'assets/store.mp4', trader:'assets/trader.mp4', store2:'assets/store2.mp4' };
 var bgEls = [ $('#bgA'), $('#bgB') ], bgIdx = 0, bgKey = '';
 var videoOK = null;
 
@@ -695,7 +873,7 @@ function pick(qid, cfg, i, btn, wrap){
   }, JSON_ON ? 330 : 60);
 }
 
-/* ════════ results: calc → reveal → receipt → ledger ════════ */
+/* ════════ results: full Apple-style choreography ════════ */
 function odometer(el, target, dur, prefix){
   prefix = prefix || '';
   if(!JSON_ON){ el.textContent = prefix + target; return; }
@@ -703,11 +881,25 @@ function odometer(el, target, dur, prefix){
   function frame(t){
     if(!t0) t0 = t;
     var p = Math.min((t - t0) / dur, 1);
-    var e = 1 - Math.pow(1 - p, 3);                    /* easeOutCubic */
+    var e = 1 - Math.pow(1 - p, 3);
     el.textContent = prefix + Math.round(target * e);
     if(p < 1) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+}
+
+var revealObserver = null;
+function armReveals(){
+  if(!('IntersectionObserver' in window)) return;
+  if(revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); }
+    });
+  }, { rootMargin:'0px 0px -8% 0px', threshold:0.14 });
+  document.querySelectorAll('.rscreen .step, .rscreen .offer, .rscreen .chapter h3, .rscreen .chapter .lede, .rscreen .cta-strip, .rscreen .receipt-wrap, .rscreen .faq').forEach(function(el){
+    revealObserver.observe(el);
+  });
 }
 
 function buildResults(skipped){
@@ -722,19 +914,41 @@ function buildResults(skipped){
   var top = scored[0], hasBest = !skipped && top.score > 0;
   resultVid = hasBest ? top.o.vid : 'store';
 
-  /* head copy */
-  $('#resEyebrow').textContent = skipped ? 'Today\u2019s offers' : 'Audit complete';
-  $('#resTitle').textContent = skipped ? 'Every current offer' : 'Sorted for ' + q1.noun + ' shoppers';
-  $('#resSub').textContent = skipped
-    ? 'Default order \u2014 take the 3 taps anytime to sort by fit. Partners may pay us; it keeps this free.'
-    : 'Ranked by your answers \u00b7 Partners may pay us \u2014 it keeps this free.';
+  /* nav */
+  document.querySelector('#rnav .rn-store').textContent = hasBest ? top.o.brand : '';
 
-  /* best-match hero */
+  /* hero */
   var hero = $('#bestHero');
   hero.classList.remove('in','lit');
   if(hasBest){
-    $('#bestName').textContent = top.o.name;
-    $('#bestSub').textContent = 'per the partner\u2019s published reward tiers, unlocked by completing its listed deals \u2014 requirements below, nothing guaranteed.';
+    $('#bestBrand').textContent = top.o.brand;
+    $('#bestSub').textContent = 'Complete partner deals to unlock reward tiers \u2014 the top tier tops out at $' + top.o.cap + ' toward ' + top.o.brand + '. Requirements are listed below; nothing is guaranteed.';
+  }
+
+  /* cta strip */
+  var strip = $('#ctaStrip');
+  strip.classList.remove('in');
+  if(hasBest){
+    $('#bestCta').href = top.o.url;
+    $('#bestCtaBrand').textContent = top.o.brand;
+    $('#bestCta').setAttribute('data-offer', top.o.id);
+  }
+
+  /* how it works — from the top match */
+  var chapHow = $('#chapHow'), stepsList = $('#stepsList');
+  stepsList.innerHTML = '';
+  if(hasBest){
+    $('#chapHowLede').textContent = 'The '+top.o.brand+' program pays in reward tiers. Every deal you complete moves you up. Here\u2019s the exact flow, in order.';
+    top.o.how.forEach(function(s, i){
+      var li = document.createElement('li');
+      li.className = 'step';
+      li.innerHTML = '<span class="num">STEP&nbsp;0'+(i+1)+'</span>'+
+        '<h4>'+esc(s.t)+'</h4><p>'+esc(s.d)+'</p>';
+      stepsList.appendChild(li);
+    });
+    chapHow.style.display = '';
+  } else {
+    chapHow.style.display = 'none';
   }
 
   /* receipt */
@@ -744,7 +958,7 @@ function buildResults(skipped){
     { k:'Q.01 \u00b7 '+QUIZ.q1.rkey,                   v: skipped ? 'Skipped' : q1.label, retail: !!retail },
     { k:'Q.02 \u00b7 '+(skipped ? 'Detail' : q2.rkey),  v: skipped ? 'Skipped' : q2.label },
     { k:'Q.03 \u00b7 '+QUIZ.q3.rkey,                   v: skipped ? 'Skipped' : q3.label },
-    { k:'Signals matched', v: skipped ? '\u2014' : String(top.score + scored[1].score + scored[2].score), total:true },
+    { k:'Signals matched', v: skipped ? '\u2014' : String(scored.reduce(function(a,s){return a+s.score;},0)), total:true },
     { k:'Guarantees',      v:'0' }
   ];
   var rc = $('#receipt'), bar = rc.querySelector('.rc-bar');
@@ -764,13 +978,16 @@ function buildResults(skipped){
     return '<article class="offer'+(best ? ' best' : '')+'">'+
       (best ? '<span class="o-best-tag">Closest match</span>' : '')+
       '<div class="o-top"><span class="o-rank">0'+(rank+1)+'</span>'+
-        '<span class="o-name">'+esc(o.name)+'</span>'+
+        '<span class="o-name">'+esc(o.name)+' <span class="o-badge">'+esc(o.badge)+'</span></span>'+
         '<span class="o-spon">Sponsored</span></div>'+
       '<p class="o-desc">'+esc(o.desc)+'</p>'+
       '<p class="o-reward"><b>Reward</b><span>'+esc(o.reward)+'</span></p>'+
-      '<details class="o-req"'+(best ? ' open' : '')+'><summary>What\u2019s required <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg></summary><ul>'+
-        o.requirements.map(function(r){ return '<li>'+CHECK+'<span>'+esc(r)+'</span></li>'; }).join('')+
-      '</ul><p class="note">Full terms are on the partner\u2019s page \u2014 read them before you start.</p></details>'+
+      '<details class="o-req"'+(best ? ' open' : '')+'><summary>How it works &mdash; steps <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg></summary>'+
+        '<ul>' + o.how.map(function(step,i){
+          return '<li>'+CHECK+'<span><b style="color:var(--txt)">Step '+(i+1)+' \u00b7 '+esc(step.t)+'.</b> '+esc(step.d)+'</span></li>';
+        }).join('') + '</ul>'+
+        '<p class="note">Full terms are on the partner\u2019s page \u2014 read them before you start.</p>'+
+      '</details>'+
       '<div class="o-act">'+
         '<a class="o-btn" data-offer="'+esc(o.id)+'" href="'+esc(o.url)+'" target="_blank" rel="sponsored noopener noreferrer">View offer '+
         '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg></a>'+
@@ -778,62 +995,72 @@ function buildResults(skipped){
       '</div></article>';
   }).join('');
 
-  list.querySelectorAll('a.o-btn').forEach(function(a){
-    if(a.getAttribute('href').indexOf('PASTE_TRACKING_LINK') > -1){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        alert('This button isn\u2019t wired yet.\n\nPaste your tracking link into the OFFERS config at the top of the script in index.html.');
-      });
-    }
-  });
-
   /* ── choreography ── */
-  var rhead = $('#rhead'), calc = $('#calc');
+  var calc = $('#calc'), rnav = $('#rnav');
   var rls = rc.querySelectorAll('.rl'), offers = list.querySelectorAll('.offer');
-  var faq = document.querySelector('.faq'), wrapRec = document.querySelector('.receipt-wrap');
 
-  function showAll(){
-    rhead.style.opacity = ''; wrapRec.style.opacity = ''; faq.style.opacity = '';
-    if(hasBest){ hero.classList.add('in','lit'); $('#capOdo').textContent = '$' + top.o.cap; }
-    rls.forEach(function(n){ n.classList.add('show'); });
-    offers.forEach(function(n){ n.classList.add('show'); });
+  function armAll(){
+    hero.classList.add('in');
+    strip.classList.add('in');
+    rnav.classList.add('in');
+    armReveals();
   }
-  if(!JSON_ON || skipped){ calc.classList.remove('run'); showAll(); return; }
 
-  /* hide the stage, run the sequence */
-  [rhead, wrapRec, faq].forEach(function(el){ el.style.opacity = '0'; el.style.transition = 'opacity .6s cubic-bezier(.25,.9,.25,1)'; });
+  if(!JSON_ON || skipped){
+    calc.classList.remove('run');
+    armAll();
+    if(!JSON_ON){
+      rls.forEach(function(n){ n.classList.add('show'); });
+      offers.forEach(function(n){ n.classList.add('show'); });
+      hero.classList.add('lit');
+      if(hasBest) $('#capOdo').textContent = '$' + top.o.cap;
+    } else if(skipped){
+      rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, 300 + i*100); });
+      var t0s = 300 + rls.length*100 + 150;
+      offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, t0s + i*160); });
+    }
+    return;
+  }
+
+  /* Full run: calc → hero reveal → CTA → progressive receipt+offers via scroll observer */
   calc.classList.remove('out'); calc.classList.add('run');
   var lns = calc.querySelectorAll('.calc-ln');
   lns.forEach(function(l){ l.classList.remove('in','done'); });
-  var total = top.score + scored[1].score + scored[2].score;
+  var total = scored.reduce(function(a,s){return a+s.score;}, 0);
 
-  setTimeout(function(){ lns[0].classList.add('in'); }, 250);
-  setTimeout(function(){ lns[0].classList.add('done'); lns[1].classList.add('in'); }, 950);
+  setTimeout(function(){ lns[0].classList.add('in'); }, 220);
+  setTimeout(function(){ lns[0].classList.add('done'); lns[1].classList.add('in'); }, 900);
   setTimeout(function(){ lns[1].classList.add('done'); lns[2].classList.add('in');
-    odometer($('#sigOdo'), total, 700); }, 1650);
-  setTimeout(function(){ lns[2].classList.add('done'); }, 2450);
-  setTimeout(function(){ calc.classList.add('out'); }, 2850);
+    odometer($('#sigOdo'), total, 700); }, 1600);
+  setTimeout(function(){ lns[2].classList.add('done'); }, 2400);
+  setTimeout(function(){ calc.classList.add('out'); }, 2800);
   setTimeout(function(){
     calc.classList.remove('run','out');
-    rhead.style.opacity = '';
+    armAll();
     if(hasBest){
-      hero.classList.add('in');
-      hero.animate([{opacity:0, transform:'translateY(18px) scale(.97)', filter:'blur(6px)'},
+      hero.animate([{opacity:0, transform:'translateY(22px) scale(.96)', filter:'blur(8px)'},
                     {opacity:1, transform:'none', filter:'blur(0)'}],
-        {duration:650, easing:'cubic-bezier(.32,1.25,.32,1)'});
+        {duration:720, easing:'cubic-bezier(.32,1.25,.32,1)'});
+      $('#bestBrand').animate([{opacity:0, transform:'translateY(16px)', filter:'blur(6px)'},
+                              {opacity:1, transform:'none', filter:'blur(0)'}],
+        {duration:800, delay:220, easing:'cubic-bezier(.32,1.25,.32,1)', fill:'backwards'});
       setTimeout(function(){ hero.classList.add('lit');
-        odometer($('#capOdo'), top.o.cap, 1200, '$'); }, 260);
-      buzz();
+        odometer($('#capOdo'), top.o.cap, 1300, '$'); buzz(); }, 380);
     }
-    setTimeout(function(){ wrapRec.style.opacity = '';
-      rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*105); });
-    }, hasBest ? 1500 : 200);
-    var t0 = (hasBest ? 1500 : 200) + rls.length*105 + 200;
-    setTimeout(function(){
-      offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*160); });
-      faq.style.opacity = '';
-    }, t0);
-  }, 3250);
+    /* receipt lines print progressively once the receipt is in view (armReveals handles the block) */
+    rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, 1200 + i*105); });
+    /* offers cascade once the offers chapter is in view — controlled by observer above */
+    var offerStart = 0;
+    var oio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, i*140); });
+          oio.disconnect();
+        }
+      });
+    }, {threshold:0.05});
+    oio.observe(list);
+  }, 3200);
 }
 
 /* ════════ magnetic CTA ════════ */
