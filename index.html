@@ -150,7 +150,8 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .rows.lock .row.sel span:first-child{opacity:0}
 .calc{display:none;min-height:46svh;flex-direction:column;justify-content:center;gap:16px;text-align:center}
 .calc.run{display:flex}
-.calc-ln{font:600 11px/1 var(--mono);letter-spacing:.26em;color:var(--faint);
+.calc-ln{font:700 11px/1 var(--mono);letter-spacing:.26em;color:var(--muted);
+  text-shadow:0 1px 2px rgba(0,0,0,.9),0 2px 10px rgba(0,0,0,.6);
   opacity:0;transform:translateY(10px);filter:blur(5px);
   transition:opacity .5s var(--glide),transform .6s var(--spring),filter .5s var(--glide),color .4s}
 .calc-ln.in{opacity:1;transform:none;filter:blur(0)}
@@ -315,7 +316,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   font:600 8px/1 var(--mono);letter-spacing:.18em;color:rgba(255,255,255,.42);text-transform:uppercase}
 .demo{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding:0 26px 20px}
 .demo::before{content:'';position:absolute;left:8%;right:8%;top:16%;bottom:10%;
-  background:radial-gradient(60% 62% at 50% 52%, rgba(4,6,8,.62), rgba(4,6,8,.28) 60%, transparent 78%);
+  background:radial-gradient(62% 64% at 50% 52%, rgba(4,6,8,.8), rgba(4,6,8,.52) 58%, transparent 82%);
   pointer-events:none}
 .scene{position:relative}
 .scene{grid-area:1/1;display:grid;justify-items:center;gap:11px;text-align:center;pointer-events:none;
@@ -325,7 +326,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .scene .art{position:relative;width:118px;height:104px;display:grid;place-items:center}
 .scene .art svg{width:100%;height:100%}
 .scene .cap{font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
-.scene .sub{font:500 12.5px/1.5 var(--font);color:rgba(255,255,255,.92);max-width:25ch}
+.scene .sub{font:700 12.5px/1.5 var(--font);color:rgba(255,255,255,.92);max-width:25ch}
 .scene .draw{stroke-dasharray:120;stroke-dashoffset:120}
 .scene.on .draw{transition:stroke-dashoffset .7s var(--glide) .28s;stroke-dashoffset:0}
 .scene .tagp{transform:scale(.55) rotate(-22deg);transform-origin:center}
