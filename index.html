@@ -401,6 +401,34 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   .js .r{opacity:1;transform:none;filter:none}
   .js h1 .w{opacity:1;transform:none;filter:none}
 }
+
+/* ─── Legibility pass: soft dark halo behind copy over footage ─── */
+h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
+.hc-body, .hc-brand, .hc-sup, .hc-line, .cap, .scene .cap, .scene .sub,
+.chapter-eyebrow, .chapter h3, .chapter .lede,
+.o-name, .o-desc, .o-reward, .best-cap, .best-eyebrow, .best-meta .eyebrow,
+.hero-fine, .qa summary, .qa p, .qa ol{
+  text-shadow:0 1px 2px rgba(0,0,0,.55), 0 0 8px rgba(0,0,0,.3);
+}
+/* eyebrows and mono/label text: tighter, subtler halo */
+.eyebrow, .rn-eyebrow, .hc-badge, .hc-note, .o-spon, .o-terms, .o-badge, .micro{
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+/* CTA text: dark on emerald; use light halo for the arrow area */
+.hero-cta, .cta{text-shadow:none}
+
+/* ─── Mobile: iOS-safe card corner rendering ───
+   Safari drops rounded corners on <video> when GPU-accelerated. Fix:
+   1) transform:translateZ(0) forces same compositing layer as parent
+   2) mask-image forces clip fidelity on the video element itself
+   3) isolation:isolate keeps the ::before overlay stacking clean */
+.hero-card{isolation:isolate;transform:translateZ(0);-webkit-transform:translateZ(0)}
+.hero-card video,.hero-card img.poster{
+  border-radius:inherit;
+  -webkit-mask-image:-webkit-radial-gradient(white,black);
+  transform:translateZ(0);-webkit-transform:translateZ(0)
+}
+
 </style>
 </head>
 <body>
