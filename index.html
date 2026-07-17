@@ -379,10 +379,27 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
 
 
-/* mobile: footage stays legible, not smeared */
+/* ─── Mobile / Safari hardening ─────────────────────────────────
+   Cap footage blur at 3px on phones (iOS Safari's video blur is
+   GPU-expensive and can drop the layer to black over ~6px).
+   Fallback also targets iOS via -webkit-touch-callout media hint. */
 @media (max-width:520px){
-  .bg video,.bg img{filter:blur(3px) saturate(.98) brightness(.78) contrast(1.02)}
-  .hero-card video,.hero-card img.poster{filter:blur(3px) saturate(.96) brightness(.72)}
+  .bg video,.bg img{
+    filter:blur(3px) saturate(.98) brightness(.78) contrast(1.02);
+    -webkit-filter:blur(3px) saturate(.98) brightness(.78) contrast(1.02);
+  }
+  .hero-card video,.hero-card img.poster{
+    filter:blur(3px) saturate(.96) brightness(.72);
+    -webkit-filter:blur(3px) saturate(.96) brightness(.72);
+  }
+  /* Some very old iOS 12 devices drop background video: keep the still on top if video never paints */
+  .bg .live{will-change:opacity}
+}
+/* Reduced motion (Safari honors OS toggle): kill all filter animations */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none !important;animation:none !important}
+  .js .r{opacity:1;transform:none;filter:none}
+  .js h1 .w{opacity:1;transform:none;filter:none}
 }
 </style>
 </head>
@@ -390,8 +407,8 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
 <div class="bg" aria-hidden="true">
   <img id="bgStill" src="assets/img-aisle.jpg" alt="">
-  <video id="bgA" class="live" muted playsinline loop preload="none"></video>
-  <video id="bgB" class="live" muted playsinline loop preload="none"></video>
+  <video id="bgA" class="live" muted playsinline webkit-playsinline loop preload="none"></video>
+  <video id="bgB" class="live" muted playsinline webkit-playsinline loop preload="none"></video>
 </div>
 <div class="grain" aria-hidden="true"></div>
 
@@ -463,7 +480,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 
           <figure class="hero-card" id="heroCard">
             <img class="poster" id="heroPoster" src="assets/img-tjsign.jpg" alt="">
-            <video id="heroVid" muted playsinline loop preload="auto"></video>
+            <video id="heroVid" muted playsinline webkit-playsinline loop preload="auto"></video>
             <span class="hc-badge">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>
               Best match
@@ -1116,6 +1133,23 @@ document.addEventListener('visibilitychange', function(){
 if(JSON_ON){ runIntro(); }
 else { document.querySelectorAll('.r').forEach(function(el){ el.classList.add('show'); }); }
 probeVideo().then(initVideo);
+
+/* iOS Safari sometimes locks autoplay until first touch; unlock on any tap */
+(function iosUnlock(){
+  if(!JSON_ON) return;
+  var unlocked = false;
+  function unlock(){
+    if(unlocked) return; unlocked = true;
+    document.querySelectorAll('video').forEach(function(v){
+      if(v.paused && (v.classList.contains('on') || v.closest('.screen.on') || v.id==='heroVid')){
+        v.play().catch(function(){});
+      }
+    });
+  }
+  ['touchstart','pointerdown','click'].forEach(function(ev){
+    document.addEventListener(ev, unlock, {once:true, passive:true, capture:true});
+  });
+})();
 })();
 </script>
 </body>
