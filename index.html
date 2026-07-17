@@ -748,7 +748,7 @@ var OFFERS = [
     ],
     tags:['target','household','beauty','seasonal','home','decor'],
     url:'https://linkthem.net/aff_c?offer_id=317&aff_id=157168' },
-  { id:'costco', img:'assets/ph-offer.svg', vid:'store', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $750 toward your next bulk haul.',
+  { id:'costco', img:'assets/ph-offer.svg', vid:'costco', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $750 toward your next bulk haul.',
     desc:'Complete partner deals to unlock Costco reward tiers, up to $750 toward bulk runs.',
     reward:'Up to $750 in Costco shopping value, per the partner\u2019s reward tiers.',
     cap:750,
@@ -774,7 +774,9 @@ var OFFERS = [
     url:'https://giftclick.org/aff_c?offer_id=854&aff_id=157168' }
 ];
 var RETAIL = { amazon:'#E8912D', target:'#E4574F', costco:'#E4574F', trader:'#E8B14B' };
-var Q2_VID = { amazon:'box', target:'target', trader:'trader', costco:'store', groceries:'store', everywhere:'store2' };
+/* Background per picked store. Real store when picked; generic grocery aisle otherwise. */
+var STORE_BG = { amazon:'box', target:'target', trader:'trader', costco:'costco', groceries:'store', everywhere:'store2' };
+function storeBg(){ var a = answers.q1; return (a && STORE_BG[a.id]) || 'store'; }
 var QUIZ = {
   q1:{ title:'Where do you shop the most?', rkey:'Shops at', options:[
     {id:'amazon',    label:'Amazon',               tags:['amazon','essentials','tech'],  noun:'Amazon'},
@@ -835,8 +837,8 @@ function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
     ln.innerHTML = out.join(' ');
   });
 })();
-var V = { box:'assets/vid-box.mp4', target:'assets/vid-target.mp4', store:'assets/vid-aisle.mp4', trader:'assets/vid-tjsign.mp4', store2:'assets/vid-aisle2.mp4', checkout:'assets/vid-checkout.mp4' };
-var POSTER = { box:'assets/img-box.jpg', target:'assets/img-target.jpg', store:'assets/img-aisle.jpg', trader:'assets/img-tjsign.jpg', store2:'assets/img-aisle2.jpg', checkout:'assets/img-checkout.jpg' };
+var V = { box:'assets/vid-box.mp4', target:'assets/vid-target.mp4', store:'assets/vid-aisle.mp4', trader:'assets/vid-tjsign.mp4', store2:'assets/vid-aisle2.mp4', costco:'assets/vid-costco.mp4', checkout:'assets/vid-checkout.mp4' };
+var POSTER = { box:'assets/img-box.jpg', target:'assets/img-target.jpg', store:'assets/img-aisle.jpg', trader:'assets/img-tjsign.jpg', store2:'assets/img-aisle2.jpg', costco:'assets/img-costco.jpg', checkout:'assets/img-checkout.jpg' };
 var bgEls = [ $('#bgA'), $('#bgB') ], bgIdx = 0, bgKey = '';
 var videoOK = null;
 function probeVideo(){
@@ -954,9 +956,9 @@ function transition(name, back){
   };
 }
 function afterEnter(name){
-  if(name === 'q2') bgSwap(Q2_VID[answers.q1 ? answers.q1.id : 'groceries'] || 'store');
+  if(name === 'q2') bgSwap(storeBg());
   else if(name === 'q1') bgSwap('store');
-  else if(name === 'q3') bgSwap('target');
+  else if(name === 'q3') bgSwap(storeBg());
   else if(name === 'results') bgSwap(resultVid || 'store');
   else bgSwap('store');
 }
@@ -1070,29 +1072,25 @@ function playHeroVideo(vidKey){
   v.src = url;
   v.play().then(function(){ $('#heroCard').classList.add('playing'); }).catch(function(){});
 }
-/* Personalized match line: store opener (from q1) + benefit (from q3 deal type).
-   Falls back cleanly when answers are generic or missing. */
-function bestMatchLine(top, q1, q3){
-  var store = top && top.brand ? top.brand : 'your store';
+/* Match line: store opener (from q1) + benefit (from q3 deal type). Clean copy, no filler. */
+function bestMatchLine(q1, q3){
   var OPENERS = {
-    amazon:     ['We see you basically live on Amazon.', 'Amazon is basically your store.', 'Big Amazon cart? We noticed.'],
-    target:     ['We see you\u2019re a Target regular.', 'Target runs are your thing.', 'You and Target? Inseparable.'],
-    trader:     ['We see you shop at Trader Joe\u2019s.', 'Trader Joe\u2019s is your spot.', 'Trader Joe\u2019s runs are your ritual.'],
-    costco:     ['We see you run Costco.', 'Costco hauls are your move.', 'You stock up at Costco \u2014 respect.'],
-    groceries:  ['We see you\u2019re all about the grocery run.', 'Grocery runs are your whole thing.', 'You keep the grocery game tight.'],
-    everywhere: ['We see you shop a little of everywhere.', 'You shop wherever\u2019s smartest.', 'You spread it around \u2014 smart.']
+    amazon:     ['Amazon is basically your store.', 'Your Amazon cart stays busy.', 'You shop Amazon first.'],
+    target:     ['You\u2019re a Target regular.', 'Target runs are your thing.', 'Target is your go-to.'],
+    trader:     ['Trader Joe\u2019s is your spot.', 'Trader Joe\u2019s runs are your ritual.', 'You shop Trader Joe\u2019s.'],
+    costco:     ['Costco hauls are your move.', 'You stock up at Costco.', 'Costco is your bulk run.'],
+    groceries:  ['You\u2019re all about the grocery run.', 'Grocery runs are your thing.', 'You keep the grocery bill tight.'],
+    everywhere: ['You shop a little of everywhere.', 'You shop wherever\u2019s smartest.', 'You spread your shopping around.']
   };
   var BENEFIT = {
-    cashback: 'Here\u2019s the offer built to put real cash back toward it.',
+    cashback: 'Here\u2019s the offer built to put cash back toward it.',
     store:    'Here\u2019s the offer built to knock money off before you pay.',
     trials:   'Here\u2019s the offer stacked with free products to try first.',
-    loyalty:  'Here\u2019s the offer that turns your runs into points & perks.'
+    loyalty:  'Here\u2019s the offer that turns your runs into points and perks.'
   };
-  var key = q1 && OPENERS[q1.id] ? q1.id : null;
-  var openerSet = key ? OPENERS[key] : ['We see you shop at ' + store + '.'];
-  /* deterministic per answer-path so a given quiz result is stable but different paths vary */
-  var seed = ((q1 && q1.id ? q1.id.length : 0) + (q3 && q3.id ? q3.id.length : 0));
-  var opener = openerSet[seed % openerSet.length];
+  var set = (q1 && OPENERS[q1.id]) ? OPENERS[q1.id] : ['This one fits how you shop.'];
+  var seed = (q1 && q1.id ? q1.id.length : 0) + (q3 && q3.id ? q3.id.length : 0);
+  var opener = set[seed % set.length];
   var benefit = (q3 && BENEFIT[q3.id]) ? BENEFIT[q3.id] : 'Here\u2019s the best offer to help you shop.';
   return opener + ' ' + benefit;
 }
@@ -1125,7 +1123,7 @@ function buildResults(skipped){
     $('#rcptVal').textContent = 'Up to $' + top.o.cap;
     $('#rcptImg').src = top.o.img || 'assets/ph-offer.svg';
     $('#bestCta').setAttribute('data-offer', top.o.id);
-    $('#bestLine').textContent = bestMatchLine(top.o, q1, q3);
+    $('#bestLine').textContent = bestMatchLine(q1, q3);
     $('#heroPoster').src = POSTER[top.o.vid] || POSTER.trader;
   }
   function offerCard(s, rank, tagLabel){
