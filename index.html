@@ -47,15 +47,15 @@ body{font-family:var(--font);background:var(--ink);color:var(--txt);
 /* ── The footage IS the background ─────────────────────────────────── */
 .bg{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;background:var(--ink)}
 .bg video,.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:blur(16px) saturate(.82) brightness(.55) contrast(1.03);transform:scale(1.06);
+  filter:blur(7px) saturate(.95) brightness(.72) contrast(1.02);
   opacity:0;transition:opacity 1.2s var(--glide)}
 .bg .live.on,.bg img.on{opacity:1}
 .js .bg .live.on,.js .bg img.on{animation:burns 26s var(--glide) infinite alternate}
 @keyframes burns{from{transform:scale(1.02)}to{transform:scale(1.13) translateY(-1.4%)}}
 .bg::after{content:'';position:absolute;inset:0;background:
-  linear-gradient(180deg, rgba(10,12,14,.72) 0%, rgba(10,12,14,.30) 34%,
-                  rgba(10,12,14,.44) 62%, rgba(10,12,14,.94) 100%),
-  radial-gradient(130% 90% at 50% 108%, rgba(10,12,14,.9) 12%, transparent 55%)}
+  linear-gradient(180deg, rgba(10,12,14,.48) 0%, rgba(10,12,14,.16) 30%,
+                  rgba(10,12,14,.32) 62%, rgba(10,12,14,.88) 100%),
+  radial-gradient(130% 90% at 50% 108%, rgba(10,12,14,.78) 12%, transparent 60%)}
 .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -293,11 +293,11 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
   transition:opacity .7s var(--glide),transform .9s var(--spring),filter .6s var(--glide)}
 .best.in .hero-card{opacity:1;transform:none;filter:blur(0)}
 .hero-card video,.hero-card img.poster{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;
-  filter:blur(9px) saturate(.8) brightness(.5)}
+  filter:blur(6px) saturate(.92) brightness(.66)}
 .hero-card video{opacity:0;transition:opacity .8s var(--glide)}
 .hero-card.playing video{opacity:1}
 .hero-card::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(120% 90% at 50% 0%, rgba(0,0,0,.10), rgba(0,0,0,.5) 90%)}
+  background:radial-gradient(120% 90% at 50% 0%, rgba(0,0,0,.06), rgba(0,0,0,.42) 90%)}
 
 .hc-badge{position:absolute;top:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:6px;
   padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.09);
@@ -312,9 +312,9 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 /* ── the 3-scene demo ── */
 .demo{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding:0 26px 20px}
 .scene{grid-area:1/1;display:grid;justify-items:center;gap:11px;text-align:center;pointer-events:none;
-  opacity:0;transform:translateY(16px) scale(.95);filter:blur(6px);
-  transition:opacity .5s var(--glide),transform .6s var(--spring),filter .5s var(--glide)}
-.scene.on{opacity:1;transform:none;filter:blur(0)}
+  opacity:0;transform:translateY(14px) scale(.96);
+  transition:opacity .45s var(--glide),transform .6s var(--spring)}
+.scene.on{opacity:1;transform:none}
 .scene .art{position:relative;width:118px;height:104px;display:grid;place-items:center}
 .scene .art svg{width:100%;height:100%}
 .scene .cap{font:700 10px/1 var(--mono);letter-spacing:.2em;color:var(--em);text-transform:uppercase}
@@ -407,7 +407,7 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
     <section class="screen on" data-screen="landing">
       <div class="hero">
         <p class="eyebrow r" id="hEyebrow">The 30-second shopping audit</p>
-        <h1 id="hTitle"><span class="l1">Paying full price</span> <span class="l2">is <em>a choice</em>.</span></h1>
+        <h1 id="hTitle"><span class="l1">Paying full price</span> <span class="l2">is <em>a choice.</em></span></h1>
         <p class="lede r" id="hLede">Cashback apps and discount programs exist for the stores you already shop. Most people just never sort out which ones fit. <b>Three taps</b> does it, with every requirement listed before you start.</p>
         <div class="cta-wrap">
           <button class="cta r" id="startBtn">Find my matches
@@ -680,7 +680,11 @@ function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
     var out = [];
     ln.childNodes.forEach(function(n){
       if(n.nodeType === 3){
-        n.textContent.split(/\s+/).forEach(function(w){ if(w) out.push('<span class="w">'+esc(w)+'</span>'); });
+        n.textContent.split(/\s+/).forEach(function(w){
+          if(!w) return;
+          if(/^[.,!?;:]+$/.test(w) && out.length){ out[out.length-1] = out[out.length-1].replace('</span>', esc(w)+'</span>'); }
+          else out.push('<span class="w">'+esc(w)+'</span>');
+        });
       } else {
         out.push('<span class="w">'+n.outerHTML+'</span>');
       }
