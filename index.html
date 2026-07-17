@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0C0E">
+<title>PayoutAudit — Shopping offers in 3 taps</title>
+<meta name="description" content="Three taps sort today's partner shopping promotions to fit how you shop. Requirements shown before you start.">
+<link rel="preload" as="image" href="assets/poster-cart.jpg">
+<script>
+/* Motion gate — no JS or reduced motion ⇒ complete static render. */
+if (!window.matchMedia || !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.documentElement.classList.add("js");
+}
+</script>
+<style>
+/* ════════════════════════════════════════════════════════════════════
+   PAYOUTAUDIT v4 — ink ledger
+   One accent. Hairlines, not cards. Type does the work.
+   Motion system adapted from the Playful bridge page (same author).
+   ════════════════════════════════════════════════════════════════════ */
+:root{
+  --ink:#0A0C0E;
+  --ink-2:#0F1215;
+  --txt:#F4F5F3;
+  --muted:#A7AEB4;
+  --faint:#697077;
+  --line:rgba(244,245,243,.09);
+  --line-2:rgba(244,245,243,.16);
+  --em:#2FBF8F;
+  --em-deep:#189A6F;
+  --paper:#FFFFFF;
+  --paper-ink:#15181B;
+  --paper-mut:#70777D;
+
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+
+  --glide:cubic-bezier(.25,.9,.25,1);
+  --spring:cubic-bezier(.32,1.25,.32,1);
+  --exit:cubic-bezier(.5,0,.75,.4);
+  --d-fast:.34s; --d-med:.62s; --d-slow:.95s;
+}
+@supports (transition-timing-function: linear(0,1)) {
+  :root{
+    --spring:linear(
+      0, 0.0037 0.9%, 0.0388 3.1%, 0.1396 6.4%, 0.4183 12.5%,
+      0.6438 17%, 0.8231 21.3%, 0.9427 25.5%, 1.0104 29.8%,
+      1.0412 34.6%, 1.0426 40.3%, 1.0128 52%, 0.9998 63.5%,
+      0.9975 78.8%, 1
+    );
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{font-family:var(--font);background:var(--ink);color:var(--txt);
+  overflow-x:hidden;overscroll-behavior-y:none;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:rgba(47,191,143,.28)}
+
+/* ── Atmosphere: the Apple echo — same footage, blurred, faded ─────── */
+.bg{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;background:var(--ink)}
+.bg video,.bg img{
+  position:absolute;left:50%;top:44%;width:130vmax;height:130vmax;object-fit:contain;
+  transform:translate(-50%,-50%) scale(1.4);
+  filter:blur(60px) saturate(.9);
+  opacity:0;transition:opacity 1.3s var(--glide)}
+.bg .live.on,.bg img.on{opacity:.13}
+.bg::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 0%, transparent 30%, var(--ink) 92%)}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── Reveal system: rise through blur ──────────────────────────────── */
+.js .r{opacity:0;transform:translateY(14px);filter:blur(7px);
+  transition:opacity var(--d-med) var(--glide),transform var(--d-med) var(--spring),filter var(--d-med) var(--glide);
+  will-change:opacity,transform,filter}
+.js .r.show{opacity:1;transform:none;filter:blur(0)}
+.js .r.rest{will-change:auto}
+
+/* ── Frame ─────────────────────────────────────────────────────────── */
+.wrap{max-width:440px;margin:0 auto;
+  padding:0 22px calc(28px + env(safe-area-inset-bottom));
+  padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right))}
+.top{display:flex;align-items:center;justify-content:space-between;padding:20px 0 0}
+.mark{display:flex;align-items:baseline;gap:1px;font:700 13px/1 var(--mono);letter-spacing:.06em;color:var(--txt);text-decoration:none}
+.mark i{font-style:normal;color:var(--em)}
+.disc-btn{background:none;border:0;cursor:pointer;color:var(--faint);
+  font:600 10px/1 var(--mono);letter-spacing:.12em;padding:8px 0 8px 12px;
+  border-bottom:1px solid transparent;transition:color .25s}
+.disc-btn:hover,.disc-btn[aria-expanded="true"]{color:var(--muted)}
+.disc{max-height:0;overflow:hidden;transition:max-height .4s var(--glide)}
+.disc.open{max-height:260px}
+.disc p{border-top:1px solid var(--line);margin-top:14px;padding:14px 0 2px;
+  font-size:12px;line-height:1.65;color:var(--muted)}
+.prog{position:sticky;top:0;z-index:30;height:2px;margin:16px -22px 0;background:var(--line)}
+.prog i{display:block;height:100%;width:0;background:var(--em);
+  box-shadow:0 0 12px rgba(47,191,143,.55);transition:width .7s var(--glide)}
+
+/* ── Screens ───────────────────────────────────────────────────────── */
+.stage{display:grid;min-height:calc(100svh - 90px)}
+.screen{grid-area:1/1;visibility:hidden;pointer-events:none}
+.screen.on{visibility:visible;pointer-events:auto}
+.js .screen{will-change:transform,opacity,filter}
+
+/* ── Landing ───────────────────────────────────────────────────────── */
+.hero{padding-top:7vh;text-align:center}
+.eyebrow{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+h1{margin:14px 0 0;font-weight:700;font-size:clamp(30px,8vw,40px);
+  line-height:1.1;letter-spacing:-.032em}
+h1 .ln{display:block}
+h1 em{font-style:normal;color:var(--em)}
+.lede{margin:14px auto 0;max-width:32ch;font-size:14.5px;line-height:1.6;color:var(--muted)}
+
+.stagecard{position:relative;margin:30px auto 0;max-width:330px;border-radius:26px;overflow:hidden;
+  background:var(--ink-2);
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 0 0 1px var(--line),
+    0 24px 70px rgba(0,0,0,.55),0 60px 140px rgba(0,0,0,.4)}
+.stagecard::before{content:'';display:block;padding-top:118%}
+.stagecard video,.stagecard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:opacity .6s var(--glide)}
+.stagecard video{opacity:0}
+.stagecard.playing video{opacity:1}
+.stagecard .lab{position:absolute;left:14px;bottom:12px;z-index:2;
+  font:600 9px/1 var(--mono);letter-spacing:.18em;color:rgba(20,24,27,.55);text-transform:uppercase}
+
+.cta-wrap{margin-top:30px;display:grid;justify-items:center;gap:12px}
+.cta{position:relative;display:inline-flex;align-items:center;gap:9px;
+  background:var(--em);color:#04231A;border:0;border-radius:999px;
+  padding:15px 30px;font:650 15.5px/1 var(--font);letter-spacing:-.01em;cursor:pointer;
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 8px 28px rgba(47,191,143,.28);
+  transition:transform .16s var(--spring),box-shadow .25s;overflow:hidden}
+.cta svg{width:15px;height:15px;transition:transform .22s var(--spring)}
+.cta:hover svg,.cta:active svg{transform:translateX(3px)}
+.cta:active{transform:scale(.96)}
+.cta::after{content:'';position:absolute;top:0;bottom:0;left:-60%;width:38%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-18deg);opacity:0}
+.js .cta.shine::after{animation:shine 1.1s var(--glide)}
+@keyframes shine{from{left:-60%;opacity:1}to{left:120%;opacity:0}}
+.micro{font:500 10px/1.6 var(--mono);letter-spacing:.1em;color:var(--faint)}
+.skip{background:none;border:0;cursor:pointer;color:var(--muted);font:500 13px/1 var(--font);
+  border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:color .25s,border-color .25s}
+.skip:hover{color:var(--txt);border-color:var(--muted)}
+
+/* ── Questions ─────────────────────────────────────────────────────── */
+.qscreen{padding-top:26px}
+.back{background:none;border:0;cursor:pointer;color:var(--faint);
+  font:600 11px/1 var(--mono);letter-spacing:.14em;padding:6px 0;transition:color .25s}
+.back:hover{color:var(--muted)}
+.qnum{margin-top:26px;display:flex;align-items:center;gap:10px;
+  font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint)}
+.qnum .dot{width:7px;height:7px;border-radius:50%;background:var(--retail,var(--em));
+  opacity:0;transform:scale(.4);transition:opacity .3s,transform .4s var(--spring)}
+.qnum .dot.on{opacity:1;transform:none}
+h2{margin-top:12px;font-weight:700;font-size:clamp(25px,6.6vw,31px);
+  line-height:1.14;letter-spacing:-.028em;max-width:17ch}
+.rows{margin-top:22px;border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;
+  text-align:left;background:none;border:0;border-bottom:1px solid var(--line);
+  padding:17px 2px;cursor:pointer;color:var(--txt);
+  font:600 16.5px/1.25 var(--font);letter-spacing:-.016em;
+  transition:opacity .3s var(--glide),padding .3s var(--glide)}
+.row:hover{padding-left:6px}
+.row .ring{position:relative;flex:none;width:22px;height:22px;border-radius:50%;
+  border:1.5px solid var(--line-2);transition:border-color .25s,background .25s,transform .3s var(--spring)}
+.row .ring svg{position:absolute;inset:0;margin:auto;width:12px;height:12px;color:#04231A;
+  opacity:0;transform:scale(.4);transition:opacity .18s,transform .3s var(--spring)}
+.row.sel .ring{background:var(--em);border-color:var(--em);transform:scale(1.12)}
+.row.sel .ring svg{opacity:1;transform:none}
+.rows.lock .row{pointer-events:none}
+.rows.lock .row:not(.sel){opacity:.28}
+.cutout{position:absolute;right:-14px;top:2px;width:118px;pointer-events:none;z-index:-1;opacity:.9;
+  filter:drop-shadow(0 20px 30px rgba(0,0,0,.45))}
+.js .cutout{animation:idle 7s var(--glide) infinite alternate}
+@keyframes idle{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-12px) rotate(2.5deg)}}
+
+/* ── Results ───────────────────────────────────────────────────────── */
+.rscreen{padding-top:26px}
+.rhead .eyebrow{letter-spacing:.2em}
+.rhead h2{margin-top:10px}
+.rsub{margin-top:9px;font-size:13px;line-height:1.55;color:var(--muted)}
+
+.receipt-wrap{margin:26px 4px 4px;transform:rotate(-1.1deg);
+  filter:drop-shadow(0 26px 46px rgba(0,0,0,.5))}
+.receipt{position:relative;background:var(--paper);color:var(--paper-ink);padding:17px 18px 13px;
+  background-image:repeating-linear-gradient(0deg,rgba(21,24,27,.02) 0 1px,transparent 1px 3px)}
+.tear{display:block;width:100%;height:8px}
+.tear.flip{transform:scaleY(-1)}
+.rc-title{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1.5px dashed rgba(21,24,27,.18);padding-bottom:9px;margin-bottom:8px}
+.rc-title span:first-child{font:800 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.rc-title span:last-child{font:600 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--paper-mut)}
+.rl{display:flex;align-items:baseline;gap:8px;padding:4.5px 0;font:600 11.5px/1.3 var(--mono);color:var(--paper-ink);
+  opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s var(--spring)}
+.rl.show{opacity:1;transform:none}
+.rl .k{flex:none;text-transform:uppercase;font-size:9.5px;letter-spacing:.1em;color:var(--paper-mut)}
+.rl .lead{flex:1;border-bottom:1.5px dotted rgba(21,24,27,.22);transform:translateY(-3px)}
+.rl .v{flex:none;font-weight:700}
+.rl .v.retail{color:var(--retail,var(--em-deep))}
+.rl.total{border-top:1.5px dashed rgba(21,24,27,.18);margin-top:6px;padding-top:9px}
+.rl.total .k,.rl.total .v{font-size:11.5px;font-weight:800;color:var(--paper-ink)}
+.rc-bar{margin-top:11px;height:24px;opacity:.9;
+  background:repeating-linear-gradient(90deg,#15181B 0 2px,transparent 2px 4px,#15181B 4px 5px,transparent 5px 9px,#15181B 9px 12px,transparent 12px 14px)}
+
+/* offers: a ledger, not cards */
+.offers{margin-top:34px}
+.offers .cap{font:600 10px/1 var(--mono);letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+.offer{position:relative;padding:22px 0 24px;border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .5s var(--glide),transform .5s var(--spring)}
+.offer:first-of-type{margin-top:8px;border-top:1px solid var(--line)}
+.offer.show{opacity:1;transform:none}
+.offer.best{box-shadow:inset 2px 0 0 var(--em);padding-left:16px}
+.o-top{display:flex;align-items:baseline;gap:10px}
+.o-rank{font:700 11px/1 var(--mono);color:var(--faint)}
+.o-name{font-size:17px;font-weight:650;letter-spacing:-.02em}
+.o-spon{margin-left:auto;flex:none;font:600 8.5px/1 var(--mono);letter-spacing:.16em;color:var(--faint);text-transform:uppercase}
+.o-best-tag{display:inline-block;margin-bottom:9px;font:700 9px/1 var(--mono);letter-spacing:.18em;color:var(--em);text-transform:uppercase}
+.o-desc{margin-top:7px;font-size:13.5px;line-height:1.55;color:var(--muted);max-width:38ch}
+.o-reward{margin-top:9px;display:flex;gap:8px;align-items:baseline;font-size:12.5px;line-height:1.5;color:var(--em)}
+.o-reward b{font:700 9px/1.7 var(--mono);letter-spacing:.14em;color:var(--em);flex:none;text-transform:uppercase}
+.o-req{margin-top:10px}
+.o-req summary{list-style:none;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+  font:600 10px/1 var(--mono);letter-spacing:.16em;color:var(--faint);text-transform:uppercase;
+  padding:4px 0;transition:color .25s}
+.o-req summary:hover{color:var(--muted)}
+.o-req summary::-webkit-details-marker{display:none}
+.o-req summary svg{width:12px;height:12px;transition:transform .3s var(--spring)}
+.o-req[open] summary svg{transform:rotate(180deg)}
+.o-req ul{list-style:none;margin-top:6px;border-top:1px solid var(--line)}
+.o-req li{display:flex;gap:9px;align-items:flex-start;padding:9px 2px;border-bottom:1px solid var(--line);
+  font-size:12.5px;line-height:1.5;color:var(--muted)}
+.o-req li svg{flex:none;width:12px;height:12px;margin-top:3px;color:var(--em)}
+.o-req .note{padding:8px 2px 0;font-size:11px;line-height:1.5;color:var(--faint)}
+.o-act{margin-top:15px;display:flex;align-items:center;gap:14px}
+.o-btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:11px 22px;
+  font:650 13.5px/1 var(--font);letter-spacing:-.01em;cursor:pointer;text-decoration:none;
+  transition:transform .16s var(--spring),background .25s,color .25s,border-color .25s}
+.o-btn svg{width:13px;height:13px;transition:transform .22s var(--spring)}
+.o-btn:hover svg{transform:translateX(3px)}
+.o-btn:active{transform:scale(.95)}
+.offer.best .o-btn{background:var(--em);color:#04231A;border:1px solid var(--em);
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 8px 24px rgba(47,191,143,.24)}
+.offer:not(.best) .o-btn{background:none;color:var(--txt);border:1px solid var(--line-2)}
+.offer:not(.best) .o-btn:hover{border-color:var(--muted)}
+.o-terms{font:500 9px/1 var(--mono);letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+
+/* faq + footer */
+.faq{margin-top:38px;border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  cursor:pointer;padding:16px 2px;font-size:14px;font-weight:600;letter-spacing:-.015em;transition:color .25s}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary svg{flex:none;width:13px;height:13px;color:var(--faint);transition:transform .3s var(--spring)}
+.qa[open] summary svg{transform:rotate(45deg)}
+.qa p{padding:0 2px 16px;font-size:13px;line-height:1.65;color:var(--muted);max-width:42ch}
+.qa ol{padding:0 2px 16px 20px;font-size:13px;line-height:1.7;color:var(--muted)}
+.retake{margin:30px auto 0;display:block;background:none;border:0;cursor:pointer;color:var(--muted);
+  font:500 13px/1 var(--font);border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:color .25s}
+.retake:hover{color:var(--txt)}
+.foot{margin-top:44px;border-top:1px solid var(--line);padding-top:20px}
+.foot p{font-size:10.5px;line-height:1.65;color:var(--faint);margin-bottom:9px}
+.foot .links{display:flex;gap:18px;margin:12px 0 9px}
+.foot .links a{font-size:11px;font-weight:600;color:var(--muted);text-decoration:none;
+  border-bottom:1px solid var(--line-2)}
+.foot .cr{font:500 9px/1 var(--mono);letter-spacing:.1em;color:var(--faint)}
+
+@media (min-width:460px){ .stagecard{max-width:352px} .cutout{right:0} }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <img id="bgStill" src="assets/poster-cart.jpg" alt="">
+  <video id="bgA" class="live" muted playsinline loop preload="none"></video>
+  <video id="bgB" class="live" muted playsinline loop preload="none"></video>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="top r" id="topBar">
+    <a class="mark" href="#" onclick="return false">PAYOUT<i>AUDIT</i></a>
+    <button class="disc-btn" id="discBtn" aria-expanded="false" aria-controls="discPanel">AD&nbsp;DISCLOSURE</button>
+  </header>
+  <div class="disc" id="discPanel">
+    <p><strong style="color:var(--txt)">How PayoutAudit makes money.</strong> PayoutAudit is an independent, advertising-supported discovery service. We may be paid when you view or complete offers listed here, and that compensation can influence which offers appear and where. We describe each offer as accurately as we can and list its requirements before you begin. PayoutAudit is not a retailer and does not issue rewards — each partner does, under its own terms.</p>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+
+  <main class="stage" id="stage">
+
+    <!-- ═══════ LANDING ═══════ -->
+    <section class="screen on" data-screen="landing">
+      <div class="hero">
+        <p class="eyebrow r" id="hEyebrow">Independent &middot; Ad-supported</p>
+        <h1 id="hTitle">
+          <span class="ln r">Shopping offers,</span>
+          <span class="ln r">matched in <em>3&nbsp;taps</em>.</span>
+        </h1>
+        <p class="lede r" id="hLede">Requirements shown up front — nothing dressed up as guaranteed.</p>
+
+        <figure class="stagecard r" id="stageCard">
+          <img src="assets/poster-cart.jpg" alt="" width="720" height="850">
+          <video data-vid="cart" muted playsinline loop preload="auto"></video>
+          <figcaption class="lab">PayoutAudit &middot; 07</figcaption>
+        </figure>
+
+        <div class="cta-wrap">
+          <button class="cta r" id="startBtn">Start
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+          </button>
+          <p class="micro r" id="hMicro">~30&nbsp;SECONDS &middot; FREE &middot; U.S.&nbsp;RESIDENTS&nbsp;21+</p>
+          <button class="skip r" id="skipBtn">Skip to today's offers</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ Q1 ═══════ -->
+    <section class="screen qscreen" data-screen="q1" style="position:relative">
+      <img class="cutout" src="assets/cut-box.webp" alt="" width="444" height="581">
+      <div class="qnum">Q.01&nbsp;/&nbsp;03</div>
+      <h2 id="q1Title"></h2>
+      <div class="rows" id="q1Opts"></div>
+    </section>
+
+    <!-- ═══════ Q2 ═══════ -->
+    <section class="screen qscreen" data-screen="q2">
+      <button class="back" data-back="q1">&#8592;&nbsp;BACK</button>
+      <div class="qnum">Q.02&nbsp;/&nbsp;03<span class="dot" id="q2Dot"></span></div>
+      <h2 id="q2Title"></h2>
+      <div class="rows" id="q2Opts"></div>
+    </section>
+
+    <!-- ═══════ Q3 ═══════ -->
+    <section class="screen qscreen" data-screen="q3" style="position:relative">
+      <img class="cutout" src="assets/cut-rt.webp" alt="" width="560" height="752" style="width:104px;top:-6px">
+      <button class="back" data-back="q2">&#8592;&nbsp;BACK</button>
+      <div class="qnum">Q.03&nbsp;/&nbsp;03</div>
+      <h2 id="q3Title"></h2>
+      <div class="rows" id="q3Opts"></div>
+    </section>
+
+    <!-- ═══════ RESULTS ═══════ -->
+    <section class="screen rscreen" data-screen="results">
+      <div class="rhead">
+        <p class="eyebrow" id="resEyebrow">Audit complete</p>
+        <h2 id="resTitle"></h2>
+        <p class="rsub" id="resSub"></p>
+      </div>
+
+      <div class="receipt-wrap">
+        <svg class="tear flip" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
+        <div class="receipt" id="receipt">
+          <div class="rc-title"><span>PayoutAudit</span><span>Shopper audit</span></div>
+          <div class="rc-bar" aria-hidden="true"></div>
+        </div>
+        <svg class="tear" viewBox="0 0 120 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 9 L10 0 L15 9 L20 0 L25 9 L30 0 L35 9 L40 0 L45 9 L50 0 L55 9 L60 0 L65 9 L70 0 L75 9 L80 0 L85 9 L90 0 L95 9 L100 0 L105 9 L110 0 L115 9 L120 0 Z" fill="#FFFFFF"/></svg>
+      </div>
+
+      <div class="offers">
+        <p class="cap">Today's partner offers</p>
+        <div id="offerList"></div>
+      </div>
+
+      <div class="faq">
+        <details class="qa"><summary>How offers work<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+          <ol>
+            <li>Your three answers rank the offers — they stay on this page and aren't collected or stored.</li>
+            <li>Each partner's page spells out full requirements, values, and timing before you commit.</li>
+            <li>Complete the requirements as written — skipped steps are the top reason people don't qualify.</li>
+            <li>Any reward comes from the partner under its terms, which is why we never promise a specific outcome.</li>
+          </ol>
+        </details>
+        <details class="qa"><summary>Is PayoutAudit free?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+          <p>Yes. Partners may pay us when you complete their offers — that's the entire business model, and it's why we disclose it on every screen instead of hiding it.</p></details>
+        <details class="qa"><summary>Affiliated with Amazon, Walmart, Target, or Costco?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+          <p>No. Retailer names on this page describe shopping categories only. All trademarks belong to their owners, and nothing here implies sponsorship or endorsement.</p></details>
+        <details class="qa"><summary>Will I definitely get a reward?<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4 V16 M4 10 H16"/></svg></summary>
+          <p>No — and be wary of any site that says yes. Each partner sets its own eligibility rules, values, and timing. Read the requirements before you start.</p></details>
+      </div>
+
+      <button class="retake" id="restartBtn">Retake the 3 questions</button>
+
+      <footer class="foot">
+        <p><strong style="color:var(--muted)">Advertiser disclosure.</strong> PayoutAudit is an independent, advertising-supported discovery service. We may receive compensation when you view or complete offers listed on this page, and that compensation can influence which offers appear and where they appear. We aim to describe every offer accurately and to list requirements before you begin.</p>
+        <p>PayoutAudit is not a retailer and does not issue rewards or discounts. Offer availability, values, and requirements are set by partners and may change or end at any time. Amazon, Walmart, Target, and Costco are trademarks of their respective owners; references to them describe shopping categories only and do not imply affiliation, sponsorship, or endorsement.</p>
+        <p>For U.S. residents, 21 years of age or older.</p>
+        <!-- TODO before launch: point these at real pages. A live privacy policy is required by most ad platforms and CPA networks. -->
+        <div class="links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+        <p class="cr">&copy; 2026 PAYOUTAUDIT &middot; ALL AUDITS, NO PROMISES</p>
+      </footer>
+    </section>
+
+  </main>
+</div>
+<script>
+(function(){
+"use strict";
+/* ════════════════════════════════════════════════════════════════════
+   CONFIG — ▼ PASTE YOUR 3 TRACKING LINKS (url fields) ▼
+   Keep copy honest: no guaranteed amounts, no fake urgency.
+   ════════════════════════════════════════════════════════════════════ */
+var PREVIEW = false; /* preview build: stills only, no video loading */
+
+var OFFERS = [
+  { id:'cashback', name:'Everyday Cashback App',
+    desc:'Cashback on receipts from stores you already shop.',
+    reward:'Cashback on qualifying purchases. Rates vary by store and item.',
+    requirements:['Create a free account with the partner','Scan or link your first qualifying receipt','Cash-out minimums and timing are set by the partner'],
+    tags:['groceries','walmart','target','costco','household','family','bulk','saving','cashback','essentials'],
+    url:'#PASTE_TRACKING_LINK_1' },
+  { id:'discount-pass', name:'Online Shopping Discount Pass',
+    desc:'Member discounts across major online categories.',
+    reward:'Percentage discounts on qualifying orders. Values change often.',
+    requirements:['Sign up with an email address','Activate a discount before checkout \u2014 they don\u2019t apply retroactively','Some discounts require a first qualifying purchase'],
+    tags:['amazon','tech','home','beauty','essentials','saving','discount','loyalty','seasonal'],
+    url:'#PASTE_TRACKING_LINK_2' },
+  { id:'trials', name:'Deals & Product-Trial Program',
+    desc:'Try products and promos matched to your picks.',
+    reward:'Trial products or promo credits, depending on the campaign.',
+    requirements:['Complete a short profile honestly \u2014 mismatched profiles get filtered out','Pick only the categories you actually shop','Each trial lists its own steps and shipping terms before you join'],
+    tags:['trials','samples','pets','beauty','seasonal','home','household','loyalty'],
+    url:'#PASTE_TRACKING_LINK_3' }
+];
+
+var RETAIL = { amazon:'#E8912D', target:'#E4574F', costco:'#E4574F', walmart:'#5B9BE6' };
+var Q2_VID = { amazon:'box', target:'rt', groceries:'rw', costco:'rw', household:'rw', home:'box', pets:'box' };
+
+var QUIZ = {
+  q1:{ title:'What do you shop for most often?', rkey:'Shops for', vid:'box', options:[
+    {id:'groceries', label:'Groceries',       tags:['groceries','saving','family'],   noun:'grocery'},
+    {id:'amazon',    label:'Amazon',          tags:['amazon','essentials','tech'],    noun:'Amazon'},
+    {id:'target',    label:'Target',          tags:['target','household','beauty'],   noun:'Target'},
+    {id:'costco',    label:'Costco',          tags:['costco','bulk','family'],        noun:'Costco'},
+    {id:'home',      label:'Home essentials', tags:['home','household','essentials'], noun:'home-essentials'},
+    {id:'pets',      label:'Pet supplies',    tags:['pets','samples'],                noun:'pet-supply'},
+    {id:'household', label:'Household items', tags:['household','saving'],            noun:'household'} ]},
+  q2:{
+    groceries:{ title:'What matters most on grocery trips?', rkey:'Priority', options:[
+      {id:'save',label:'Saving money',tags:['saving','cashback']},{id:'bulk',label:'Buying in bulk',tags:['bulk','costco']},
+      {id:'fresh',label:'Fresh produce',tags:['groceries']},{id:'family',label:'Family shopping',tags:['family','household']} ]},
+    amazon:{ title:'What do you usually order?', rkey:'Usually orders', options:[
+      {id:'tech',label:'Tech',tags:['tech']},{id:'home',label:'Home',tags:['home']},
+      {id:'beauty',label:'Beauty',tags:['beauty','trials']},{id:'ess',label:'Everyday essentials',tags:['essentials','saving']} ]},
+    target:{ title:'What brings you to Target?', rkey:'Goes for', options:[
+      {id:'house',label:'Household items',tags:['household']},{id:'beauty',label:'Beauty',tags:['beauty','trials']},
+      {id:'decor',label:'Home d\u00e9cor',tags:['home']},{id:'season',label:'Seasonal finds',tags:['seasonal']} ]},
+    costco:{ title:'How often do you hit Costco?', rkey:'Frequency', options:[
+      {id:'wk',label:'Weekly',tags:['bulk','cashback']},{id:'mo',label:'Monthly',tags:['bulk']},{id:'occ',label:'Occasionally',tags:['saving']} ]},
+    home:{ title:'What are you stocking up on?', rkey:'Stocks up on', options:[
+      {id:'clean',label:'Cleaning',tags:['household']},{id:'kitch',label:'Kitchen',tags:['home']},
+      {id:'bath',label:'Bath & bedding',tags:['home']},{id:'org',label:'Organization',tags:['home','essentials']} ]},
+    pets:{ title:'Who are you shopping for?', rkey:'Shopping for', options:[
+      {id:'dogs',label:'Dogs',tags:['pets']},{id:'cats',label:'Cats',tags:['pets']},
+      {id:'both',label:'Both',tags:['pets','samples']},{id:'other',label:'Other pets',tags:['pets']} ]},
+    household:{ title:'How do you usually restock?', rkey:'Restocks via', options:[
+      {id:'bigbox',label:'Big-box runs',tags:['walmart','target','cashback']},{id:'online',label:'Online orders',tags:['amazon','essentials']},
+      {id:'subs',label:'Subscriptions',tags:['loyalty']},{id:'cheap',label:'Wherever\u2019s cheapest',tags:['saving','discount']} ]}
+  },
+  q3:{ title:'Which promos interest you most?', rkey:'Promo type', vid:'rt', options:[
+    {id:'store',label:'Store savings',tags:['saving','discount']},{id:'trials',label:'Product trials',tags:['trials','samples']},
+    {id:'cashback',label:'Cashback',tags:['cashback']},{id:'loyalty',label:'Loyalty rewards',tags:['loyalty']} ]}
+};
+
+/* ════════ helpers / state ════════ */
+var $ = function(s){ return document.querySelector(s); };
+var JSON_ON = document.documentElement.classList.contains('js');
+var answers = { q1:null, q2:null, q3:null };
+var PROGRESS = { landing:0, q1:30, q2:60, q3:90, results:100 };
+var advanceTimer = null, transLock = false;
+var CHECK = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg>';
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function buzz(){ if(navigator.vibrate) navigator.vibrate(6); }
+
+/* ════════ video system: sharp card + blurred echo, poster-safe ════════ */
+var V = { cart:'assets/cart.mp4', box:'assets/box.mp4', rt:'assets/rt.mp4', rw:'assets/rw.mp4' };
+var POSTER = { cart:'assets/poster-cart.jpg', box:'assets/poster-box.jpg', rt:'assets/poster-rt.jpg', rw:'assets/poster-rw.jpg' };
+var videoOK = null;                       /* null unknown · true · false */
+var bgEls = [ $('#bgA'), $('#bgB') ], bgIdx = 0, bgKey = '';
+
+function probeVideo(){
+  return new Promise(function(res){
+    if(PREVIEW || !JSON_ON){ res(false); return; }
+    var t = document.createElement('video');
+    if(!t.canPlayType || !t.canPlayType('video/mp4; codecs="avc1.42E01E"')){ /* still try — some UAs underreport */ }
+    var card = $('#stageCard video');
+    var done = false;
+    function fin(ok){ if(done) return; done = true; res(ok); }
+    card.addEventListener('loadeddata', function(){ fin(true); }, {once:true});
+    card.addEventListener('error', function(){ fin(false); }, {once:true});
+    setTimeout(function(){ fin(card.readyState >= 2); }, 2600);
+    card.src = V.cart;
+  });
+}
+
+function bgSwap(key){
+  if(!videoOK || key === bgKey) return;
+  bgKey = key;
+  var next = bgEls[bgIdx ^= 1], prev = bgEls[bgIdx ^ 1];
+  next.src = V[key];
+  next.play().catch(function(){});
+  next.classList.add('on');
+  prev.classList.remove('on');
+  setTimeout(function(){ if(!prev.classList.contains('on')) prev.pause(); }, 1400);
+}
+
+function initVideo(ok){
+  videoOK = ok;
+  var still = $('#bgStill');
+  if(ok){
+    var card = $('#stageCard');
+    card.querySelector('video').play().then(function(){ card.classList.add('playing'); }).catch(function(){});
+    bgSwap('cart');
+    setTimeout(function(){ still.classList.remove('on'); }, 900);
+  } else {
+    still.classList.add('on');          /* blurred poster echo, static */
+  }
+}
+
+/* ════════ screen transitions: springy lateral, blur-through ════════ */
+function transition(name, back){
+  if(transLock) return;
+  var cur = $('.screen.on'), nxt = $('[data-screen="'+name+'"]');
+  if(!nxt || cur === nxt) return;
+  $('#progBar').style.width = PROGRESS[name] + '%';
+  window.scrollTo({ top:0, behavior:'auto' });
+
+  if(!JSON_ON || !cur.animate){
+    cur.classList.remove('on'); nxt.classList.add('on');
+    afterEnter(name); return;
+  }
+  transLock = true;
+  var dir = back ? 1 : -1;
+  cur.animate(
+    [{ opacity:1, transform:'none', filter:'blur(0)' },
+     { opacity:0, transform:'translateX('+(dir*44)+'px)', filter:'blur(6px)' }],
+    { duration:270, easing:'cubic-bezier(.5,0,.75,.4)', fill:'forwards' }
+  ).onfinish = function(){
+    cur.classList.remove('on');
+    cur.getAnimations().forEach(function(a){ a.cancel(); });
+    nxt.classList.add('on');
+    nxt.animate(
+      [{ opacity:0, transform:'translateX('+(-dir*52)+'px)', filter:'blur(8px)' },
+       { opacity:1, transform:'none', filter:'blur(0)' }],
+      { duration:560, easing:'cubic-bezier(.32,1.25,.32,1)' }
+    ).onfinish = function(){ transLock = false; };
+    afterEnter(name);
+    /* stagger children */
+    var kids = nxt.querySelectorAll('.qnum, h2, .row, .rhead > *');
+    kids.forEach(function(k,i){
+      k.animate(
+        [{ opacity:0, transform:'translateY(12px)', filter:'blur(5px)' },
+         { opacity:1, transform:'none', filter:'blur(0)' }],
+        { duration:520, delay:60 + i*42, easing:'cubic-bezier(.32,1.25,.32,1)', fill:'backwards' }
+      );
+    });
+  };
+}
+
+function afterEnter(name){
+  if(name === 'q2'){
+    bgSwap(Q2_VID[answers.q1 ? answers.q1.id : 'groceries'] || 'rw');
+  } else if(name === 'q1'){ bgSwap('box'); }
+  else if(name === 'q3'){ bgSwap('rt'); }
+  else if(name === 'landing'){ bgSwap('cart'); }
+  else if(name === 'results'){ bgSwap('rw'); }
+}
+
+/* ════════ questions ════════ */
+function q2Config(){ return QUIZ.q2[answers.q1 ? answers.q1.id : 'groceries']; }
+
+function renderQuestion(qid){
+  var cfg = qid === 'q2' ? q2Config() : QUIZ[qid];
+  $('#'+qid+'Title').textContent = cfg.title;
+  var wrap = $('#'+qid+'Opts');
+  wrap.classList.remove('lock');
+  wrap.innerHTML = cfg.options.map(function(o,i){
+    var sel = answers[qid] && answers[qid].id === o.id ? ' sel' : '';
+    return '<button class="row'+sel+'" data-i="'+i+'">'+
+      '<span>'+esc(o.label)+'</span><span class="ring">'+CHECK+'</span></button>';
+  }).join('');
+  wrap.querySelectorAll('.row').forEach(function(btn){
+    btn.addEventListener('click', function(){ pick(qid, cfg, +btn.dataset.i, btn, wrap); });
+  });
+  if(qid === 'q2'){
+    var c = answers.q1 && RETAIL[answers.q1.id];
+    var dot = $('#q2Dot');
+    if(c){ document.documentElement.style.setProperty('--retail', c); dot.classList.add('on'); }
+    else dot.classList.remove('on');
+  }
+}
+
+function pick(qid, cfg, i, btn, wrap){
+  if(wrap.classList.contains('lock')) return;
+  clearTimeout(advanceTimer);
+  var opt = cfg.options[i];
+  answers[qid] = { id:opt.id, label:opt.label, tags:opt.tags, noun:opt.noun || null, rkey:cfg.rkey };
+  wrap.querySelectorAll('.row').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+  wrap.classList.add('lock');
+  buzz();
+  advanceTimer = setTimeout(function(){
+    if(qid === 'q1'){ renderQuestion('q2'); transition('q2'); }
+    else if(qid === 'q2'){ renderQuestion('q3'); transition('q3'); }
+    else { buildResults(false); transition('results'); }
+  }, JSON_ON ? 560 : 120);
+}
+
+/* ════════ results ════════ */
+function buildResults(skipped){
+  var q1 = answers.q1, q2 = answers.q2, q3 = answers.q3;
+  var retail = !skipped && q1 && RETAIL[q1.id];
+  if(retail) document.documentElement.style.setProperty('--retail', retail);
+
+  $('#resEyebrow').textContent = skipped ? 'Today\u2019s offers' : 'Audit complete';
+  $('#resTitle').textContent = skipped ? 'Every current offer' : 'Sorted for ' + q1.noun + ' shoppers';
+  $('#resSub').textContent = skipped
+    ? 'Default order \u2014 take the 3 taps anytime to sort by fit. Partners may pay us; it keeps this free.'
+    : 'Ranked by your answers \u00b7 Partners may pay us \u2014 it keeps this free.';
+
+  var date = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  var lines = [
+    { k:'Date', v:date },
+    { k:'Q.01 \u00b7 '+QUIZ.q1.rkey,                  v: skipped ? 'Skipped' : q1.label, retail: !!retail },
+    { k:'Q.02 \u00b7 '+(skipped ? 'Detail' : q2.rkey), v: skipped ? 'Skipped' : q2.label },
+    { k:'Q.03 \u00b7 '+QUIZ.q3.rkey,                  v: skipped ? 'Skipped' : q3.label },
+    { k:'Matches found', v:('0'+OFFERS.length).slice(-2), total:true },
+    { k:'Guarantees',    v:'0' }
+  ];
+  var rc = $('#receipt'), bar = rc.querySelector('.rc-bar');
+  rc.querySelectorAll('.rl').forEach(function(n){ n.remove(); });
+  lines.forEach(function(L){
+    var div = document.createElement('div');
+    div.className = 'rl' + (L.total ? ' total' : '');
+    div.innerHTML = '<span class="k">'+esc(L.k)+'</span><span class="lead"></span>'+
+      '<span class="v'+(L.retail ? ' retail' : '')+'">'+esc(L.v)+'</span>';
+    rc.insertBefore(div, bar);
+  });
+
+  var picked = skipped ? [] : q1.tags.concat(q2.tags, q3.tags);
+  var scored = OFFERS.map(function(o, idx){
+    return { o:o, idx:idx, score:o.tags.filter(function(t){ return picked.indexOf(t) > -1; }).length };
+  }).sort(function(a,b){ return b.score - a.score || a.idx - b.idx; });
+
+  var list = $('#offerList');
+  list.innerHTML = scored.map(function(s, rank){
+    var o = s.o, best = !skipped && rank === 0 && s.score > 0;
+    return '<article class="offer'+(best ? ' best' : '')+'">'+
+      (best ? '<span class="o-best-tag">Closest match</span>' : '')+
+      '<div class="o-top"><span class="o-rank">0'+(rank+1)+'</span>'+
+        '<span class="o-name">'+esc(o.name)+'</span>'+
+        '<span class="o-spon">Sponsored</span></div>'+
+      '<p class="o-desc">'+esc(o.desc)+'</p>'+
+      '<p class="o-reward"><b>Reward</b><span>'+esc(o.reward)+'</span></p>'+
+      '<details class="o-req"><summary>What\u2019s required <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7.5 L10 13 L15.5 7.5"/></svg></summary><ul>'+
+        o.requirements.map(function(r){ return '<li>'+CHECK+'<span>'+esc(r)+'</span></li>'; }).join('')+
+      '</ul><p class="note">Full terms are on the partner\u2019s page \u2014 read them before you start.</p></details>'+
+      '<div class="o-act">'+
+        '<a class="o-btn" data-offer="'+esc(o.id)+'" href="'+esc(o.url)+'" target="_blank" rel="sponsored noopener noreferrer">View offer '+
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg></a>'+
+        '<span class="o-terms">Availability varies \u00b7 Terms apply</span>'+
+      '</div></article>';
+  }).join('');
+
+  list.querySelectorAll('a.o-btn').forEach(function(a){
+    if(a.getAttribute('href').indexOf('PASTE_TRACKING_LINK') > -1){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        alert('This button isn\u2019t wired yet.\n\nPaste your tracking link into the OFFERS config at the top of the script in index.html.');
+      });
+    }
+  });
+
+  var rls = rc.querySelectorAll('.rl'), offers = list.querySelectorAll('.offer');
+  if(!JSON_ON){
+    rls.forEach(function(n){ n.classList.add('show'); });
+    offers.forEach(function(n){ n.classList.add('show'); });
+    return;
+  }
+  rls.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, 340 + i*105); });
+  var t0 = 340 + rls.length*105 + 140;
+  offers.forEach(function(n,i){ setTimeout(function(){ n.classList.add('show'); }, t0 + i*150); });
+}
+
+/* ════════ landing intro timeline ════════ */
+function runIntro(){
+  var seq = [
+    [0,   '#topBar'], [260, '#hEyebrow'],
+    [480, '#hTitle .ln:first-child'], [640, '#hTitle .ln:last-child'],
+    [980, '#hLede'], [1250,'#stageCard'],
+    [2050,'#startBtn'], [2250,'#hMicro'], [2450,'#skipBtn']
+  ];
+  seq.forEach(function(cue){
+    setTimeout(function(){
+      var el = $(cue[1]); if(!el) return;
+      el.classList.add('show');
+      setTimeout(function(){ el.classList.add('rest'); }, 1100);
+    }, cue[0]);
+  });
+  setTimeout(function(){ $('#startBtn').classList.add('shine'); }, 3100);
+  setInterval(function(){
+    var b = $('#startBtn');
+    b.classList.remove('shine'); void b.offsetWidth; b.classList.add('shine');
+  }, 9000);
+}
+
+/* ════════ wiring ════════ */
+$('#startBtn').addEventListener('click', function(){ renderQuestion('q1'); transition('q1'); });
+$('#skipBtn').addEventListener('click', function(){ buildResults(true); transition('results'); });
+$('#restartBtn').addEventListener('click', function(){
+  answers.q1 = answers.q2 = answers.q3 = null;
+  renderQuestion('q1'); transition('q1', true);
+});
+document.querySelectorAll('.back').forEach(function(b){
+  b.addEventListener('click', function(){
+    clearTimeout(advanceTimer);
+    renderQuestion(b.dataset.back); transition(b.dataset.back, true);
+  });
+});
+$('#discBtn').addEventListener('click', function(){
+  var open = $('#discPanel').classList.toggle('open');
+  $('#discBtn').setAttribute('aria-expanded', open);
+});
+document.addEventListener('visibilitychange', function(){
+  document.querySelectorAll('video').forEach(function(v){
+    if(document.hidden) v.pause();
+    else if(videoOK && (v.closest('.screen.on') || (v.classList.contains('live') && v.classList.contains('on')))) v.play().catch(function(){});
+  });
+});
+
+/* boot */
+if(JSON_ON){ runIntro(); } else {
+  document.querySelectorAll('.r').forEach(function(el){ el.classList.add('show'); });
+}
+probeVideo().then(initVideo);
+})();
+</script>
+</body>
+</html>
