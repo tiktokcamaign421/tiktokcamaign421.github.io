@@ -422,6 +422,51 @@ h2{margin-top:12px;font-weight:700;font-size:clamp(26px,7vw,32px);
 .rc-trust li a{color:var(--paper-ink);border-bottom:1px solid rgba(21,24,27,.3);text-decoration:none}
 .rcpt-bar{display:block;margin-top:9px;height:17px;opacity:.85;
   background:repeating-linear-gradient(90deg,#15181B 0 2px,transparent 2px 4px,#15181B 4px 5px,transparent 5px 9px,#15181B 9px 12px,transparent 12px 14px)}
+/* ===== Coupon (results CTA) ===== */
+.coupon{transform:rotate(-.5deg)}
+.cpn{position:relative;border-radius:16px;overflow:hidden;background:var(--paper)}
+.cpn-top{position:relative;padding:17px 16px 19px;color:#EAF3EE;
+  background:
+    radial-gradient(130% 130% at 16% -8%, rgba(47,191,143,.24), transparent 56%),
+    linear-gradient(160deg,#14231C 0%,#0B1611 100%)}
+.cpn-top::before{content:'';position:absolute;left:0;right:0;top:0;height:4px;background:var(--retail,var(--em))}
+.cpn-brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cpn-logo{height:19px;width:auto;max-width:120px;object-fit:contain;filter:brightness(0) invert(1);opacity:.95}
+.cpn-kicker{font:800 8.5px/1.2 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--retail,var(--em));text-align:right;max-width:44%}
+.cpn-value{margin-top:15px;text-align:center}
+.cpn-lead{display:block;font:700 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#93ABA1}
+.cpn-amt{display:block;margin:3px 0 2px;font:800 66px/0.92 var(--font);letter-spacing:-.035em;color:#FFFFFF}
+.cpn-cur{font-size:32px;vertical-align:20px;margin-right:1px;color:var(--em)}
+.cpn-for{display:block;font:600 14.5px/1.3 var(--font);color:#C7D8D0}
+.cpn-for b{color:#FFFFFF;font-weight:800}
+.cpn-perf{position:relative;height:0;border-top:2px dashed rgba(21,24,27,.26)}
+.cpn-notch{position:absolute;top:0;width:18px;height:18px;border-radius:50%;background:var(--ink);
+  transform:translateY(-50%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.cpn-notch.l{left:-9px}
+.cpn-notch.r{right:-9px}
+.cpn-body{background:var(--paper);color:var(--paper-ink);padding:14px 16px 13px;
+  background-image:repeating-linear-gradient(0deg,rgba(21,24,27,.02) 0 1px,transparent 1px 3px)}
+.cpn-item{display:flex;align-items:center;gap:11px;padding:2px 0 11px}
+.cpn-item img{flex:none;width:44px;height:44px;border-radius:9px;object-fit:cover;background:#E9ECEE;border:1px solid rgba(21,24,27,.12)}
+.cpn-item .ci{display:block}
+.cpn-item .ci-name{display:block;font:700 13.5px/1.25 var(--font);letter-spacing:-.015em;color:var(--paper-ink)}
+.cpn-item .ci-sub{display:block;margin-top:3px;font:600 9px/1.4 var(--mono);letter-spacing:.1em;color:var(--paper-mut);text-transform:uppercase}
+.cpn-rows{display:block;border-top:1.5px dashed rgba(21,24,27,.2);padding:9px 0 7px}
+.crow{display:flex;align-items:baseline;gap:8px;padding:2.5px 0;font:700 11px/1.4 var(--mono)}
+.crow .k{flex:none;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-mut);font-weight:600}
+.crow .lead{flex:1;border-bottom:1.5px dotted rgba(21,24,27,.28);transform:translateY(-3px)}
+.crow b{flex:none;color:var(--paper-ink)}
+.crow b.zero{color:var(--em-deep)}
+.crow b.ref{letter-spacing:.14em}
+.cpn-ppo-wrap{display:flex;justify-content:center;margin:6px 0 11px}
+.rcpt-cta.cpn-redeem{width:100%;box-sizing:border-box;padding:15px 12px;border-radius:12px;
+  font-size:14.5px;letter-spacing:.12em}
+.cpn-fine{display:block;margin-top:9px;text-align:center;font:600 7.5px/1.6 var(--mono);letter-spacing:.12em;color:var(--paper-mut);text-transform:uppercase}
+.cpn-trust{margin-top:11px}
+.cpn-barcode{margin-top:11px;padding-top:11px;border-top:1.5px dashed rgba(21,24,27,.2);text-align:center}
+.cpn-barcode .bars{display:block;height:34px;
+  background:repeating-linear-gradient(90deg,#15181B 0 2px,transparent 2px 3px,#15181B 3px 6px,transparent 6px 8px,#15181B 8px 9px,transparent 9px 13px,#15181B 13px 14px,transparent 14px 17px)}
+.cpn-code{display:block;margin-top:7px;font:700 9px/1 var(--mono);letter-spacing:.32em;color:var(--paper-ink)}
 .hero-fine{margin-top:9px;text-align:center;font:500 9px/1.6 var(--mono);letter-spacing:.11em;color:var(--faint);text-transform:uppercase;
   opacity:0;transition:opacity .5s var(--glide) .8s}
 .best.in .hero-fine{opacity:1}
@@ -588,40 +633,51 @@ h1, h2, .lede, .best-brand, .best-line, .qnum, .row, .rl,
             </div>
           </figure>
           <div class="best-meta">
-            <p class="eyebrow">We found the best deals for you!</p>
-            <h2 class="best-brand" id="bestBrand"><span class="brand-chip" id="brandChip"><img id="bestLogo" alt=""></span></h2>
+            <p class="eyebrow" id="bestEyebrow">Your audit is complete</p>
             <p class="best-line" id="bestLine"></p>
             <div class="hero-cta-wrap">
               <div class="rcpt-wrap" id="rcptWrap">
-                <div class="rcpt">
-                  <svg class="tearx flip" viewBox="0 0 120 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 8 L10 0 L15 8 L20 0 L25 8 L30 0 L35 8 L40 0 L45 8 L50 0 L55 8 L60 0 L65 8 L70 0 L75 8 L80 0 L85 8 L90 0 L95 8 L100 0 L105 8 L110 0 L115 8 L120 0 Z" fill="#FFFFFF"/></svg>
-                  <div class="rcpt-body">
-                    <div class="rcpt-head pb"><b>PayoutAudit</b><span id="rcptNo">Your match &middot; 01</span></div>
-                    <div class="rcpt-item pb">
-                      <img id="rcptImg" src="assets/ph-offer.svg" alt="" width="46" height="46">
-                      <span class="ri"><span class="ri-name" id="rcptName"></span><span class="ri-sub" id="rcptSub">Sponsored partner offer</span></span>
+                <div class="rcpt coupon">
+                  <div class="cpn">
+                    <div class="cpn-top pb">
+                      <div class="cpn-brandrow">
+                        <img class="cpn-logo" id="cpnLogo" alt="">
+                        <span class="cpn-kicker">Exclusive savings match</span>
+                      </div>
+                      <div class="cpn-value">
+                        <span class="cpn-lead">We found ways to save up to</span>
+                        <span class="cpn-amt"><span class="cpn-cur">$</span>700</span>
+                        <span class="cpn-for">for <b id="cpnStore">your store</b></span>
+                      </div>
                     </div>
-                    <div class="rcpt-rows pb">
-                      <span class="rrow"><span class="k">Potential reward</span><span class="lead"></span><b id="rcptVal">Up to $750</b></span>
-                      <span class="rrow"><span class="k">Cost to start</span><span class="lead"></span><b class="zero">$0.00</b></span>
+                    <div class="cpn-perf" aria-hidden="true"><span class="cpn-notch l"></span><span class="cpn-notch r"></span></div>
+                    <div class="cpn-body">
+                      <div class="cpn-item pb">
+                        <img id="rcptImg" src="assets/ph-offer.svg" alt="" width="44" height="44">
+                        <span class="ci"><span class="ci-name" id="rcptName"></span><span class="ci-sub" id="rcptSub">Sponsored partner offer</span></span>
+                      </div>
+                      <div class="cpn-rows pb">
+                        <span class="crow"><span class="k">Potential value</span><span class="lead"></span><b id="rcptVal">Up to $700</b></span>
+                        <span class="crow"><span class="k">Cost to start</span><span class="lead"></span><b class="zero">$0.00</b></span>
+                        <span class="crow"><span class="k">Match ref</span><span class="lead"></span><b id="rcptNo" class="ref">&mdash;</b></span>
+                      </div>
+                      <div class="cpn-ppo-wrap pb"><a class="ppo on-paper" id="rcptPpo" href="#" rel="sponsored noopener noreferrer">Pay-Per-Offer</a></div>
+                      <a class="rcpt-cta cpn-redeem pb" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">Unlock these savings
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
+                      </a>
+                      <span class="cpn-fine pb">Sponsored &middot; Free to start &middot; Some partner deals require purchases</span>
+                      <div class="rc-trust cpn-trust pb">
+                        <span class="tcap">Why trust this page</span>
+                        <ul>
+                          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Requirements first.</b> Every step is listed on each offer before you start.</span></li>
+                          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Nothing collected here.</b> No sign-up on this page, only standard ad campaign data. See <a href="privacy.html">privacy</a>.</span></li>
+                          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Partners pay us, you never do.</b> Disclosed on every screen.</span></li>
+                          <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Rewards come from partners</b> under their published terms. No promised outcomes, here or anywhere.</span></li>
+                        </ul>
+                      </div>
+                      <div class="cpn-barcode pb" aria-hidden="true"><span class="bars"></span><span class="cpn-code" id="cpnCode">&mdash;</span></div>
                     </div>
-                    <div class="rcpt-ppo-wrap pb"><a class="ppo on-paper" id="rcptPpo" href="#" rel="sponsored noopener noreferrer">Pay-Per-Offer</a></div>
-                    <a class="rcpt-cta pb" id="bestCta" href="#" target="_blank" rel="sponsored noopener noreferrer">Tap To Start!
-                      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5 L13 10 L7 15.5"/></svg>
-                    </a>
-                    <span class="rcpt-fine pb">Sponsored &middot; Free to start &middot; Some partner deals require purchases</span>
-                    <div class="rc-trust pb">
-                      <span class="tcap">Why trust this page</span>
-                      <ul>
-                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Requirements first.</b> Every step is listed on each offer before you start.</span></li>
-                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Nothing collected here.</b> No sign-up on this page, only standard ad campaign data. See <a href="privacy.html">privacy</a>.</span></li>
-                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Partners pay us, you never do.</b> Disclosed on every screen.</span></li>
-                        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 L8.4 14.4 L15.5 5.9"/></svg><span><b>Rewards come from partners</b> under their published terms. No promised outcomes, here or anywhere.</span></li>
-                      </ul>
-                    </div>
-                    <span class="rcpt-bar pb" aria-hidden="true"></span>
                   </div>
-                  <svg class="tearx" viewBox="0 0 120 8" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 L5 8 L10 0 L15 8 L20 0 L25 8 L30 0 L35 8 L40 0 L45 8 L50 0 L55 8 L60 0 L65 8 L70 0 L75 8 L80 0 L85 8 L90 0 L95 8 L100 0 L105 8 L110 0 L115 8 L120 0 Z" fill="#FFFFFF"/></svg>
                 </div>
               </div>
             </div>
@@ -725,62 +781,62 @@ function openExternal(url) {
 }
 var PREVIEW = false;
 var OFFERS = [
-  { id:'amazon-reviewer', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Product Tester Program', brand:'Amazon', badge:'Tester program', hook:'Test products. Unlock up to $750 in Amazon credit.',
-    desc:'Unlock Amazon reward tiers by reviewing partner products, with up to $750 toward Amazon shopping when you finish the top tier.',
-    reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Actual value depends on the tier you complete.',
-    cap:750,
+  { id:'amazon-reviewer', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Product Tester Program', brand:'Amazon', badge:'Tester program', hook:'Test products. Unlock up to $700 in Amazon credit.',
+    desc:'Unlock Amazon reward tiers by reviewing partner products, with up to $700 toward Amazon shopping when you finish the top tier.',
+    reward:'Up to $700 in Amazon shopping value, per the partner\u2019s reward tiers. Actual value depends on the tier you complete.',
+    cap:700,
     how:[
       { t:'Enter a valid email', d:'The partner\u2019s page collects your email so it can credit you when you complete a deal.' },
       { t:'Pick partner deals from the reviewer list', d:'Each deal is a product to try, a signup to complete, or a short offer to finish, with its own steps and reward value shown up front.' },
-      { t:'Complete the deals for the tier you want', d:'Reward tiers stack: finish more deals, unlock a higher tier. The top tier tops out at $750 toward Amazon.' },
+      { t:'Complete the deals for the tier you want', d:'Reward tiers stack: finish more deals, unlock a higher tier. The top tier tops out at $700 toward Amazon.' },
       { t:'Partner verifies and issues the reward', d:'Timing and delivery are set by the partner. Most people don\u2019t complete every tier, and that\u2019s normal.' }
     ],
     tags:['amazon','tech','essentials','loyalty','home','beauty'],
     url:'GBUNHwZOTloQGx8AV00AHxdOGAkTKwJKCw8SFlw8BglNVkFWUxUHEzsAEE4fVlhcRlk=' },
-  { id:'amazon-ladder', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer', hook:'Up to $750 in Amazon credit, one deal at a time.',
-    desc:'A ladder-style program where each partner deal you complete moves you up toward the next Amazon reward tier, up to $750.',
-    reward:'Up to $750 in Amazon shopping value, per the partner\u2019s reward tiers. Each completed deal moves you up the ladder.',
-    cap:750,
+  { id:'amazon-ladder', img:'assets/ph-offer.svg', vid:'box', name:'Amazon Rewards Ladder', brand:'Amazon', badge:'Pay-per-offer', hook:'Up to $700 in Amazon credit, one deal at a time.',
+    desc:'A ladder-style program where each partner deal you complete moves you up toward the next Amazon reward tier, up to $700.',
+    reward:'Up to $700 in Amazon shopping value, per the partner\u2019s reward tiers. Each completed deal moves you up the ladder.',
+    cap:700,
     how:[
       { t:'Enter a valid email', d:'The partner\u2019s page collects your email so it can credit each completed deal to your ladder.' },
       { t:'Complete deals one at a time', d:'Each rung is a specific partner deal. Some are free trials or signups; some involve a small purchase or deposit.' },
-      { t:'Rewards stack as you climb', d:'The higher the rung, the bigger the Amazon shopping credit, up to $750 at the top rung.' },
+      { t:'Rewards stack as you climb', d:'The higher the rung, the bigger the Amazon shopping credit, up to $700 at the top rung.' },
       { t:'Partner verifies and issues rewards', d:'The partner handles verification, timing, and delivery under its own terms.' }
     ],
     tags:['amazon','tech','essentials','loyalty','home','saving'],
     url:'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SREBVUwUPEixHB1JcRVZIWU0=' },
-  { id:'target', img:'assets/ph-offer.svg', vid:'target', name:'Target Shopper Payout Program', brand:'Target', badge:'Pay-per-offer', hook:'Up to $750 toward your Target runs.',
-    desc:'Complete partner deals to unlock Target reward tiers, up to $750 you can put toward Target runs.',
-    reward:'Up to $750 in Target shopping value, per the partner\u2019s reward tiers.',
-    cap:750,
+  { id:'target', img:'assets/ph-offer.svg', vid:'target', name:'Target Shopper Payout Program', brand:'Target', badge:'Pay-per-offer', hook:'Up to $700 toward your Target runs.',
+    desc:'Complete partner deals to unlock Target reward tiers, up to $700 you can put toward Target runs.',
+    reward:'Up to $700 in Target shopping value, per the partner\u2019s reward tiers.',
+    cap:700,
     how:[
       { t:'Enter a valid email', d:'The partner\u2019s page uses email to track which deals you\u2019ve completed.' },
       { t:'Choose deals from the Target-linked list', d:'Each deal lists its own requirement (a trial, a signup, a small purchase) and the reward value it unlocks.' },
-      { t:'Complete enough deals to reach a reward tier', d:'Reward tiers stack; the top tier tops out at $750 toward Target.' },
+      { t:'Complete enough deals to reach a reward tier', d:'Reward tiers stack; the top tier tops out at $700 toward Target.' },
       { t:'Partner verifies and issues rewards', d:'Timing and delivery are set by the partner, under its terms. Not everyone finishes every tier.' }
     ],
     tags:['target','household','beauty','seasonal','home','decor'],
     url:'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SRkVWUwUPEixHB1JcRVZIWU0=' },
-  { id:'costco', img:'assets/ph-offer.svg', vid:'costco', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $750 toward your next bulk haul.',
-    desc:'Complete partner deals to unlock Costco reward tiers, up to $750 toward bulk runs.',
-    reward:'Up to $750 in Costco shopping value, per the partner\u2019s reward tiers.',
-    cap:750,
+  { id:'costco', img:'assets/ph-offer.svg', vid:'costco', name:'Costco Bulk-Buyer Rewards', brand:'Costco', badge:'Reward tiers', hook:'Up to $700 toward your next bulk haul.',
+    desc:'Complete partner deals to unlock Costco reward tiers, up to $700 toward bulk runs.',
+    reward:'Up to $700 in Costco shopping value, per the partner\u2019s reward tiers.',
+    cap:700,
     how:[
       { t:'Enter a valid email', d:'Standard first step: the partner\u2019s page uses email to credit your completions.' },
       { t:'Pick deals matched to bulk shoppers', d:'Trials, signups, and small purchases, each with its own steps and reward value listed.' },
-      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $750 toward Costco.' },
+      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $700 toward Costco.' },
       { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
     ],
     tags:['costco','bulk','loyalty'],
     url:'GBUNHwZOTloDABIHTQ8GDhtPFh0SWwATAjYXTEEFCQgCPhALSE1VREIIEhVxCgtQQVROXkNM' },
-  { id:'trader', img:'assets/ph-offer.svg', vid:'trader', name:'Trader Joe\u2019s Grocery Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers', hook:'Up to $750 toward your grocery runs.',
-    desc:'Complete partner deals to unlock Trader Joe\u2019s reward tiers, up to $750 toward grocery runs.',
-    reward:'Up to $750 in Trader Joe\u2019s shopping value, per the partner\u2019s reward tiers.',
-    cap:750,
+  { id:'trader', img:'assets/ph-offer.svg', vid:'trader', name:'Trader Joe\u2019s Grocery Rewards', brand:'Trader Joe\u2019s', badge:'Reward tiers', hook:'Up to $700 toward your grocery runs.',
+    desc:'Complete partner deals to unlock Trader Joe\u2019s reward tiers, up to $700 toward grocery runs.',
+    reward:'Up to $700 in Trader Joe\u2019s shopping value, per the partner\u2019s reward tiers.',
+    cap:700,
     how:[
       { t:'Enter a valid email', d:'The partner\u2019s page uses email to credit each completed deal.' },
       { t:'Pick deals from the grocery-shopper list', d:'Trials, signups, and small purchases, each listing its own steps and reward value.' },
-      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $750 toward Trader Joe\u2019s.' },
+      { t:'Complete deals to unlock a reward tier', d:'Tiers stack; the top tier tops out at $700 toward Trader Joe\u2019s.' },
       { t:'Partner verifies and issues rewards', d:'The partner handles verification and delivery under its own terms.' }
     ],
     tags:['groceries','trader','saving','family','household','essentials','fresh'],
@@ -815,8 +871,8 @@ var QUIZ = {
       {id:'save',label:'Keeping the bill down',tags:['saving','cashback']},{id:'bulk',label:'Stocking up in bulk',tags:['bulk','costco']},
       {id:'fresh',label:'Fresh food',tags:['groceries']},{id:'family',label:'Feeding a family',tags:['family','household']} ]},
     everywhere:{ title:'How do you usually restock?', rkey:'Restocks via', options:[
-      {id:'bigbox',label:'Big-box store runs',tags:['walmart','target','cashback']},{id:'online',label:'Online orders',tags:['amazon','essentials']},
-      {id:'subs',label:'Subscriptions',tags:['loyalty']},{id:'cheap',label:'Wherever\u2019s cheapest',tags:['saving','discount']} ]}
+      {id:'bigbox',label:'Big-box store runs',tags:['target','household']},{id:'online',label:'Online orders',tags:['amazon','essentials']},
+      {id:'subs',label:'Subscriptions',tags:['loyalty']},{id:'cheap',label:'Wherever\u2019s cheapest',tags:['saving','bulk']} ]}
   },
   q3:{ title:'What kind of deal actually gets you?', rkey:'Deal type', options:[
     {id:'cashback',label:'Cash back after I buy',tags:['cashback']},
@@ -1114,33 +1170,51 @@ function bestMatchLine(q1, q3){
   return opener + ' ' + benefit;
 }
 
+/* The store picked in Q1 decides the brand you get. Q3 splits the two Amazon
+   programs (free products to try -> Tester program; otherwise the Ladder), and
+   the two catch-alls route to the most congruent brand so nobody lands on an
+   offer that doesn't match what they just told us. */
+function pickTopId(q1, q2, q3){
+  var s = q1 ? q1.id : null;
+  function amazon(){ return (q3 && q3.id === 'trials') ? 'amazon-reviewer' : 'amazon-ladder'; }
+  if(s === 'amazon')     return amazon();
+  if(s === 'target')     return 'target';
+  if(s === 'costco')     return 'costco';
+  if(s === 'trader')     return 'trader';
+  if(s === 'groceries')  return 'trader';                 /* grocery shopper -> Trader Joe's grocery rewards */
+  if(s === 'everywhere'){
+    var r = q2 ? q2.id : null;
+    if(r === 'bigbox') return 'target';
+    if(r === 'cheap')  return 'costco';
+    return amazon();                                      /* online / subscriptions / default */
+  }
+  return amazon();
+}
 function buildResults(skipped){
   clearInterval(demoTimer);
   demoTimeouts.forEach(clearTimeout); demoTimeouts = [];
   var q1 = answers.q1, q2 = answers.q2, q3 = answers.q3;
-  var retail = !skipped && q1 && RETAIL[q1.id];
-  if(retail) document.documentElement.style.setProperty('--retail', retail);
   var picked = skipped ? [] : q1.tags.concat(q2.tags, q3.tags);
   var scored = OFFERS.map(function(o, idx){
     return { o:o, idx:idx, score:o.tags.filter(function(t){ return picked.indexOf(t) > -1; }).length };
   }).sort(function(a,b){ return b.score - a.score || a.idx - b.idx; });
-  var top = scored[0], hasBest = !skipped && top.score > 0;
+  if(!skipped){
+    var topId = pickTopId(q1, q2, q3), di = -1;
+    for(var _i = 0; _i < scored.length; _i++){ if(scored[_i].o.id === topId){ di = _i; break; } }
+    if(di > 0){ scored.unshift(scored.splice(di, 1)[0]); }
+  }
+  var top = scored[0], hasBest = !skipped;
   var totalSignals = scored.reduce(function(a,s){return a+s.score;}, 0);
+  var retail = !skipped && RETAIL[ top.o.id.split('-')[0] ];
+  if(retail) document.documentElement.style.setProperty('--retail', retail);
   resultVid = 'checkout';   
   var hero = $('#bestHero');
   hero.classList.remove('in');
   if(hasBest){
-    var lg = LOGO[top.o.brand], chip = $('#brandChip'), lgImg = $('#bestLogo');
-    if(lg){
-      lgImg.src = lg.src;
-      lgImg.alt = top.o.brand;
-      lgImg.className = lg.cls || '';
-      chip.style.display = '';
-    } else {
-      chip.style.display = 'none';
-      $('#bestBrand').setAttribute('data-brand', top.o.brand);
-      $('#bestBrand').appendChild(document.createTextNode(top.o.brand));
-    }
+    var lg = LOGO[top.o.brand], cl = $('#cpnLogo');
+    if(lg){ cl.src = lg.src; cl.alt = top.o.brand; cl.style.display = ''; }
+    else { cl.style.display = 'none'; }
+    $('#cpnStore').textContent = top.o.brand;
     $('#bestCta').href = "#";
     $('#bestCta').onclick = function(e){
         e.preventDefault();
@@ -1148,7 +1222,10 @@ function buildResults(skipped){
     };
     $('#rcptName').textContent = top.o.name;
     $('#rcptSub').textContent = top.o.hook || (top.o.badge + ' \u00b7 Sponsored');
-    $('#rcptNo').textContent = 'Your match \u00b7 01';
+    var BR = { 'amazon-reviewer':'AMZ','amazon-ladder':'AMZ','target':'TGT','costco':'CST','trader':'TRJ' };
+    var refCode = (BR[top.o.id] || 'PA') + '-' + (1000 + Math.abs(totalSignals*137 + top.idx*29 + 7) % 9000);
+    $('#rcptNo').textContent = refCode;
+    var cc = $('#cpnCode'); if(cc) cc.textContent = refCode;
     $('#rcptVal').textContent = 'Up to $' + top.o.cap;
     $('#rcptImg').src = top.o.img || 'assets/ph-offer.svg';
     $('#bestCta').setAttribute('data-offer', top.o.id);
