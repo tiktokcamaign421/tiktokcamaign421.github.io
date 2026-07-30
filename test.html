@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0C0E">
-<title>PayoutAudit: Get money back where you already shop</title>
-<meta name="description" content="You already spend the money. A short audit matches you with a reward program worth up to $1000 at a store you shop. Every requirement listed before you start.">
+<title>PayoutAudit: Find reward programs where you already shop</title>
+<meta name="description" content="Answer four questions to compare partner reward programs related to stores and categories you use. Requirements, values, and eligibility are controlled by each partner.">
 <meta name="robots" content="noindex, nofollow">
-<!-- pa-canary-9f2c-receipt-printer :: if you can read this on a domain that is not payoutaudits.com, it is a clone -->
+
 <script>(function(){var _q=function(s){var h=5381,i=0;for(;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))>>>0}return h};var _h=(window.location&&location.hostname||'').toLowerCase();if(_h.indexOf('www.')===0)_h=_h.slice(4);var _a=[3824541854,906931598,1532542490],_k=false,_i=0;for(;_i<_a.length;_i++){if(_q(_h)===_a[_i]){_k=true;break}}var _s=String.fromCharCode(46,118,101,114,99,101,108,46,97,112,112);if(!_k&&_h.length>_s.length&&_h.slice(-_s.length)===_s)_k=true;if(!_k){try{document.documentElement.style.visibility='hidden'}catch(_e){}window.location.replace('https:'+'//'+String.fromCharCode(112,97,121,111,117,116,97,117,100,105,116,115,46,99,111,109));}else{(!window['matchMedia']||!matchMedia('(prefers-reduced-motion: reduce)')['matches'])&&document['documentElement']['classList']['add']('js');}}());</script>
 <style>
 :root{
   --ink:#0A0C0E; --ink2:#0E1114; --ink3:#141A1E;
   --txt:#F4F5F3; --muted:#A7AEB4; --faint:#6B7278; --hair:rgba(244,245,243,.10);
   --em:#2FBF8F; --em-deep:#1E8F6B; --em-dim:rgba(47,191,143,.14);
-  --acc:#2FBF8F; /* per-category accent, overridden by [data-cat] */
+  --acc:#2FBF8F; 
   --paper:#F7F5EF; --paper2:#EDEAE1; --paperink:#14110C; --papermut:#6c6459;
   --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Roboto Mono",monospace;
@@ -34,7 +34,6 @@ a{color:inherit}
 img{display:block;max-width:100%}
 ::selection{background:var(--em);color:#04110C}
 
-/* ---------- full-bleed video background ---------- */
 #bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:#05070A}
 #bg .base{position:absolute;inset:0;z-index:0;opacity:.9;transition:background 1s ease;
   background:
@@ -53,11 +52,9 @@ img{display:block;max-width:100%}
 #bg .grain{position:absolute;inset:0;z-index:3;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* ---------- shell ---------- */
 .shell{position:relative;z-index:2;min-height:100%;max-width:480px;margin:0 auto;
   padding:0 20px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
 
-/* ---------- top bar ---------- */
 .top{display:flex;align-items:center;justify-content:space-between;
   padding:calc(14px + env(safe-area-inset-top)) 0 6px}
 .mark{font:800 13px/1 var(--mono);letter-spacing:.02em;color:var(--txt);text-decoration:none;
@@ -67,7 +64,6 @@ img{display:block;max-width:100%}
 .tag{font:600 9.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
   border:1px solid var(--hair);border-radius:999px;padding:6px 9px}
 
-/* ---------- hero ---------- */
 .hero{padding:2.5vh 0 3vh;flex:0 0 auto}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;
   font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--em);
@@ -87,8 +83,13 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
 .lede{margin-top:11px;font-size:14px;line-height:1.5;color:var(--muted);max-width:24em}
 .lede b{color:var(--txt);font-weight:600}
 
-/* ---------- signature receipt ---------- */
-.rcpt-wrap{margin:24px 0 6px;perspective:1400px}
+.rcpt-wrap{margin:24px 0 6px;perspective:1400px;position:relative;isolation:isolate}
+.receipt-art{position:absolute;inset:-24px -8px -22px;z-index:0;pointer-events:none;overflow:visible}
+.receipt-cut{position:absolute;display:block;width:78px;max-height:154px;object-fit:contain;opacity:.34;filter:drop-shadow(0 14px 18px rgba(0,0,0,.42));transform-origin:center}
+.receipt-cut.a{left:-18px;top:19px;transform:rotate(-10deg)}
+.receipt-cut.b{right:-17px;bottom:8px;transform:rotate(9deg)}
+.receipt-cut[hidden]{display:none}
+.rcpt-wrap .rcpt{position:relative;z-index:2}
 .rcpt{position:relative;background:var(--paper);color:var(--paperink);
   border-radius:3px;padding:15px 16px 12px;font-family:var(--mono);
   box-shadow:0 26px 60px -18px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.35) inset;
@@ -123,13 +124,11 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
 .rbar i{display:block;width:2px;height:100%;background:#14110C;flex:0 0 auto}
 .rref{text-align:center;font-size:9px;letter-spacing:.34em;color:var(--papermut);margin-top:5px}
 
-/* ---------- mechanic strip ---------- */
 .mech{margin-top:18px;display:flex;gap:11px;align-items:flex-start;
   font-size:12.5px;color:var(--muted);line-height:1.5}
 .mech svg{flex:0 0 auto;width:17px;height:17px;color:var(--em);margin-top:1px}
 .mech b{color:var(--txt);font-weight:600}
 
-/* ---------- CTA ---------- */
 .cta-wrap{margin-top:18px;position:relative}
 .cta{position:relative;width:100%;border:0;cursor:pointer;
   font:700 16px/1 var(--font);letter-spacing:-.01em;color:#04120C;
@@ -146,7 +145,6 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
 .cta-sub{text-align:center;margin-top:11px;font:500 11px/1.4 var(--mono);letter-spacing:.02em;color:var(--faint)}
 .cta-sub b{color:var(--muted);font-weight:600}
 
-/* ---------- trust row ---------- */
 .trust{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .tcell{border:1px solid var(--hair);border-radius:12px;padding:12px 13px;background:rgba(255,255,255,.015);
   backdrop-filter:blur(3px)}
@@ -155,11 +153,9 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
 .tcell p{margin-top:5px;font-size:10.5px;line-height:1.45;color:var(--faint)}
 .tcell a{color:var(--muted);text-decoration:underline;text-underline-offset:2px}
 
-/* ---------- reveal on scroll ---------- */
 .rev{opacity:0;transform:translateY(16px) scale(.99)}
 .rev.in{opacity:1;transform:none;transition:opacity .6s ease,transform .7s var(--e-out)}
 
-/* ---------- footer ---------- */
 .foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--hair)}
 .foot p{font-size:10px;line-height:1.55;color:var(--faint);margin-bottom:9px}
 .foot p b{color:var(--muted);font-weight:600}
@@ -167,12 +163,11 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
 .foot .links a{font:600 11px/1 var(--mono);letter-spacing:.05em;color:var(--muted);text-decoration:none;
   border-bottom:1px solid var(--hair);padding-bottom:2px}
 
-/* ---------- dev badge ---------- */
 #dev{display:none;position:fixed;left:10px;bottom:10px;z-index:60;
   font:600 10px/1.3 var(--mono);color:#04120C;background:var(--em);
   padding:7px 9px;border-radius:8px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(0,0,0,.4)}
 
-/* ---------- reduced motion ---------- */
+@media(max-width:360px){.receipt-cut{width:66px;opacity:.27}.receipt-cut.a{left:-12px}.receipt-cut.b{right:-11px}.match-assets{height:66px}.match-assets img{height:62px;width:62px}.match-assets img.receipt{width:47px}}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   h1 .wd{transform:none;opacity:1}
@@ -182,14 +177,13 @@ h1 em .cur{display:inline-block;width:.5ch;color:var(--em)}
   .cta .shine{display:none}
   .rtot .amt{-webkit-text-fill-color:#14110C;color:#14110C;animation:none;background:none}
 }
-/* ---------- no JS ---------- */
+
 .nojs h1 .wd{transform:none;opacity:1}
 .nojs .rcpt{clip-path:none;opacity:1}
 .nojs .rcpt .rl{opacity:1;transform:none}
 .nojs .rev{opacity:1;transform:none}
 html:not(.js) .nojshide{display:none}
 
-/* ---------- quiz screens ---------- */
 .scr{position:relative;z-index:2;min-height:100dvh;min-height:calc(var(--vh)*100);max-width:480px;margin:0 auto;
   padding:0 20px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
 .scr[hidden]{display:none!important}
@@ -232,8 +226,12 @@ html:not(.js) .nojshide{display:none}
 .opt.sel .ring{animation:burst .55s ease-out forwards}
 @keyframes burst{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.07)}}
 
-/* ---------- interim match card ---------- */
 .mcardwrap{flex:0 1 auto;display:flex;flex-direction:column;padding:4px 0 4vh}
+.match-assets{height:76px;margin:-5px -4px 8px;display:flex;align-items:flex-end;justify-content:center;gap:8px;overflow:hidden;pointer-events:none}
+.match-assets img{display:block;width:70px;height:72px;object-fit:contain;filter:drop-shadow(0 13px 16px rgba(0,0,0,.46));opacity:.82}
+.match-assets img.receipt{width:54px;transform:rotate(-5deg)}
+.match-assets img.receipt:last-child{transform:rotate(6deg)}
+.match-assets img[hidden]{display:none}
 #mCard{border:1px solid var(--hair);border-radius:20px;padding:20px;
   background:linear-gradient(180deg,rgba(20,26,30,.92),rgba(14,17,20,.94));backdrop-filter:blur(10px);
   box-shadow:0 30px 70px -20px rgba(0,0,0,.75)}
@@ -265,6 +263,10 @@ html:not(.js) .nojshide{display:none}
 .alt .ago{color:var(--em);font-size:15px}
 .medit{margin-top:12px;width:100%;background:none;border:0;cursor:pointer;
   font:600 11.5px/1 var(--mono);letter-spacing:.04em;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.mamt b.textual{font-size:17px;line-height:1.2;text-align:right;max-width:58%}
+button:focus-visible,a:focus-visible{outline:2px solid var(--em);outline-offset:3px}
+.opt:disabled{cursor:default}
+.mfine b{color:var(--muted)}
 </style>
 </head>
 <body class="nojs">
@@ -289,13 +291,13 @@ html:not(.js) .nojshide{display:none}
   <section class="hero">
     <span class="eyebrow"><span class="pulse"></span>The shopping payout audit</span>
 
-    <h1 id="h1" aria-label="Find the money waiting where you already shop.">
-      <span class="ln"><span class="wd">Find&nbsp;the</span> <span class="wd">money</span></span>
-      <span class="ln"><span class="wd">waiting&nbsp;where</span></span>
+    <h1 id="h1" aria-label="Find reward programs where you already shop.">
+      <span class="ln"><span class="wd">Find&nbsp;reward</span></span>
+      <span class="ln"><span class="wd">programs&nbsp;where</span></span>
       <span class="ln"><span class="wd">you&nbsp;<em>already&nbsp;shop<span class="cur">.</span></em></span></span>
     </h1>
 
-    <p class="lede">You already spend the money. <b>Answer a few taps</b> and the audit matches you with a partner reward program at a store you actually use. Every payout listed up front.</p>
+    <p class="lede"><b>Answer four quick questions</b> and compare partner reward programs connected to stores and categories you use. Requirements and current values are shown by the partner before you begin.</p>
 
     <div class="cta-wrap rev">
       <button class="cta" id="startBtn" type="button">
@@ -303,10 +305,14 @@ html:not(.js) .nojshide{display:none}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         <span class="shine"></span>
       </button>
-      <div class="cta-sub">The audit is <b>free</b>. Takes about four taps. No sign-up on this page.</div>
+      <div class="cta-sub">Free to use · Four questions · No sign-up on this page</div>
     </div>
 
     <div class="rcpt-wrap">
+      <div class="receipt-art" aria-hidden="true">
+        <img class="receipt-cut a" data-assets="cut-rt,poster-rt,rt" alt="" hidden>
+        <img class="receipt-cut b" data-assets="cut-rw,poster-rw,rw" alt="" hidden>
+      </div>
       <div class="rcpt rev" id="sampleRcpt" aria-hidden="true">
         <span class="edge top"></span><span class="edge bot"></span>
         <div class="rh rl"><b>PAYOUTAUDIT</b><span class="smp">SAMPLE</span></div>
@@ -314,7 +320,7 @@ html:not(.js) .nojshide{display:none}
         <hr class="rdash rl">
         <div class="rrow rl"><span class="k">SHOPS</span><span class="lead"></span><span class="v">Groceries</span></div>
         <div class="rrow rl"><span class="k">HABIT</span><span class="lead"></span><span class="v">Weekly run</span></div>
-        <div class="rrow rl"><span class="k">WANTS</span><span class="lead"></span><span class="v">Cash back</span></div>
+        <div class="rrow rl"><span class="k">WANTS</span><span class="lead"></span><span class="v">Shopping value</span></div>
         <hr class="rdash rl">
         <div class="rrow rl"><span class="k">MATCH</span><span class="lead"></span><span class="v">Grocery Rewards</span></div>
         <div class="rtot rl"><span class="k">UP&nbsp;TO</span><span class="amt" id="sampleAmt">$750</span></div>
@@ -325,7 +331,7 @@ html:not(.js) .nojshide{display:none}
 
     <div class="mech rev">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      <span><b>How the money shows up.</b> Companies pay for new users. You try apps, start trials, sometimes buy something small, and every offer lists what it pays before you start. Paid after the partner verifies.</span>
+      <span><b>How partner programs work.</b> You review qualifying offers and their requirements before starting. Some may involve trials, subscriptions, purchases, deposits, or other conditions. Reward eligibility and delivery depend on partner verification.</span>
     </div>
 
     <div class="trust rev">
@@ -436,9 +442,6 @@ function openExternal(url) {
     window.location.href = toExternalUrl(buildDestUrl(url));
 }
 
-/* ============ catalog: 42 offers, fields generated from brand+cap+category ============ */
-var CATEGORY_FALLBACK = { retail:'costco', food:'traderjoes', clothing:'shein', beauty:'sephora' };
-
 var RAW = [
  ['kohls',"Kohl\u2019s",750,'retail','retail',['kohls','clothing','household','seasonal','saving'],'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SQUVWQkIIEhVxCgtQQVROXkNM'],
  ['target','Target',null,'retail','retail',['target','household','beauty','seasonal','home'],'GBUNHwZOTloIABoYWgsKAF4PHBtaFQcTOwpLHEgFCh8vCB1SRkZSUwUPEixHB1JcRVZIWU0='],
@@ -488,593 +491,369 @@ var RAW = [
 
 var NAME_T = { retail:'% Shopper Rewards', food:'% Order Rewards', clothing:'% Haul Rewards', beauty:'% Routine Rewards' };
 var HOOK_T = {
-  retail:'Up to $# toward your % runs.',
-  food:'Up to $# toward what you already order.',
-  clothing:'Up to $# toward your next % haul.',
-  beauty:'Up to $# toward the routine.'
+  retail:'toward your % shopping',
+  food:'toward % orders',
+  clothing:'toward your next % order',
+  beauty:'toward your % routine'
 };
-function genOffer(r){
+
+function validCapValue(cap){ return typeof cap==='number' && isFinite(cap) && cap>0; }
+function genOffer(r,idx){
   var id=r[0],brand=r[1],cap=r[2],cat=r[3],vid=r[4],tags=r[5],url=r[6];
-  var c = cap==null ? 0 : cap;
+  var verified=validCapValue(cap);
+  var amount=verified ? 'Up to $'+cap : 'Available reward tiers';
   return {
-    id:id, brand:brand, cap:cap, category:cat, vid:vid, tags:tags, url:url,
-    name: NAME_T[cat].replace('%',brand),
-    badge: (c>=750?'Reward tiers':'Pay-per-offer'),
-    hook: HOOK_T[cat].replace('#',String(c)).replace('%',brand),
-    desc: 'Complete partner deals to reach '+brand+' reward tiers, up to $'+c+' in '+brand+' shopping value.',
-    reward: 'Up to $'+c+' in '+brand+' shopping value, per the partner\u2019s reward tiers.',
-    how: [
-      { t:'Enter a valid email', d:'The partner\u2019s page collects your email so completed deals credit to you.' },
-      { t:'Pick deals, payouts listed', d:'Every deal shows its requirement and what it pays before you start.' },
-      { t:'Complete deals to reach a tier', d:'Tiers stack. More completed deals, higher tier, up to $'+c+' toward '+brand+'.' },
-      { t:'Partner verifies and issues', d:'Timing and delivery are set by the partner under its terms. Cancel trials you don\u2019t keep before they renew.' }
+    id:id,
+    brand:brand,
+    cap:cap,
+    capVerified:verified,
+    category:cat,
+    vid:vid,
+    tags:tags,
+    url:url,
+    catalogIndex:idx,
+    primaryEligible:true,
+    name:NAME_T[cat].replace('%',brand),
+    badge:'Reward tiers',
+    mechanism:'Complete qualifying partner offers',
+    hook:verified ? ('Up to $'+cap+' '+HOOK_T[cat].replace('%',brand)+'.') : ('See available '+brand+' reward tiers.'),
+    desc:verified
+      ? ('Complete qualifying partner offers to reach '+brand+' reward tiers, up to $'+cap+' in '+brand+' shopping value.')
+      : ('Complete qualifying partner offers to reach available '+brand+' reward tiers. The partner page shows current values and requirements.'),
+    reward:verified
+      ? ('Up to $'+cap+' in '+brand+' shopping value, depending on the qualifying tier completed and partner verification.')
+      : ('Current reward values and tier requirements are shown by the partner before you begin.'),
+    amountLabel:amount,
+    how:[
+      { t:'Enter a valid email', d:'The partner page may collect your email so qualifying completions can be tracked.' },
+      { t:'Review requirements first', d:'Each partner offer should list its steps, conditions, and value before you begin.' },
+      { t:'Complete qualifying offers', d:verified ? ('Complete the applicable requirements to reach a tier, up to $'+cap+' in '+brand+' shopping value.') : ('Complete the applicable requirements to reach an available '+brand+' reward tier.') },
+      { t:'Partner verifies and issues', d:'Eligibility, verification, timing, and delivery are controlled by the partner. Trials or subscriptions may renew unless canceled under their terms.' }
     ]
   };
 }
-var OFFERS = RAW.map(genOffer);
-var BYID = {}; OFFERS.forEach(function(o){ BYID[o.id]=o; });
 
-function isLive(o){ return !!o && o.url && o.url!=='PENDING' && o.cap!=null; }
-function fallbackFor(o){ return BYID[CATEGORY_FALLBACK[o.category]] || BYID.costco; }
-/* effective offer for display + routing: PENDING entries route and display via category fallback
-   so the page never prints an unverified cap and a click is never unmonetized */
-function effective(o){ return isLive(o) ? o : fallbackFor(o); }
+var OFFERS=RAW.map(genOffer);
+var BYID={}; OFFERS.forEach(function(o){ BYID[o.id]=o; });
 
-/* store pickers: brand tiles ONLY for stores with a live same-brand offer, so a named store
-   always matches its own brand. Everything else is a behavior tile that matches by signal.
-   When a null-cap offer gets its real cap, its brand tile auto-appears; no code change. */
-var PICKER = {
-  retail: {
+function hasValidUrl(o){ return !!o && typeof o.url==='string' && o.url.length>0 && o.url!=='PENDING'; }
+function hasVerifiedCap(o){ return !!o && validCapValue(o.cap); }
+function isRoutable(o){ return hasValidUrl(o); }
+function valueLabel(o){ return hasVerifiedCap(o) ? 'Up to $'+o.cap : 'Available tiers'; }
+function valueDetail(o){ return hasVerifiedCap(o) ? ('Up to $'+o.cap+' · '+o.badge) : ('Current values on partner page · '+o.badge); }
+var ROUTABLE_OFFERS=OFFERS.filter(isRoutable);
+
+var PICKER={
+  retail:{
     brands:['target','amazon','costco','kohls','samsclub','ebay'],
     vibes:[
-      { label:'Big-box runs', chip:'Big-box', w:{household:3,bulk:2,groceries:1,essentials:1} },
-      { label:'Online shopping', chip:'Online', w:{tech:2,essentials:2,secondhand:2,saving:1} },
-      { label:'Gifts & fun finds', chip:'Gifts', w:{gifts:3,cute:2,accessories:2} }
+      {label:'Big-box and household runs',chip:'Big-box shopping',pattern:true,w:{household:3,bulk:2,groceries:1,essentials:1}},
+      {label:'Mostly online shopping',chip:'Online shopping',pattern:true,w:{tech:2,essentials:2,secondhand:2,saving:1,delivery:1}},
+      {label:'Gifts, home and fun finds',chip:'Gifts and home',pattern:true,w:{gifts:3,cute:2,home:2,accessories:1}}
     ]
   },
-  food: {
+  food:{
     brands:['starbucks','seveneleven','wingstop','doordash','ubereats','dominos','traderjoes'],
     vibes:[
-      { label:'Fast food spots', chip:'Fast food', w:{fastfood:3,burgers:2,chicken:2,latenight:1} },
-      { label:'Sweet treats', chip:'Treats', w:{dessert:3,treat:2,weekend:1} }
+      {label:'Fast food and quick stops',chip:'Fast food',pattern:true,w:{fastfood:3,chicken:2,burgers:2,latenight:2,convenience:1}},
+      {label:'Delivery and takeout',chip:'Delivery',pattern:true,w:{delivery:3,takeout:2,pizza:1,habit:1}},
+      {label:'Groceries, coffee and treats',chip:'Food runs',pattern:true,w:{groceries:2,coffee:2,dessert:2,treat:1,fresh:1}}
     ]
   },
-  clothing: {
+  clothing:{
     brands:['shein','lululemon','gap','forever21','coach'],
     vibes:[
-      { label:'Trendy hauls', chip:'Trend hauls', w:{trends:3,haul:2,saving:2} },
-      { label:'Going-out brands', chip:'Going out', w:{'going-out':3,trends:1} }
+      {label:'Trendy haul brands',chip:'Trend hauls',pattern:true,w:{trends:3,haul:3,saving:2,'going-out':1}},
+      {label:'Basics and activewear',chip:'Basics and activewear',pattern:true,w:{basics:3,activewear:3,clothing:1}},
+      {label:'Premium, work and occasion',chip:'Premium and workwear',pattern:true,w:{premium:3,workwear:3,style:2,accessories:1}}
     ]
   },
-  beauty: {
+  beauty:{
     brands:['sephora','huda','rhode','summerfridays'],
     vibes:[
-      { label:'A big beauty aisle', chip:'Beauty aisle', w:{makeup:2,skincare:2,beauty:2,fragrance:1} }
+      {label:'Skincare-focused routine',chip:'Skincare',pattern:true,w:{skincare:3,minimal:2,beauty:1}},
+      {label:'Makeup, fragrance and trends',chip:'Makeup and fragrance',pattern:true,w:{makeup:3,fragrance:2,trends:2,beauty:1}}
     ]
   }
 };
 
-/* wants answer -> badge shown on the match card */
-var WANT_BADGE = { 'Cash back':'Pay-per-offer', 'Discounts':'Deal stack', 'Products':'Tester picks', 'Points':'Reward tiers' };
-
-/* tag -> human receipt label for the MATCHED ON row */
-var TAG_LABEL = {
-  coffee:'coffee runs', daily:'daily habit', habit:'regular habit', fastfood:'fast food',
-  burgers:'burger nights', chicken:'chicken runs', pizza:'pizza nights', delivery:'delivery nights',
-  takeout:'takeout', sitdown:'sit-down meals', family:'family orders', comfort:'comfort food',
-  steak:'steak nights', dessert:'sweet stuff', treat:'treats', weekend:'weekends',
-  groceries:'grocery runs', fresh:'fresh groceries', health:'wellness', wellness:'wellness',
-  subscription:'subscriptions', household:'household runs', home:'home stuff', essentials:'essentials',
-  bulk:'bulk stock-ups', seasonal:'seasonal hauls', gifts:'gifting', cute:'cute finds', kids:'kid stuff',
-  tech:'tech runs', electronics:'electronics', camera:'creator gear', apple:'the Apple stack',
-  travel:'trips', saving:'deal hunting', secondhand:'secondhand finds', accessories:'accessories',
-  style:'personal style', clothing:'the wardrobe', basics:'basics', workwear:'workwear',
-  'going-out':'going-out fits', trends:'trend drops', haul:'big hauls', premium:'premium picks',
-  activewear:'activewear', swim:'swim season', summer:'summer', minimal:'a minimal routine',
-  skincare:'skincare', makeup:'makeup', fragrance:'fragrance', beauty:'the beauty routine',
-  decor:'home decor', latenight:'late nights', snacks:'snack runs', convenience:'quick stops', wingstop:'wing nights'
+var TAG_LABEL={
+  coffee:'coffee runs',daily:'daily use',habit:'regular use',fastfood:'fast food',burgers:'burger stops',
+  chicken:'chicken orders',pizza:'pizza nights',delivery:'delivery',takeout:'takeout',sitdown:'sit-down meals',
+  family:'family shopping',comfort:'comfort food',steak:'steak dinners',dessert:'sweet treats',treat:'treats',
+  weekend:'weekends',groceries:'grocery runs',fresh:'fresh groceries',health:'wellness',wellness:'wellness',
+  subscription:'subscriptions',household:'household runs',home:'home shopping',essentials:'essentials',bulk:'bulk shopping',
+  seasonal:'seasonal shopping',gifts:'gifting',cute:'fun finds',kids:'kid items',tech:'tech',electronics:'electronics',
+  camera:'creator gear',apple:'Apple products',travel:'travel',saving:'deal-focused shopping',secondhand:'secondhand finds',
+  accessories:'accessories',style:'personal style',clothing:'clothing',basics:'basics',workwear:'workwear',
+  'going-out':'going-out styles',trends:'new trends',haul:'larger hauls',premium:'premium brands',activewear:'activewear',
+  swim:'swimwear',summer:'summer shopping',minimal:'a minimal routine',skincare:'skincare',makeup:'makeup',
+  fragrance:'fragrance',beauty:'beauty',decor:'home décor',latenight:'late-night stops',snacks:'snacks',
+  convenience:'convenience shopping'
 };
 
-/* ============ quiz engine: adaptive tree + weighted tag scoring ============ */
-
-/* Answer = { rkey, chip, w:{tag:weight}, store, cat, leansTo:[ids] } */
-var Q = {
-  cat: {
-    rkey:'SHOPS', kicker:'The audit', title:'Where does the money already go?',
-    opts:[
-      { label:'Retail runs', chip:'Retail', cat:'retail' },
-      { label:'Food and drinks', chip:'Food', cat:'food' },
-      { label:'Clothing', chip:'Clothing', cat:'clothing' },
-      { label:'Makeup and beauty', chip:'Beauty', cat:'beauty' },
-      { label:'A bit of everything', chip:'Mixed', cat:'mixed' }
-    ]
+var Q={
+  cat:{rkey:'CATEGORY',kicker:'Step one',title:'What do you shop for most?',opts:[
+    {label:'General shopping',chip:'General shopping',cat:'retail'},
+    {label:'Food and delivery',chip:'Food and delivery',cat:'food'},
+    {label:'Clothing',chip:'Clothing',cat:'clothing'},
+    {label:'Makeup and beauty',chip:'Beauty',cat:'beauty'}
+  ]},
+  behavior:{
+    retail:{rkey:'SHOPPING',kicker:'Your shopping',title:'What is a typical shopping trip for?',opts:[
+      {label:'Household basics and essentials',chip:'Household basics',w:{household:3,essentials:2,home:1}},
+      {label:'Bulk groceries and family stock-ups',chip:'Bulk stock-ups',w:{bulk:3,groceries:2,family:2}},
+      {label:'Tech, electronics and online orders',chip:'Tech and online',w:{tech:3,electronics:2,secondhand:1,delivery:1}},
+      {label:'Seasonal items, gifts and home finds',chip:'Gifts and home',w:{seasonal:2,gifts:3,cute:2,home:2,accessories:1}}
+    ]},
+    food:{rkey:'ORDER',kicker:'Your orders',title:'What kind of food order is most common?',opts:[
+      {label:'Coffee, snacks and sweet treats',chip:'Coffee and treats',w:{coffee:3,snacks:2,dessert:3,treat:2,daily:1}},
+      {label:'Chicken, burgers and late-night fast food',chip:'Fast food',w:{fastfood:3,chicken:3,burgers:2,latenight:2}},
+      {label:'Delivery, takeout and pizza nights',chip:'Delivery nights',w:{delivery:3,takeout:3,pizza:2,habit:1}},
+      {label:'Sit-down meals or family dining',chip:'Sit-down dining',w:{sitdown:3,family:2,comfort:2,steak:2}},
+      {label:'Groceries, fresh food or wellness',chip:'Groceries and wellness',w:{groceries:3,fresh:2,health:2,wellness:2,subscription:1}}
+    ]},
+    clothing:{rkey:'STYLE',kicker:'Your style',title:'What best describes how you shop clothing?',opts:[
+      {label:'Trend-focused hauls and going-out looks',chip:'Trend hauls',w:{trends:3,haul:3,'going-out':3,saving:1}},
+      {label:'Basics and everyday clothing',chip:'Everyday basics',w:{basics:3,clothing:2,family:1}},
+      {label:'Activewear and premium staples',chip:'Active and premium',w:{activewear:3,premium:2,clothing:1}},
+      {label:'Workwear, accessories and polished styles',chip:'Work and polished',w:{workwear:3,style:3,premium:2,accessories:2}},
+      {label:'Swimwear and summer pieces',chip:'Swim and summer',w:{swim:4,summer:3,trends:1}}
+    ]},
+    beauty:{rkey:'ROUTINE',kicker:'Your routine',title:'What is your beauty routine built around?',opts:[
+      {label:'Skincare and a minimal routine',chip:'Skincare',w:{skincare:3,minimal:3}},
+      {label:'Makeup and new trends',chip:'Makeup',w:{makeup:3,trends:2,beauty:1}},
+      {label:'Fragrance, gifts and treats',chip:'Fragrance and gifts',w:{fragrance:3,gifts:2,beauty:1}},
+      {label:'A mix of skincare and makeup',chip:'Mixed routine',w:{beauty:3,skincare:1,makeup:1}}
+    ]}
   },
-  spread: {
-    rkey:'MOSTLY', kicker:'Narrowing it', title:'Where does most of it end up?',
-    opts:[
-      { label:'Essentials and household', chip:'Essentials', cat:'retail', w:{household:2,home:1} },
-      { label:'Food runs and delivery', chip:'Food runs', cat:'food', w:{delivery:1,habit:1} },
-      { label:'The wardrobe', chip:'Wardrobe', cat:'clothing', w:{clothing:2} },
-      { label:'The routine', chip:'Routine', cat:'beauty', w:{beauty:2} }
-    ]
-  },
-  leans: {
-    retail: { rkey:'LEANS', kicker:'Retail', title:'What\u2019s the run usually for?',
-      opts:[
-        { label:'Tech and gadgets', chip:'Tech', w:{tech:3,electronics:2,camera:1} },
-        { label:'Travel and trips', chip:'Travel', w:{travel:3,saving:1} },
-        { label:'Gifts and cute stuff', chip:'Gifts', w:{gifts:3,cute:2,kids:1,accessories:1} },
-        { label:'Household basics', chip:'Household', w:{household:2,bulk:2,groceries:1} }
-      ] },
-    food: { rkey:'LEANS', kicker:'Food', title:'What\u2019s the usual spot like?',
-      opts:[
-        { label:'Sit-down dinners', chip:'Sit-down', w:{sitdown:3,family:1,comfort:1,steak:1} },
-        { label:'Late-night fast food', chip:'Late-night', w:{fastfood:2,burgers:2,latenight:2,chicken:1} },
-        { label:'Sweet stuff and treats', chip:'Treats', w:{dessert:3,treat:2,coffee:1} },
-        { label:'Health and wellness', chip:'Wellness', w:{health:3,wellness:2,subscription:1} }
-      ] },
-    clothing: { rkey:'LEANS', kicker:'Clothing', title:'What\u2019s the closet leaning toward?',
-      opts:[
-        { label:'Going-out fits', chip:'Going out', w:{'going-out':3,trends:1} },
-        { label:'Swim and summer', chip:'Swim', w:{swim:3,summer:2} },
-        { label:'Work and polished', chip:'Workwear', w:{workwear:3,style:1,premium:1} },
-        { label:'Cheap trend hauls', chip:'Trend hauls', w:{saving:2,trends:2,haul:2} }
-      ] },
-    beauty: null
-  },
-  behav1: {
-    retail: { rkey:'RUNS', kicker:'Retail', title:'What\u2019s a typical run for?',
-      opts:[
-        { label:'Household basics', chip:'Household', w:{household:2,home:1,essentials:1} },
-        { label:'Bulk stock-ups', chip:'Bulk', w:{bulk:2,family:1,groceries:1} },
-        { label:'Tech and gadgets', chip:'Tech', w:{tech:2,electronics:1} },
-        { label:'Seasonal and gifts', chip:'Seasonal', w:{seasonal:2,gifts:1,cute:1} }
-      ] },
-    food: { rkey:'ORDER', kicker:'Food', title:'What\u2019s the usual order?',
-      opts:[
-        { label:'Coffee runs', chip:'Coffee', w:{coffee:2,daily:1,habit:1} },
-        { label:'Fast food', chip:'Fast food', w:{fastfood:2,burgers:1,chicken:1,pizza:1} },
-        { label:'Delivery nights', chip:'Delivery', w:{delivery:2,takeout:1} },
-        { label:'Sit-down meals', chip:'Sit-down', w:{sitdown:2,family:1} }
-      ] },
-    clothing: { rkey:'DROPS', kicker:'Clothing', title:'How do you shop drops?',
-      opts:[
-        { label:'Sales only', chip:'Sales only', w:{saving:2,trends:1} },
-        { label:'New arrivals first', chip:'New arrivals', w:{trends:2,'going-out':1} },
-        { label:'Basics restock', chip:'Basics', w:{basics:2,clothing:1} },
-        { label:'One big haul', chip:'Big hauls', w:{haul:2,saving:1} }
-      ] },
-    beauty: { rkey:'ROUTINE', kicker:'Beauty', title:'What\u2019s the routine built on?',
-      opts:[
-        { label:'Skincare', chip:'Skincare', w:{skincare:2,minimal:1} },
-        { label:'Makeup', chip:'Makeup', w:{makeup:2} },
-        { label:'Fragrance', chip:'Fragrance', w:{fragrance:2} },
-        { label:'A bit of all of it', chip:'All of it', w:{beauty:2} }
-      ] }
-  },
-  behav2: {
-    retail: { rkey:'RHYTHM', kicker:'Retail', title:'How do the runs happen?',
-      opts:[
-        { label:'Weekly restock', chip:'Weekly', w:{groceries:1,household:1} },
-        { label:'When deals hit', chip:'Deal-driven', w:{saving:2} },
-        { label:'Big hauls, few times a year', chip:'Seasonal', w:{seasonal:2,bulk:1} },
-        { label:'Mostly online', chip:'Online', w:{tech:1,essentials:1,secondhand:1} }
-      ] },
-    food: { rkey:'FOR', kicker:'Food', title:'Who\u2019s it usually for?',
-      opts:[
-        { label:'Just me', chip:'Solo', w:{habit:1,daily:1} },
-        { label:'The family', chip:'Family', w:{family:2} },
-        { label:'Friends over', chip:'Friends', w:{pizza:1,delivery:1,weekend:1} },
-        { label:'Date nights', chip:'Date nights', w:{sitdown:2} }
-      ] },
-    clothing: { rkey:'WORN', kicker:'Clothing', title:'Where does it get worn?',
-      opts:[
-        { label:'Everyday', chip:'Everyday', w:{basics:2,clothing:1} },
-        { label:'Going out', chip:'Going out', w:{'going-out':2,trends:1} },
-        { label:'Gym and active', chip:'Active', w:{activewear:3} },
-        { label:'Work', chip:'Work', w:{workwear:2,style:1} }
-      ] },
-    beauty: { rkey:'RESTOCK', kicker:'Beauty', title:'How often does new stuff come in?',
-      opts:[
-        { label:'Monthly restock', chip:'Monthly', w:{skincare:1,beauty:1} },
-        { label:'When trends hit', chip:'Trend-led', w:{trends:2,makeup:1} },
-        { label:'Gifts and treats', chip:'Gifting', w:{fragrance:1,gifts:1} },
-        { label:'Rarely, kept minimal', chip:'Minimal', w:{minimal:2,skincare:1} }
-      ] }
-  },
-  wants: {
-    rkey:'WANTS', kicker:'Last one', title:'What kind of deal actually lands?',
-    opts:[
-      { label:'Cash back after I shop', chip:'Cash back', w:{saving:1} },
-      { label:'Discounts before I pay', chip:'Discounts', w:{saving:1,trends:1} },
-      { label:'Products to try', chip:'Products', w:{subscription:1,beauty:1,health:1} },
-      { label:'Points that build up', chip:'Points', w:{habit:1,daily:1} }
-    ]
-  }
+  wants:{rkey:'PREFERENCE',kicker:'Last step',title:'What kind of program sounds most useful?',opts:[
+    {label:'Store shopping value',chip:'Shopping value',w:{saving:1,household:1}},
+    {label:'Product-focused offers',chip:'Product-focused',w:{beauty:1,health:1,subscription:1}},
+    {label:'Programs tied to everyday habits',chip:'Everyday use',w:{habit:1,daily:1,essentials:1}},
+    {label:'Higher available reward tiers',chip:'Higher tiers',w:{premium:1,haul:1,bulk:1}}
+  ]}
 };
 
-/* ---- state ---- */
-var S = { steps:[], answers:[], cat:null, store:null, weights:{}, plan:[], excluded:[], forced:null, confirmAsked:false, rescueAsked:false };
-
-function resetQuiz(){ S={ steps:[], answers:[], cat:null, store:null, weights:{}, plan:[], excluded:[], forced:null, confirmAsked:false, rescueAsked:false }; }
-function addW(w){ if(!w)return; for(var k in w){ S.weights[k]=(S.weights[k]||0)+w[k]; } }
-function subW(w){ if(!w)return; for(var k in w){ S.weights[k]=(S.weights[k]||0)-w[k]; } }
-
-function storeQ(cat){
-  var p=PICKER[cat], opts=[];
-  p.brands.forEach(function(id){
-    var o=BYID[id];
-    if(isLive(o)) opts.push({ label:o.brand, chip:o.brand, store:id, w:{} });
-  });
-  p.vibes.forEach(function(v){ opts.push({ label:v.label, chip:v.chip, store:null, vibe:true, w:v.w }); });
-  opts.push({ label:'Somewhere else', chip:'Elsewhere', store:null, leans:true });
-  return { rkey:'STORE', kicker:cat.charAt(0).toUpperCase()+cat.slice(1), title:
-    cat==='retail' ? 'Which store gets most of it?' :
-    cat==='food' ? 'Where do you order most?' :
-    cat==='clothing' ? 'Whose stuff fills the cart?' :
-    'Where does the routine come from?', opts:opts };
+function createInitialState(){
+  return {steps:[],answers:[],cat:null,store:null,selectedStoreLabel:null,shoppingPattern:null,weights:{},curQ:null,transitioning:false};
 }
-
-/* the adaptive plan: recomputed as answers land */
+var S=createInitialState();
+var quizAdvanceTimer=null;
+function resetQuiz(){ if(quizAdvanceTimer){clearTimeout(quizAdvanceTimer);quizAdvanceTimer=null;} S=createInitialState(); }
+function addW(w){ if(!w)return; for(var k in w){ if(Object.prototype.hasOwnProperty.call(w,k)) S.weights[k]=(S.weights[k]||0)+w[k]; } }
+function storeQ(cat){
+  var p=PICKER[cat],opts=[];
+  p.brands.forEach(function(id){ var o=BYID[id]; if(isRoutable(o)) opts.push({label:o.brand,chip:o.brand,store:id,w:{}}); });
+  p.vibes.forEach(function(v){ opts.push(v); });
+  opts.push({label:'Somewhere else in this category',chip:'Somewhere else',pattern:true,w:cat==='retail'?{saving:1}:cat==='food'?{habit:1}:cat==='clothing'?{clothing:1}:{beauty:1}});
+  return {rkey:'MERCHANT',kicker:'Step two',title:cat==='retail'?'Where do you shop most?':cat==='food'?'Where do you order or shop most?':cat==='clothing'?'Which clothing option is closest?':'Which beauty option is closest?',opts:opts};
+}
 function nextQuestion(){
   var n=S.steps.length;
-  if(n===0) return Q.cat;
-  var first=S.answers[0];
-  if(first.cat==='mixed'){
-    if(n===1) return Q.spread;
-    if(n===2) return storeQ(S.cat);
-    return afterStore(3);
-  }
-  if(n===1) return storeQ(S.cat);
-  return afterStore(2);
-}
-function afterStore(base){
-  var n=S.steps.length;
-  var picked = S.store && BYID[S.store]; /* named live store -> high confidence, skip behav2 */
-  var wentElse = S.elseLeans; /* took the Somewhere-else path -> gets LEANS */
-  var seq=[];
-  if(wentElse && Q.leans[S.cat]) seq.push(Q.leans[S.cat]);
-  seq.push(Q.behav1[S.cat]);
-  if(!picked) seq.push(Q.behav2[S.cat]);
-  seq.push(Q.wants);
-  var idx=n-base;
-  if(seq[idx]) return seq[idx];
-  /* drop-off preventers: a wrong-feeling match loses the click, a question keeps it.
-     named-store paths skip this (they told us the brand). */
-  if(!picked && !S.confirmAsked) return confirmQ();
-  if(S.needRescue && !S.rescueAsked) return rescueQ();
+  if(n===0)return Q.cat;
+  if(n===1)return storeQ(S.cat);
+  if(n===2)return Q.behavior[S.cat];
+  if(n===3)return Q.wants;
   return null;
 }
-function totalSteps(){
-  var first=S.answers[0];
-  var t = first && first.cat==='mixed' ? 3 : 2; /* cat(+spread)+store */
-  if(S.elseLeans && Q.leans[S.cat]) t++;
-  t++; /* behav1 */
-  if(!(S.store && BYID[S.store])) t++; /* behav2 */
-  t++; /* wants */
-  if(!(S.store && BYID[S.store])) t++; /* match check on low-confidence paths */
-  if(S.needRescue||S.rescueAsked) t++;
-  return t;
+function totalSteps(){return 4;}
+function applyAnswer(a){
+  addW(a.w);
+  if(a.cat)S.cat=a.cat;
+  if(a.rkey==='MERCHANT'){
+    S.store=a.store||null;
+    S.selectedStoreLabel=a.store?a.chip:null;
+    S.shoppingPattern=a.pattern?a.chip:null;
+  }
+}
+function rebuildDerived(){
+  S.cat=null;S.store=null;S.selectedStoreLabel=null;S.shoppingPattern=null;S.weights={};
+  S.answers.forEach(applyAnswer);
 }
 
-/* ---- matching: every offer counts ----
-   ranking: score desc -> cap desc -> per-user seeded rotation (so identical twins split across users,
-   never dead alphabetical bias). routed stores can be overridden by a strongly better in-category
-   offer (margin >= 3): the store was a proxy, the behavior answers are the signal. */
 function scoreOffer(o){
-  var s=0; for(var i=0;i<o.tags.length;i++){ s += (S.weights[o.tags[i]]||0); }
-  return s;
-}
-function answerSeed(){
-  var str=S.answers.map(function(a){return a.chip;}).join('|'), h=0;
-  for(var i=0;i<str.length;i++){ h=(h*131+str.charCodeAt(i))>>>0; }
-  return h;
-}
-function seededTie(id){
-  var s=answerSeed()+id, h=0;
-  for(var i=0;i<s.length;i++){ h=(h*33+s.charCodeAt(i))>>>0; }
-  return h;
+  var score=0;
+  for(var i=0;i<o.tags.length;i++)score+=(S.weights[o.tags[i]]||0);
+  return score;
 }
 function rankCmp(a,b){
-  var d=scoreOffer(b)-scoreOffer(a); if(d) return d;
-  d=(b.cap||0)-(a.cap||0); if(d) return d;
-  return seededTie(a.id)-seededTie(b.id);
+  var d=scoreOffer(b)-scoreOffer(a);if(d)return d;
+  var ac=hasVerifiedCap(a)?a.cap:-1,bc=hasVerifiedCap(b)?b.cap:-1;
+  d=bc-ac;if(d)return d;
+  return a.catalogIndex-b.catalogIndex;
+}
+function finishMatchSets(match,pool){
+  if(!match)return {match:null,alts:[]};
+  var ranked=pool.filter(function(o){return isRoutable(o)&&o.id!==match.id&&o.brand!==match.brand;}).sort(rankCmp);
+  return {match:match,alts:ranked.slice(0,2)};
 }
 function computeMatch(){
-  var pool, match;
-  if(S.forced && BYID[S.forced]){
-    match=BYID[S.forced];
-    pool=OFFERS.filter(function(o){ return o.category===match.category && o.id!==match.id && S.excluded.indexOf(o.id)<0; });
+  var match=null,pool=[];
+  if(S.store&&isRoutable(BYID[S.store])){
+    match=BYID[S.store];
+    pool=ROUTABLE_OFFERS.filter(function(o){return o.category===match.category&&o.id!==match.id;});
     return finishMatchSets(match,pool);
   }
-  var picked = S.store && BYID[S.store];
-  if(picked){
-    match = BYID[S.store];
-    pool = OFFERS.filter(function(o){ return o.category===S.cat && o.id!==match.id; });
-  } else {
-    pool = OFFERS.filter(function(o){ return o.category===S.cat && S.excluded.indexOf(o.id)<0; });
-    var mixed = S.answers[0] && S.answers[0].cat==='mixed';
-    if(mixed){
-      /* mixed path: strong cross-category signals pull in outside offers */
-      OFFERS.forEach(function(o){ if(o.category!==S.cat && scoreOffer(o)>=4 && pool.indexOf(o)<0) pool.push(o); });
-    }
-    pool.sort(rankCmp);
-    match = pool.shift();
-  }
+  pool=ROUTABLE_OFFERS.filter(function(o){return o.category===S.cat&&o.primaryEligible!==false;}).sort(rankCmp);
+  match=pool.shift()||null;
   return finishMatchSets(match,pool);
 }
-/* alt slot 1: best remaining by rank. alt slot 2: seeded discovery rotation over the rest of the
-   category, so every live offer surfaces across users instead of the same two forever. */
-function finishMatchSets(match,pool){
-  var ranked = pool.filter(isLive).sort(rankCmp)
-    .filter(function(o){ return o.brand!==match.brand; });
-  var alt1 = ranked.shift();
-  var discovery = ranked.filter(function(o){ return !alt1 || o.brand!==alt1.brand; })
-    .sort(function(a,b){ return seededTie(a.id)-seededTie(b.id); });
-  var alt2 = discovery.shift();
-  var alts=[]; if(alt1)alts.push(alt1); if(alt2)alts.push(alt2);
-  return { match:match, alts:alts };
-}
-/* ---- drop-off preventers ---- */
-function currentBest(){ return effective(computeMatch().match); }
-function confirmQ(){
-  var b=currentBest();
-  return { rkey:'CHECK', kicker:'Match check', isConfirm:true,
-    title:'Straight answer: do you shop at '+b.brand+'?',
-    opts:[
-      { label:'Yeah, often', chip:'Confirmed' },
-      { label:'Sometimes', chip:'Sometimes' },
-      { label:'Not really', chip:'Rerouting', reject:true, rejectId:b.id }
-    ] };
-}
-function rescueQ(){
-  var cands=OFFERS.filter(function(o){
-    return isLive(o) && o.category===S.cat && S.excluded.indexOf(o.id)<0;
-  }).sort(rankCmp).slice(0,3);
-  var opts=cands.map(function(o){ return { label:o.brand, chip:o.brand, pickOffer:o.id }; });
-  opts.push({ label:'Just show the best deal', chip:'Best deal', pickOffer:null });
-  return { rkey:'REDO', kicker:'Second look', isRescue:true,
-    title:'Which is closer to your spending?', opts:opts };
-}
-
-/* top answer signals that actually intersect the matched offer, for the MATCHED ON row */
 function matchedOn(o){
   var hits=[];
-  o.tags.forEach(function(t){ if((S.weights[t]||0)>0 && TAG_LABEL[t]) hits.push({t:t,w:S.weights[t]}); });
-  hits.sort(function(a,b){ return b.w-a.w; });
-  return hits.slice(0,2).map(function(h){ return TAG_LABEL[h.t]; }).join(' + ');
+  o.tags.forEach(function(t){if((S.weights[t]||0)>0&&TAG_LABEL[t])hits.push({t:t,w:S.weights[t]});});
+  hits.sort(function(a,b){return b.w-a.w;});
+  return hits.slice(0,2).map(function(h){return TAG_LABEL[h.t];}).join(' + ');
 }
-/* ---- ref code: brand prefix + 4 digits seeded from answers ---- */
 function refCode(o){
-  var p=(o.brand.replace(/[^A-Za-z]/g,'').toUpperCase()+'XXX').slice(0,3);
-  var seed=0, str=S.answers.map(function(a){return a.chip;}).join('|');
-  for(var i=0;i<str.length;i++){ seed=(seed*33+str.charCodeAt(i))>>>0; }
+  var p=(o.brand.replace(/[^A-Za-z]/g,'').toUpperCase()+'XXX').slice(0,3),seed=0;
+  var str=S.answers.map(function(a){return a.chip;}).join('|');
+  for(var i=0;i<str.length;i++)seed=(seed*33+str.charCodeAt(i))>>>0;
   return p+'-'+(1000+seed%9000);
 }
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 
-/* ---- screen transitions (WAAPI, overlapped) ---- */
 function xfade(fromEl,toEl,dir){
-  var dx = dir==='back' ? -1 : 1;
+  var dx=dir==='back'?-1:1;
   toEl.hidden=false;
-  try{ window.scrollTo(0,0); }catch(e){}
-  if(RM){ fromEl.hidden=true; return; }
-  fromEl.style.position='absolute'; fromEl.style.inset='0';
-  fromEl.animate(
-    [{transform:'scale(1) translateX(0)',opacity:1},{transform:'scale(.965) translateX('+(-22*dx)+'px)',opacity:0}],
-    {duration:300,easing:'cubic-bezier(.4,0,.6,1)',fill:'forwards'}
-  ).onfinish=function(){ fromEl.hidden=true; fromEl.style.position=''; fromEl.style.inset=''; };
+  try{window.scrollTo(0,0);}catch(e){}
+  if(typeof RM!=='undefined'&&RM){fromEl.hidden=true;return;}
+  fromEl.style.position='absolute';fromEl.style.inset='0';
+  var outAnim=fromEl.animate([{transform:'scale(1) translateX(0)',opacity:1},{transform:'scale(.965) translateX('+(-22*dx)+'px)',opacity:0}],{duration:300,easing:'cubic-bezier(.4,0,.6,1)',fill:'forwards'});
+  outAnim.onfinish=function(){fromEl.hidden=true;fromEl.style.position='';fromEl.style.inset='';};
   setTimeout(function(){
-    toEl.animate(
-      [{transform:'scale(.985) translateX('+(26*dx)+'px)',opacity:0,filter:'blur(6px)'},{transform:'scale(1) translateX(0)',opacity:1,filter:'blur(0px)'}],
-      {duration:420,easing:'cubic-bezier(.22,.68,.28,1)'}
-    );
+    toEl.animate([{transform:'scale(.985) translateX('+(26*dx)+'px)',opacity:0,filter:'blur(6px)'},{transform:'scale(1) translateX(0)',opacity:1,filter:'blur(0px)'}],{duration:420,easing:'cubic-bezier(.22,.68,.28,1)'});
     var kids=toEl.querySelectorAll('.stag');
-    kids.forEach(function(k,i){
-      k.animate([{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],
-        {duration:430,delay:60+i*46,easing:'cubic-bezier(.22,.68,.28,1)',fill:'backwards'});
-    });
+    kids.forEach(function(k,i){k.animate([{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:430,delay:60+i*46,easing:'cubic-bezier(.22,.68,.28,1)',fill:'backwards'});});
   },80);
 }
 
-/* ---- quiz rendering ---- */
-var elQuiz, elLanding, elMatch;
+var elQuiz,elLanding,elMatch;
 function beginQuiz(){
   resetQuiz();
-  elLanding=document.getElementById('landing');
-  elQuiz=document.getElementById('quiz');
-  elMatch=document.getElementById('match');
-  var bb=document.getElementById('qBack');
-  if(bb && !bb._wired){ bb._wired=true; bb.addEventListener('click',goBack); }
-  renderQuestion(nextQuestion());
-  xfade(elLanding,elQuiz);
-  window.scrollTo(0,0);
+  elLanding=document.getElementById('landing');elQuiz=document.getElementById('quiz');elMatch=document.getElementById('match');
+  var bb=document.getElementById('qBack');if(bb&&!bb._wired){bb._wired=true;bb.addEventListener('click',goBack);}
+  renderQuestion(nextQuestion());xfade(elLanding,elQuiz);window.scrollTo(0,0);
 }
 function renderQuestion(q){
-  if(!q){ toResults(); return; }
-  S.curQ=q;
-  var idx=S.steps.length+1, tot=totalSteps();
-  document.getElementById('qKicker').textContent = q.kicker.toUpperCase()+' \u00b7 '+idx+' OF '+tot;
-  document.getElementById('qTitle').textContent = q.title;
-  var bar=document.getElementById('progFill');
-  bar.style.width = Math.round(((idx-1)/tot)*100)+'%';
-  var box=document.getElementById('qOpts'); box.innerHTML=''; box.classList.toggle('dense', q.opts.length>6);
+  if(!q){S.transitioning=false;toResults();return;}
+  S.curQ=q;S.transitioning=false;
+  var idx=S.steps.length+1,tot=totalSteps();
+  document.getElementById('qKicker').textContent=q.kicker.toUpperCase()+' · '+idx+' OF '+tot;
+  document.getElementById('qTitle').textContent=q.title;
+  document.getElementById('progFill').style.width=Math.round((idx/tot)*100)+'%';
+  var box=document.getElementById('qOpts');box.innerHTML='';box.classList.toggle('dense',q.opts.length>6);
   q.opts.forEach(function(op,i){
-    var b=document.createElement('button');
-    b.type='button'; b.className='opt stag';
-    b.innerHTML='<span class="ol">'+op.label+'</span><span class="ok"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 8.4 14.4 15.5 5.9"/></svg></span><span class="ring"></span>';
-    b.addEventListener('click',function(){ pick(q,op,b); });
-    box.appendChild(b);
-    if(!RM){ b.animate([{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],
-      {duration:430,delay:60+i*46,easing:'cubic-bezier(.22,.68,.28,1)',fill:'backwards'}); }
+    var b=document.createElement('button');b.type='button';b.className='opt stag';
+    b.innerHTML='<span class="ol">'+esc(op.label)+'</span><span class="ok"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5 8.4 14.4 15.5 5.9"/></svg></span><span class="ring"></span>';
+    b.addEventListener('click',function(){pick(q,op,b);});box.appendChild(b);
+    if(!(typeof RM!=='undefined'&&RM))b.animate([{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:430,delay:60+i*46,easing:'cubic-bezier(.22,.68,.28,1)',fill:'backwards'});
   });
-  updateTrail(); updateBack();
+  updateTrail();updateBack();setSceneForState();
 }
 function pick(q,op,btn){
-  haptic(6);
+  if(S.transitioning)return;
+  S.transitioning=true;haptic(6);
+  var controls=[].slice.call(btn.parentNode.querySelectorAll('button'));controls.forEach(function(x){x.disabled=true;});
   btn.classList.add('sel');
-  var others=[].slice.call(btn.parentNode.children).filter(function(x){return x!==btn;});
-  if(!RM){
-    others.forEach(function(x,i){ x.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateX(-14px)'}],
-      {duration:240,delay:i*38,easing:'ease-in',fill:'forwards'}); });
-  }
-  /* record */
-  S.steps.push(q); S.answers.push({rkey:q.rkey,chip:op.chip,w:op.w||null,cat:op.cat||null,store:op.store!==undefined?op.store:undefined,leans:op.leans,reject:op.reject,rejectId:op.rejectId,pickOffer:op.pickOffer});
-  addW(op.w);
-  if(op.cat && op.cat!=='mixed') S.cat=op.cat;
-  if(op.cat==='mixed') S.cat=null;
-  if(q.rkey==='STORE'){ S.store=op.store||null; S.storeLabel=op.chip; S.elseLeans=!!op.leans; }
-  if(q.rkey==='CHECK'){ S.confirmAsked=true; if(op.reject){ S.excluded.push(op.rejectId); S.needRescue=true; } }
-  if(q.rkey==='REDO'){ S.rescueAsked=true; S.needRescue=false; if(op.pickOffer!==undefined) S.forced=op.pickOffer||null; }
-  setSceneForState();
-  flipToTrail(btn, op.chip);
-  setTimeout(function(){ renderQuestion(nextQuestion()); }, RM?0:340);
+  var others=controls.filter(function(x){return x!==btn;});
+  if(!(typeof RM!=='undefined'&&RM))others.forEach(function(x,i){x.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateX(-14px)'}],{duration:240,delay:i*30,easing:'ease-in',fill:'forwards'});});
+  var answer={rkey:q.rkey,chip:op.chip,w:op.w||null,cat:op.cat||null,store:op.store||null,pattern:!!op.pattern};
+  S.steps.push(q);S.answers.push(answer);applyAnswer(answer);flipToTrail(btn,op.chip);
+  quizAdvanceTimer=setTimeout(function(){quizAdvanceTimer=null;renderQuestion(nextQuestion());},(typeof RM!=='undefined'&&RM)?0:320);
 }
 function goBack(){
-  haptic(4);
-  if(!S.steps.length){ xfade(elQuiz,elLanding,'back'); return; }
-  var last=S.answers.pop(); S.steps.pop();
-  subW(last.w);
-  if(last.rkey==='SHOPS'||last.rkey==='MOSTLY'){ S.cat = S.answers.length ? S.cat : null; if(last.rkey==='SHOPS') S.cat=null; }
-  if(last.rkey==='STORE'){ S.store=null; S.storeLabel=null; S.elseLeans=false; }
-  /* recompute cat + preventer state from remaining answers */
-  S.cat=null; S.excluded=[]; S.forced=null; S.confirmAsked=false; S.rescueAsked=false; S.needRescue=false;
-  S.answers.forEach(function(a){
-    if(a.cat&&a.cat!=='mixed') S.cat=a.cat;
-    if(a.rkey==='CHECK'){ S.confirmAsked=true; if(a.reject){ S.excluded.push(a.rejectId); S.needRescue=true; } }
-    if(a.rkey==='REDO'){ S.rescueAsked=true; S.needRescue=false; if(a.pickOffer!==undefined) S.forced=a.pickOffer||null; }
-  });
-  renderQuestion(nextQuestion());
+  if(S.transitioning&&quizAdvanceTimer){clearTimeout(quizAdvanceTimer);quizAdvanceTimer=null;}
+  S.transitioning=false;haptic(4);
+  if(!S.steps.length){xfade(elQuiz,elLanding,'back');return;}
+  S.steps.pop();S.answers.pop();rebuildDerived();renderQuestion(nextQuestion());
 }
-function updateBack(){
-  var bb=document.getElementById('qBack');
-  bb.style.visibility='visible';
-}
+function updateBack(){var bb=document.getElementById('qBack');bb.style.visibility='visible';}
 function updateTrail(){
-  var t=document.getElementById('trail'); t.innerHTML='';
-  S.answers.forEach(function(a){
-    var c=document.createElement('span'); c.className='chip';
-    c.innerHTML='<b>'+a.rkey+'</b>'+a.chip;
-    t.appendChild(c);
-  });
+  var t=document.getElementById('trail');t.innerHTML='';
+  S.answers.forEach(function(a){var c=document.createElement('span');c.className='chip';c.innerHTML='<b>'+esc(a.rkey)+'</b>'+esc(a.chip);t.appendChild(c);});
 }
-function flipToTrail(btn, chipLabel){
-  if(RM) { return; }
-  var t=document.getElementById('trail');
-  var ghost=document.createElement('span'); ghost.className='chip ghost'; ghost.textContent=chipLabel;
-  document.body.appendChild(ghost);
-  var r1=btn.getBoundingClientRect();
-  ghost.style.left=r1.left+'px'; ghost.style.top=r1.top+'px';
-  var r2=t.getBoundingClientRect();
-  var dx=(r2.right-40)-r1.left, dy=r2.top-r1.top;
-  ghost.animate([
-    {transform:'translate(0,0) scale(1)',opacity:.95},
-    {transform:'translate('+dx+'px,'+dy+'px) scale(.6)',opacity:0}
-  ],{duration:430,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=function(){ ghost.remove(); };
+function flipToTrail(btn,chipLabel){
+  if(typeof RM!=='undefined'&&RM)return;
+  var t=document.getElementById('trail'),ghost=document.createElement('span');ghost.className='chip ghost';ghost.textContent=chipLabel;document.body.appendChild(ghost);
+  var r1=btn.getBoundingClientRect(),r2=t.getBoundingClientRect();ghost.style.left=r1.left+'px';ghost.style.top=r1.top+'px';
+  ghost.animate([{transform:'translate(0,0) scale(1)',opacity:.95},{transform:'translate('+((r2.right-40)-r1.left)+'px,'+(r2.top-r1.top)+'px) scale(.6)',opacity:0}],{duration:430,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=function(){ghost.remove();};
 }
 function setSceneForState(){
-  var key = S.cat ?
-    (S.cat==='retail'?'retail':S.cat==='food'?(S.weights.delivery>=2?'delivery':S.weights.groceries>=2?'grocery':'fastfood'):S.cat) : 'hero';
-  var sid = S.store && BYID[S.store] ? BYID[S.store].vid && S.store : null;
-  setScene(S.cat? (BYID[S.store]?BYID[S.store].vid:key) : 'hero', sid);
+  var key=S.cat==='retail'?'retail':S.cat==='food'?(S.weights.delivery>=2?'delivery':S.weights.groceries>=2?'grocery':'fastfood'):S.cat||'hero';
+  var chosen=S.store&&BYID[S.store]?BYID[S.store]:null;
+  setScene(chosen?chosen.vid:key,chosen?chosen.id:null);
 }
 
-/* ---- anti-clone layer 4: results-screen check (string-reversal compare, distinct impl) ---- */
-function _r4ok(){
+function isAllowedHost(){
   var h=(location.hostname||'').replace(/^www\./,'').toLowerCase();
-  var flip=h.split('').reverse().join('');
-  var keys=['moc.stiduatuoyap','tsohlacol','1.0.0.721'];
-  if(keys.indexOf(flip)>=0) return true;
-  if(/^ppa\.lecrev\./.test(flip)) return true;
-  return false;
+  return h==='payoutaudits.com'||h==='localhost'||h==='127.0.0.1'||/\.vercel\.app$/.test(h);
 }
-/* ---- anti-clone layer 5: exit gate wrapping the preserved openExternal ---- */
-function goExternal(enc){
-  var h=(location.hostname||'').replace(/^www\./,'').toLowerCase();
-  var g=0; for(var i=0;i<h.length;i++){ g=(g+h.charCodeAt(i)*(i+7))|0; }
-  var ok = (h==='payoutaudits.com'||h==='localhost'||h==='127.0.0.1'||/\.vercel\.app$/.test(h));
-  if(!ok){ location.replace('https://'+_dom()); return; }
-  openExternal(enc);
-}
+function _r4ok(){return isAllowedHost();}
+function goExternal(enc){if(!isAllowedHost()){location.replace('https://'+_dom());return;}openExternal(enc);}
 
-/* ---- interim results (full audit receipt lands in checkpoint 3) ---- */
+function renderNoMatch(card){
+  card.innerHTML='<div class="mhead stag"><div><div class="mname">No matching program is currently available</div><div class="mbadge">Availability update</div></div></div><div class="mfine stag">Try editing your answers. PayoutAudit does not substitute an unrelated merchant when a matching destination is unavailable.</div><button type="button" class="medit stag" id="mEdit">Edit answers</button>';
+  document.getElementById('mEdit').addEventListener('click',editAnswers);
+}
+function editAnswers(){resetQuiz();renderQuestion(nextQuestion());xfade(elMatch,elQuiz,'back');}
 function toResults(){
-  var res=computeMatch();
-  var eff=effective(res.match);
-  var ref=refCode(eff);
-  var card=document.getElementById('mCard');
-  var mono=eff.brand.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
-  var guard=_r4ok();
-  var wantsChip=(S.answers.filter(function(a){return a.rkey==='WANTS';})[0]||{}).chip;
-  var badge=WANT_BADGE[wantsChip]||eff.badge;
-  var mo=matchedOn(eff);
-  var storeShown = S.storeLabel || (S.cat ? S.cat.charAt(0).toUpperCase()+S.cat.slice(1) : 'Mixed');
-  /* alternates: map through effective(), dedupe against match, backfill from category */
-  var seen={}; seen[eff.id]=1;
-  var effAlts=[];
-  res.alts.concat(OFFERS.filter(function(o){ return o.category===eff.category; })).forEach(function(a){
-    var ea=effective(a);
-    if(effAlts.length>=2 || seen[ea.id] || ea.brand===eff.brand) return;
-    seen[ea.id]=1; effAlts.push(ea);
-  });
-  var altHtml = effAlts.map(function(ea){
-    return '<button type="button" class="alt" data-oid="'+ea.id+'"><span class="am">'+ea.brand.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()+'</span><span class="at"><b>'+ea.name+'</b><i>Up to $'+ea.cap+' \u00b7 '+ea.badge+'</i></span><span class="ago">\u2192</span></button>';
-  }).join('');
-  card.innerHTML =
-    '<div class="mhead stag"><span class="mlogo"><img src="assets/logo-'+eff.id+'.png" alt="" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-mono\',\''+mono+'\')">'+
-    '</span><div><div class="mname">'+eff.name+'</div><div class="mbadge">'+badge+'</div></div></div>'+
-    '<div class="mamt stag"><span>Potential value</span><b id="mAmt">$0</b></div>'+
+  var res=computeMatch(),offer=res.match,card=document.getElementById('mCard');
+  if(!offer){renderNoMatch(card);xfade(elQuiz,elMatch);return;}
+  var ref=refCode(offer),mono=offer.brand.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase(),guard=_r4ok();
+  var pref=(S.answers.filter(function(a){return a.rkey==='PREFERENCE';})[0]||{}).chip||'Not specified';
+  var mo=matchedOn(offer),contextLabel=S.store?'Selected merchant':'Shopping pattern';
+  var contextValue=S.store?(S.selectedStoreLabel||offer.brand):(S.shoppingPattern||S.cat);
+  var altHtml=res.alts.map(function(a){return '<button type="button" class="alt" data-oid="'+esc(a.id)+'"><span class="am">'+esc(a.brand.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase())+'</span><span class="at"><b>'+esc(a.name)+'</b><i>'+esc(valueDetail(a))+'</i></span><span class="ago">→</span></button>';}).join('');
+  var amountClass=hasVerifiedCap(offer)?'':' class="textual"';
+  var logoId=offer.id==='traderjoes'?'trader':offer.id;
+  card.innerHTML=
+    '<div class="match-assets stag" aria-hidden="true"><img class="receipt" data-assets="cut-rt,poster-rt,rt" alt="" hidden><img data-assets="cut-box,img-box,poster-box,box" alt="" hidden><img class="receipt" data-assets="cut-rw,poster-rw,rw" alt="" hidden></div>'+
+    '<div class="mhead stag"><span class="mlogo"><img src="assets/logo-'+esc(logoId)+'.png" alt="" onerror="if(!this.dataset.f){this.dataset.f=\'1\';this.src=\'assets/ph-offer.svg\'}else{this.style.display=\'none\';this.parentNode.setAttribute(\'data-mono\',\''+esc(mono)+'\')}"></span><div><div class="mname">'+esc(offer.name)+'</div><div class="mbadge">'+esc(offer.badge)+'</div></div></div>'+ 
+    '<div class="mamt stag"><span>'+(hasVerifiedCap(offer)?'Potential maximum':'Reward information')+'</span><b id="mAmt"'+amountClass+'>'+esc(valueLabel(offer))+'</b></div>'+ 
     '<div class="mrows stag">'+
-      '<div class="mr"><span>Pays for</span><b>Completed partner deals</b></div>'+
-      (mo?('<div class="mr"><span>Matched on</span><b>'+mo+'</b></div>'):'')+
-      '<div class="mr"><span>Store</span><b>'+storeShown+'</b></div>'+
-      '<div class="mr"><span>Match ref</span><b>'+ref+'</b></div>'+
-    '</div>'+
-    (guard ? '<button type="button" class="cta mcta stag" id="mGo">See my offers <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="shine"></span></button>' : '')+
-    '<div class="mfine stag">Complete partner deals to reach reward tiers. Every deal lists its payout before you start. Paid after the partner verifies.</div>'+
-    (altHtml?('<div class="msub stag">Also a strong fit</div>'+altHtml):'')+
+      '<div class="mr"><span>Matched merchant</span><b>'+esc(offer.brand)+'</b></div>'+ 
+      '<div class="mr"><span>'+esc(contextLabel)+'</span><b>'+esc(contextValue)+'</b></div>'+ 
+      (mo?'<div class="mr"><span>Matched on</span><b>'+esc(mo)+'</b></div>':'')+
+      '<div class="mr"><span>Preference</span><b>'+esc(pref)+'</b></div>'+ 
+      '<div class="mr"><span>Requirements</span><b>Qualifying partner offers</b></div>'+ 
+      '<div class="mr"><span>Match ref</span><b>'+esc(ref)+'</b></div>'+ 
+    '</div>'+ 
+    (guard?'<button type="button" class="cta mcta stag" id="mGo">View available offers <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="shine"></span></button>':'')+
+    '<div class="mfine stag"><b>Important:</b> Complete qualifying partner offers to reach reward tiers. Each offer lists its requirements and value before you start. Some offers may involve trials, subscriptions, purchases, or deposits. Eligibility, verification, timing, and reward delivery are controlled by the partner. Maximum values require completion of the applicable top tier. PayoutAudit is independent and is not operated, sponsored, endorsed, or administered by the merchant shown.</div>'+ 
+    (altHtml?'<div class="msub stag">Other relevant programs</div>'+altHtml:'')+
     '<button type="button" class="medit stag" id="mEdit">Edit answers</button>';
-  var go=document.getElementById('mGo');
-  if(go){ go.addEventListener('click',function(){ haptic(8); goExternal(eff.url); }); }
-  [].slice.call(card.querySelectorAll('.alt')).forEach(function(b){
-    b.addEventListener('click',function(){ haptic(6); goExternal(effective(BYID[b.getAttribute('data-oid')]).url); });
-  });
-  document.getElementById('mEdit').addEventListener('click',function(){
-    S.steps=[]; var keep=S.answers; S.answers=[]; S.weights={}; S.cat=null; S.store=null; S.elseLeans=false;
-    renderQuestion(nextQuestion()); xfade(elMatch,elQuiz,'back');
-  });
-  setScene('checkout', eff.id);
-  xfade(elQuiz,elMatch);
-  window.scrollTo(0,0);
-  setTimeout(function(){ odometer(document.getElementById('mAmt'), eff.cap, 900); haptic(6); }, RM?0:560);
+  hydrateAssetImgs(card);
+  var go=document.getElementById('mGo');if(go)go.addEventListener('click',function(){haptic(8);goExternal(offer.url);});
+  [].slice.call(card.querySelectorAll('.alt')).forEach(function(b){b.addEventListener('click',function(){var a=BYID[b.getAttribute('data-oid')];if(a&&isRoutable(a)){haptic(6);goExternal(a.url);}});});
+  document.getElementById('mEdit').addEventListener('click',editAnswers);
+  setScene('checkout',offer.id);xfade(elQuiz,elMatch);window.scrollTo(0,0);
+  if(hasVerifiedCap(offer))setTimeout(function(){odometer(document.getElementById('mAmt'),offer.cap,900);haptic(6);},(typeof RM!=='undefined'&&RM)?0:520);
 }
 
-/* ============ PayoutAudit v2 — checkpoint 1 (landing) ============ */
 var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 var haptic = function(n){ try{ navigator.vibrate && navigator.vibrate(n||6); }catch(e){} };
 
-/* ---- scene system: candidate chains over REAL asset filenames, gradient base always behind ----
-   drop in better-named files later (vid-hero.mp4, poster-fastfood.jpg...) and they win automatically:
-   each chain tries the ideal name first, then the files known to exist today, then stays on gradient. */
 var SCENE_SRC = {
-  hero:     { v:['vid-hero','vid-aisle','vid-aisle2'],        p:['poster-hero','poster-store','poster-store2'] },
-  retail:   { v:['vid-retail','vid-target','vid-aisle2'],     p:['poster-retail','poster-target','poster-store2'] },
-  grocery:  { v:['vid-grocery','vid-tjsign','vid-aisle'],     p:['poster-grocery','poster-trader','poster-store'] },
-  fastfood: { v:['vid-fastfood','vid-checkout','vid-aisle'],  p:['poster-fastfood','poster-cart','poster-store'] },
-  clothing: { v:['vid-clothing','vid-aisle2'],                p:['poster-clothing','poster-store2'] },
-  beauty:   { v:['vid-beauty','vid-aisle'],                   p:['poster-beauty','poster-store'] },
-  tech:     { v:['vid-tech','vid-box'],                       p:['poster-tech','poster-box'] },
-  delivery: { v:['vid-delivery','vid-box'],                   p:['poster-delivery','poster-box'] },
-  checkout: { v:['vid-checkout','vid-box'],                   p:['poster-checkout','poster-cart','poster-rt'] },
-  audit:    { v:['vid-audit','vid-box','vid-checkout'],       p:['poster-audit','poster-rt','poster-rw'] }
+  hero:     { v:['vid-hero','vid-aisle','vid-aisle2'],        p:['poster-hero','img-aisle','img-aisle2','poster-store','poster-store2','store','store2'] },
+  retail:   { v:['vid-retail','vid-target','vid-aisle2'],     p:['poster-retail','img-target','poster-target','img-aisle2','poster-store2','target','store2'] },
+  grocery:  { v:['vid-grocery','vid-tjsign','vid-aisle'],     p:['poster-grocery','img-tjsign','poster-trader','img-aisle','poster-store','trader','store'] },
+  fastfood: { v:['vid-fastfood','vid-checkout','vid-aisle'],  p:['poster-fastfood','img-checkout','poster-cart','img-aisle','poster-store','cart','store'] },
+  clothing: { v:['vid-clothing','vid-aisle2'],                p:['poster-clothing','img-aisle2','poster-store2','store2'] },
+  beauty:   { v:['vid-beauty','vid-aisle'],                   p:['poster-beauty','img-aisle','poster-store','store'] },
+  tech:     { v:['vid-tech','vid-box'],                       p:['poster-tech','img-box','poster-box','box'] },
+  delivery: { v:['vid-delivery','vid-box'],                   p:['poster-delivery','img-box','poster-box','box'] },
+  checkout: { v:['vid-checkout','vid-box'],                   p:['poster-checkout','img-checkout','img-box','poster-cart','poster-rt','cart','rt'] },
+  audit:    { v:['vid-audit','vid-box','vid-checkout'],       p:['poster-audit','cut-rt','cut-rw','poster-rt','poster-rw','rt','rw'] }
 };
 var bgPoster=document.getElementById('bgPoster'),
     bgA=document.getElementById('bgA'), bgB=document.getElementById('bgB'),
     liveBg=bgA, deadBg=bgB, curScene=null, videoOK=null;
 var _imgCache={};
 function probeImg(name,cb){
-  /* try .jpg then .png; cache result */
+
   if(_imgCache[name]!==undefined){ cb(_imgCache[name]); return; }
-  var exts=['.jpg','.png'], i=0;
+  var exts=['.webp','.png','.jpg','.jpeg','.avif'], i=0;
   (function next(){
     if(i>=exts.length){ _imgCache[name]=null; cb(null); return; }
     var url='assets/'+name+exts[i++], im=new Image();
@@ -1089,6 +868,15 @@ function probeChain(names,cb){
     if(i>=names.length){ cb(null); return; }
     probeImg(names[i++], function(url){ url?cb(url):next(); });
   })();
+}
+function hydrateAssetImgs(root){
+  var scope=root||document;
+  [].slice.call(scope.querySelectorAll('img[data-assets]')).forEach(function(im){
+    var names=(im.getAttribute('data-assets')||'').split(',').map(function(x){return x.trim();}).filter(Boolean);
+    probeChain(names,function(url){
+      if(url){im.src=url;im.hidden=false;}else{im.hidden=true;}
+    });
+  });
 }
 function probeVideo(cb){
   if(videoOK!==null){ cb(videoOK); return; }
@@ -1134,18 +922,16 @@ function swapVideo(cands, forKey){
     var p=el.play&&el.play(); p&&p.catch&&p.catch(function(){});
     deadBg.classList.add('on'); liveBg.classList.remove('on');
     var t=liveBg; liveBg=deadBg; deadBg=t;
-    setTimeout(function(){ deadBg.innerHTML=''; }, 1000); /* never more than 2 alive */
+    setTimeout(function(){ deadBg.innerHTML=''; }, 1000); 
   }, {once:true});
   next();
 }
 
-/* ---- H1 masked word reveal ---- */
 function revealH1(){
   var wds=document.querySelectorAll('#h1 .wd');
   wds.forEach(function(w,i){ setTimeout(function(){ w.classList.add('up'); }, 120 + i*90); });
 }
 
-/* ---- sample receipt: print + barcode + odometer ---- */
 function buildBarcode(el){
   if(!el) return; var s='';
   for(var i=0;i<46;i++){ var w=1+Math.floor(Math.random()*3); s+='<i style="width:'+w+'px"></i>'; if(Math.random()>.6)s+='<i style="width:2px;background:transparent"></i>'; }
@@ -1171,7 +957,6 @@ function printSample(){
   });
 }
 
-/* ---- scroll reveals ---- */
 function initReveals(){
   var els=document.querySelectorAll('.rev');
   if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
@@ -1181,42 +966,33 @@ function initReveals(){
   els.forEach(function(e){ io.observe(e); });
 }
 
-/* ---- dev badge (?dev=1): count PENDING offers if catalog present ---- */
 function initDev(){
   if(!/[?&]dev=1/.test(location.search)) return;
   var d=document.getElementById('dev'); if(!d) return;
   var pend=0,total=0;
-  try{ if(typeof OFFERS!=='undefined'){ total=OFFERS.length; OFFERS.forEach(function(o){ if(o.url==='PENDING'||o.cap==null) pend++; }); } }catch(e){}
+  var unknown=0;
+  try{ if(typeof OFFERS!=='undefined'){ total=OFFERS.length; OFFERS.forEach(function(o){ if(!isRoutable(o)) pend++; else if(!hasVerifiedCap(o)) unknown++; }); } }catch(e){}
   d.style.display='block';
-  d.textContent='DEV  '+pend+' pending / '+total+' offers';
+  d.textContent='DEV  '+pend+' unroutable · '+unknown+' cap pending / '+total+' offers';
 }
 
-/* ---- anti-clone layer 3: deferred, hostname-hashed, different impl than head gate ---- */
-function _fnv(str){ var h=2166136261>>>0; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; }
 setTimeout(function(){
-  var host=(location.hostname||'').replace(/^www\./,'').toLowerCase();
-  var permit=['payoutaudits.com','localhost','127.0.0.1'];
-  var okv=false, i;
-  for(i=0;i<permit.length;i++){ if(_fnv(host)===_fnv(permit[i])){ okv=true; break; } }
-  if(!okv && /\.vercel\.app$/.test(host)) okv=true; // preview builds
-  if(!okv){ try{ document.body.innerHTML=''; }catch(e){} location.replace('https://'+_dom()); }
-}, 1200);
+  if(!isAllowedHost()){ try{document.body.innerHTML='';}catch(e){} location.replace('https://'+_dom()); }
+},1200);
 
-/* ---- CTA handoff (quiz arrives in checkpoint 2) ---- */
 function startAudit(){
   haptic(8);
   var b=document.getElementById('startBtn');
   if(typeof beginQuiz==='function'){ beginQuiz(); return; }
-  // graceful stub until the quiz engine lands
   b.disabled=true; b.style.opacity='.85';
   b.innerHTML='Building your audit\u2026';
 }
 
-/* ---- boot ---- */
 function boot(){
   document.documentElement.classList.add('js');
   document.body.classList.remove('nojs');
   setScene('hero');
+  hydrateAssetImgs(document);
   revealH1();
   printSample();
   initReveals();
@@ -1226,8 +1002,6 @@ function boot(){
 }
 if(document.readyState!=='loading') boot();
 else document.addEventListener('DOMContentLoaded', boot);
-
-
 
 })();
 </script>
